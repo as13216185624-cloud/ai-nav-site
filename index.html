@@ -217,9 +217,6 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
   setTimeout(()=>{document.getElementById('introBtn').style.opacity='1';document.getElementById('introBtn').style.transform='translateY(0)';},1300);
   setTimeout(()=>{document.getElementById('introSkip').style.opacity='1';},2000);
 
-  // Auto dismiss after 6s
-  setTimeout(()=>{if(running)dismissIntro();},6000);
-
   window.dismissIntro=function(){
     running=false;
     const ov=document.getElementById('introOverlay');
