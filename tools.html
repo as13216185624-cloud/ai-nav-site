@@ -62,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .preview-box{flex:1;min-width:240px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#000;}
 .preview-box .label{font-size:.7rem;color:var(--text-secondary);padding:6px 12px;background:var(--tag-bg);border-bottom:1px solid var(--border);}
 .preview-box img{width:100%;display:block;max-height:380px;object-fit:contain;}
-.preview-box canvas{display:block;max-width:100%;height:auto;}
+.preview-box canvas{display:block;max-width:100%;}
 #bg-result-wrap{background-image:linear-gradient(45deg,#1a1a1a 25%,transparent 25%),linear-gradient(-45deg,#1a1a1a 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1a1a1a 75%),linear-gradient(-45deg,transparent 75%,#1a1a1a 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0px;background-color:#111;}
 
 .ctrl-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
@@ -274,7 +274,8 @@ async function doBgCut(){
   const c=document.getElementById('bg-result'),ctx=c.getContext('2d');
   let w=bgImg.width,h=bgImg.height;
   const mw=1400;if(w>mw){h=Math.round(h*mw/w);w=mw;}
-  c.width=w;c.height=h;ctx.drawImage(bgImg,0,0,w,h);
+  c.width=w;c.height=h;c.style.aspectRatio=w+'/'+h;c.style.width='100%';c.style.height='auto';
+  ctx.drawImage(bgImg,0,0,w,h);
   const id=ctx.getImageData(0,0,w,h),d=id.data;
   const tol=parseInt(document.getElementById('bg-tolerance').value);
   const featherPx=parseInt(document.getElementById('bg-feather').value);
