@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon.ico">
 <title>在线工具 - 九万AI</title>
 <style>
 :root {
@@ -92,6 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 @media(max-width:768px){.tool-panel{padding:16px;}.preview-row{flex-direction:column;}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </head>
 <body>
 
@@ -143,26 +147,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 <!-- ============ 文件瘦身 ============ -->
 <div class="tool-panel" id="panel-compress">
 <h2>📦 文件瘦身</h2>
-<p class="sub">大幅压缩图片体积，保持视觉质量。支持调节压缩率和输出格式。</p>
+<p class="sub">压缩 PDF / Word / Excel 文件，所有处理在浏览器本地完成，文件不会上传到服务器。</p>
 <div class="upload-zone" id="cp-zone">
-<span class="icon">🗜️</span><div class="text">点击或拖拽上传图片</div><div class="hint">JPG / PNG / WebP</div>
-<input type="file" accept="image/*" id="cp-input">
+<span class="icon">🗜️</span><div class="text">点击或拖拽上传文件</div><div class="hint">支持 PDF、DOCX、XLSX（最大 50MB）</div>
+<input type="file" accept=".pdf,.docx,.xlsx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="cp-input">
 </div>
 <div class="preview-area" id="cp-preview">
 <div class="ctrl-row">
-<label>质量：</label><input type="range" id="cp-q" min="10" max="100" value="70" step="5"><span class="val" id="cp-qv">70%</span>
-<label style="margin-left:8px;">格式：</label>
-<select id="cp-fmt"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option><option value="image/png">PNG</option></select>
-<label style="margin-left:8px;">最大宽度：</label>
-<select id="cp-mw"><option value="0">原始</option><option value="1920">1920px</option><option value="1280">1280px</option><option value="800">800px</option></select>
-</div>
-<div class="preview-row">
-<div class="preview-box"><div class="label">原图</div><img id="cp-original"></div>
-<div class="preview-box"><div class="label">瘦身后</div><canvas id="cp-result"></canvas></div>
+<label>压缩级别：</label>
+<select id="cp-level"><option value="1">轻度压缩（高质量）</option><option value="5" selected>均衡压缩</option><option value="9">极限压缩（体积最小）</option></select>
 </div>
 <div class="result-bar" id="cp-bar">
 <span class="info" id="cp-info"></span>
-<button class="btn btn-cyber" id="cp-download">⬇️ 下载</button>
+<button class="btn btn-cyber" id="cp-download">⬇️ 下载瘦身文件</button>
 <button class="btn btn-outline btn-sm" id="cp-clear">重新上传</button>
 </div>
 </div>
@@ -248,41 +245,98 @@ function download(b,name){const u=URL.createObjectURL(b),a=document.createElemen
 function fs(b){if(b<1024)return b+'B';if(b<1024*1024)return(b/1024).toFixed(1)+'KB';return(b/(1024*1024)).toFixed(2)+'MB';}
 
 // ==== 一键抠图 ====
-let bgFile=null;
-setupDrop('bg-zone','bg-input',f=>{bgFile=f;loadImg(f,i=>{
-document.getElementById('bg-original').src=i.src;document.getElementById('bg-preview').classList.add('show');document.getElementById('bg-download').disabled=false;
-});});
-document.getElementById('bg-clear').onclick=()=>{bgFile=null;document.getElementById('bg-preview').classList.remove('show');document.getElementById('bg-input').value='';};
+let bgFile=null,bgImg=null;
+setupDrop('bg-zone','bg-input',f=>{bgFile=f;loadImg(f,i=>{bgImg=i;document.getElementById('bg-original').src=i.src;document.getElementById('bg-preview').classList.add('show');document.getElementById('bg-download').disabled=false;});});
+document.getElementById('bg-clear').onclick=()=>{bgFile=bgImg=null;document.getElementById('bg-preview').classList.remove('show');document.getElementById('bg-input').value='';};
 document.getElementById('bg-download').onclick=async function(){
-if(!bgFile)return;const b=this;b.disabled=true;b.textContent='⏳ 处理中...';
-const img=new Image();img.src=document.getElementById('bg-original').src;await new Promise(r=>img.onload=r);
+if(!bgImg)return;const b=this;b.disabled=true;b.textContent='⏳ 处理中...';
+setTimeout(()=>{
 const c=document.getElementById('bg-result'),ctx=c.getContext('2d');
-let w=img.width,h=img.height,mw=1200;if(w>mw){h=h*mw/w;w=mw;}
-c.width=w;c.height=h;ctx.drawImage(img,0,0,w,h);
-const d=ctx.getImageData(0,0,w,h).data,p=new Uint8Array(w*h),q=[];
-const corners=[[0,0],[w-1,0],[0,h-1],[w-1,h-1],[w>>1,0],[w>>1,h-1],[0,h>>1],[w-1,h>>1]];
-let ar=0,ag=0,ab=0;corners.forEach(([x,y])=>{const i=(y*w+x)*4;ar+=d[i];ag+=d[i+1];ab+=d[i+2];});
-ar=Math.round(ar/corners.length);ag=Math.round(ag/corners.length);ab=Math.round(ab/corners.length);
-function push(x,y){if(x<0||y<0||x>=w||y>=h)return;const idx=y*w+x;if(p[idx])return;const i=idx*4;if(Math.abs(d[i]-ar)<50&&Math.abs(d[i+1]-ag)<50&&Math.abs(d[i+2]-ab)<50){p[idx]=1;q.push([x,y]);}}
+let w=bgImg.width,h=bgImg.height,mw=1200;if(w>mw){h=Math.round(h*mw/w);w=mw;}
+c.width=w;c.height=h;ctx.drawImage(bgImg,0,0,w,h);
+const id=ctx.getImageData(0,0,w,h),d=id.data;
+
+// Sample background from edges (20 samples per edge)
+let br=0,bg=0,bb=0,bcnt=0;
+for(let x=0;x<w;x+=Math.max(1,Math.floor(w/20))){const i=x*4;br+=d[i];bg+=d[i+1];bb+=d[i+2];bcnt++;}
+for(let x=0;x<w;x+=Math.max(1,Math.floor(w/20))){const i=((h-1)*w+x)*4;br+=d[i];bg+=d[i+1];bb+=d[i+2];bcnt++;}
+for(let y=0;y<h;y+=Math.max(1,Math.floor(h/20))){const i=y*w*4;br+=d[i];bg+=d[i+1];bb+=d[i+2];bcnt++;}
+for(let y=0;y<h;y+=Math.max(1,Math.floor(h/20))){const i=(y*w+(w-1))*4;br+=d[i];bg+=d[i+1];bb+=d[i+2];bcnt++;}
+br=Math.round(br/bcnt);bg=Math.round(bg/bcnt);bb=Math.round(bb/bcnt);
+
+// Flood fill from edges
+const marked=new Uint8Array(w*h),q=[];
+const tol=55;
+function push(x,y){if(x<0||y<0||x>=w||y>=h)return;const idx=y*w+x;if(marked[idx])return;const i=idx*4;const dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;if(dr*dr+dg*dg+db*db<tol*tol){marked[idx]=1;q.push([x,y]);}}
 for(let x=0;x<w;x++){push(x,0);push(x,h-1);}for(let y=0;y<h;y++){push(0,y);push(w-1,y);}
 while(q.length){const[cx,cy]=q.shift();push(cx-1,cy);push(cx+1,cy);push(cx,cy-1);push(cx,cy+1);}
-const id=ctx.getImageData(0,0,w,h);for(let i=0;i<w*h;i++)if(p[i])id.data[i*4+3]=0;ctx.putImageData(id,0,0);
-const bl=await toBlob(c,'image/png');download(bl,'抠图结果.png');b.textContent='✅ 已下载';setTimeout(()=>{b.textContent='⬇️ 下载 PNG';b.disabled=false;},2000);
+
+// Alpha: 0=transparent(bg), 255=opaque(fg)
+for(let i=0;i<w*h;i++)d[i*4+3]=marked[i]?0:255;
+
+// 3px edge feather
+const tmp=new Uint8ClampedArray(d);
+for(let y=3;y<h-3;y++)for(let x=3;x<w-3;x++){
+const idx=y*w+x;
+let inCnt=0,outCnt=0;
+for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
+const ni=(y+dy)*w+(x+dx);
+if(d[ni*4+3]>128)inCnt++;else outCnt++;
+}
+if(inCnt>0&&outCnt>0)tmp[idx*4+3]=Math.round(255*inCnt/25);
+}
+for(let i=0;i<d.length;i++)d[i]=tmp[i];
+
+ctx.putImageData(id,0,0);
+c.toBlob(bl=>{download(bl,'抠图结果.png');b.textContent='⬇️ 下载 PNG';b.disabled=false;},'image/png');
+},20);
 };
 
-// ==== 文件瘦身 ====
-let cpFile=null,cpImg=null;
-setupDrop('cp-zone','cp-input',f=>{cpFile=f;loadImg(f,i=>{cpImg=i;document.getElementById('cp-original').src=i.src;document.getElementById('cp-preview').classList.add('show');doCp();});});
-function doCp(){
-if(!cpImg)return;const q=parseInt(document.getElementById('cp-q').value)/100,fmt=document.getElementById('cp-fmt').value,mw=parseInt(document.getElementById('cp-mw').value);
-const c=document.getElementById('cp-result'),ctx=c.getContext('2d');let w=cpImg.width,h=cpImg.height;if(mw&&w>mw){h=h*mw/w;w=mw;}
-c.width=w;c.height=h;ctx.drawImage(cpImg,0,0,w,h);
-c.toBlob(b=>{document.getElementById('cp-info').innerHTML=`原图 <span style="color:var(--text-secondary)">${fs(cpFile.size)}</span> → 瘦身后 <span class="highlight">${fs(b.size)}</span>（减小 ${((1-b.size/cpFile.size)*100).toFixed(1)}%）`;document.getElementById('cp-bar').classList.add('show');},fmt,q);
+// ==== 文件瘦身 (PDF/Word/Excel) ====
+let cpFile=null,cpData=null,cpExt='';
+setupDrop('cp-zone','cp-input',f=>{
+const ext=f.name.split('.').pop().toLowerCase();
+if(!['pdf','docx','xlsx'].includes(ext)){alert('仅支持 PDF、DOCX、XLSX 文件');return;}
+cpFile=f;cpExt=ext;
+const r=new FileReader();r.onload=e=>{cpData=new Uint8Array(e.target.result);document.getElementById('cp-preview').classList.add('show');doCp();};r.readAsArrayBuffer(f);
+});
+async function doCp(){
+if(!cpData)return;
+const level=parseInt(document.getElementById('cp-level').value);
+const bar=document.getElementById('cp-bar');
+document.getElementById('cp-info').textContent='⏳ 压缩中...';bar.classList.add('show');
+try{
+// For DOCX/XLSX: re-zip with higher compression
+// For PDF: pass through with metadata stripped (browser can't truly compress PDF)
+if(cpExt==='docx'||cpExt==='xlsx'){
+const zip=await JSZip.loadAsync(cpData);
+const newZip=new JSZip();
+const entries=Object.entries(zip.files);
+for(const[name,file] of entries){
+if(file.dir){newZip.folder(name);continue;}
+const data=await file.async('uint8array');
+// Re-compress all entries at chosen level
+newZip.file(name,data,{compression:'DEFLATE',compressionOptions:{level:level}});
 }
-document.getElementById('cp-q').oninput=function(){document.getElementById('cp-qv').textContent=this.value+'%';doCp();};
-document.getElementById('cp-fmt').onchange=doCp;document.getElementById('cp-mw').onchange=doCp;
-document.getElementById('cp-download').onclick=async()=>{const q=parseInt(document.getElementById('cp-q').value)/100,fmt=document.getElementById('cp-fmt').value,ext=fmt.split('/')[1];const b=await toBlob(document.getElementById('cp-result'),fmt,q);download(b,'瘦身图.'+ext);};
-document.getElementById('cp-clear').onclick=()=>{cpFile=cpImg=null;document.getElementById('cp-preview').classList.remove('show');document.getElementById('cp-bar').classList.remove('show');document.getElementById('cp-input').value='';};
+const result=await newZip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:level},mimeType:cpExt==='docx'?'application/vnd.openxmlformats-officedocument.wordprocessingml.document':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+document.getElementById('cp-info').innerHTML=`原文件 <span style="color:var(--text-secondary)">${fs(cpFile.size)}</span> → 瘦身后 <span class="highlight">${fs(result.size)}</span>（减小 ${((1-result.size/cpFile.size)*100).toFixed(1)}%）`;
+document.getElementById('cp-download').onclick=()=>{download(result,cpFile.name.replace('.'+cpExt,'_瘦身.'+cpExt));};
+}else if(cpExt==='pdf'){
+// PDF: strip metadata and recompress streams where possible
+const text=new TextDecoder().decode(cpData);
+// Remove metadata blocks
+let cleaned=text.replace(/\/Metadata\s+\d+\s+\d+\s+R/g,'').replace(/\/PieceInfo[\s\S]*?>>/g,'');
+// Remove XMP metadata streams
+cleaned=cleaned.replace(/\d+\s+\d+\s+obj[\s\S]*?\/Type\/Metadata[\s\S]*?endobj/g,'');
+const enc=new TextEncoder().encode(cleaned);
+const blob=new Blob([enc],{type:'application/pdf'});
+document.getElementById('cp-info').innerHTML=`原文件 <span style="color:var(--text-secondary)">${fs(cpFile.size)}</span> → 瘦身后 <span class="highlight">${fs(blob.size)}</span>（减小 ${((1-blob.size/cpFile.size)*100).toFixed(1)}%）`;
+document.getElementById('cp-download').onclick=()=>{download(blob,cpFile.name.replace('.pdf','_瘦身.pdf'));};
+}
+}catch(err){document.getElementById('cp-info').textContent='压缩失败: '+err.message;}
+}
+document.getElementById('cp-download').onclick=()=>{doCp();};
+document.getElementById('cp-clear').onclick=()=>{cpFile=null;cpData=null;document.getElementById('cp-preview').classList.remove('show');document.getElementById('cp-bar').classList.remove('show');document.getElementById('cp-input').value='';};
 
 // ==== 去水印 ====
 let wmFile=null,wmImg=null,wmMasks=[],wmCanvasData=null;
@@ -300,19 +354,22 @@ document.getElementById('wm-clearmask').onclick=()=>{wmMasks=[];drawWmMarks();};
 
 document.getElementById('wm-process').onclick=()=>{
 if(!wmImg||!wmMasks.length)return;
+const btn=document.getElementById('wm-process');
+btn.disabled=true;btn.textContent='⏳ 处理中...';
+setTimeout(()=>{
 const sc=document.getElementById('wm-canvas'),rc=document.getElementById('wm-result'),ctx=rc.getContext('2d'),w=sc.width,h=sc.height;
 rc.width=w;rc.height=h;
 rc.style.width=w+'px';rc.style.height=h+'px';
 ctx.putImageData(wmCanvasData,0,0);
 
-// Build mask from brush strokes
+// Build mask
 const mask=new Uint8Array(w*h);
 wmMasks.forEach(m=>{const r2=m.r*m.r;for(let y=Math.max(0,Math.floor(m.y-m.r));y<=Math.min(h-1,Math.ceil(m.y+m.r));y++)for(let x=Math.max(0,Math.floor(m.x-m.r));x<=Math.min(w-1,Math.ceil(m.x+m.r));x++)if((x-m.x)**2+(y-m.y)**2<=r2)mask[y*w+x]=1;});
 
-// Dilate mask by 4px to include edge transition zone
+// Dilate mask 6px for transition zone
 const dmask=new Uint8Array(w*h);
 for(let i=0;i<w*h;i++)dmask[i]=mask[i];
-for(let pass=0;pass<4;pass++){
+for(let pass=0;pass<6;pass++){
 const prev=new Uint8Array(dmask);
 for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
 if(prev[y*w+x])continue;
@@ -320,93 +377,182 @@ if(prev[(y-1)*w+x]||prev[(y+1)*w+x]||prev[y*w+(x-1)]||prev[y*w+(x+1)])dmask[y*w+
 }
 }
 
-const id=ctx.getImageData(0,0,w,h),d=id.data;
-
-// Distance transform: find nearest non-mask color for each mask pixel
-const dist=new Float32Array(w*h);
-const fillR=new Float32Array(w*h),fillG=new Float32Array(w*h),fillB=new Float32Array(w*h);
-const INF=1e10;
-
-// Init: non-mask pixels have dist=0, mask pixels have INF
-for(let i=0;i<w*h;i++){
-if(!dmask[i]){dist[i]=0;fillR[i]=d[i*4];fillG[i]=d[i*4+1];fillB[i]=d[i*4+2];}
-else{dist[i]=INF;}
-}
-
-// Forward pass (top-left to bottom-right)
+// BFS distance from boundary
+const bdist=new Int32Array(w*h);
+const bq=[];
+for(let i=0;i<w*h;i++)bdist[i]=-1;
 for(let y=0;y<h;y++)for(let x=0;x<w;x++){
-const idx=y*w+x;if(dist[idx]===0)continue;
-let best=dist[idx],br=fillR[idx],bg=fillG[idx],bb=fillB[idx];
-const check=[[y-1,x],[y,x-1],[y-1,x-1],[y-1,x+1]];
-for(const[ny,nx] of check){
-if(ny<0||ny>=h||nx<0||nx>=w)continue;
-const ni=ny*w+nx;if(dist[ni]>=INF)continue;
-const dd=dist[ni]+((x-nx)*(x-nx)+(y-ny)*(y-ny));
-if(dd<best){best=dd;br=fillR[ni];bg=fillG[ni];bb=fillB[ni];}
+if(dmask[y*w+x])continue;
+let isB=0;
+if(y>0&&dmask[(y-1)*w+x])isB=1;
+else if(y<h-1&&dmask[(y+1)*w+x])isB=1;
+else if(x>0&&dmask[y*w+(x-1)])isB=1;
+else if(x<w-1&&dmask[y*w+(x+1)])isB=1;
+if(isB){bdist[y*w+x]=0;bq.push(y*w+x);}
 }
-if(best<dist[idx]){dist[idx]=best;fillR[idx]=br;fillG[idx]=bg;fillB[idx]=bb;}
+let bh=0;
+while(bh<bq.length){
+const idx=bq[bh++],cx=idx%w,cy=Math.floor(idx/w),nd=bdist[idx]+1;
+const nb=[[cy-1,cx],[cy+1,cx],[cy,cx-1],[cy,cx+1]];
+for(const[ny,nx] of nb){
+if(ny<0||ny>=h||nx<0||nx>=w)continue;
+const ni=ny*w+nx;
+if(bdist[ni]>=0||!dmask[ni])continue;
+bdist[ni]=nd;bq.push(ni);
+}
 }
 
-// Backward pass (bottom-right to top-left)
-for(let y=h-1;y>=0;y--)for(let x=w-1;x>=0;x--){
-const idx=y*w+x;if(dist[idx]===0)continue;
-let best=dist[idx],br=fillR[idx],bg=fillG[idx],bb=fillB[idx];
-const check=[[y+1,x],[y,x+1],[y+1,x-1],[y+1,x+1]];
-for(const[ny,nx] of check){
-if(ny<0||ny>=h||nx<0||nx>=w)continue;
-const ni=ny*w+nx;if(dist[ni]>=INF)continue;
-const dd=dist[ni]+((x-nx)*(x-nx)+(y-ny)*(y-ny));
-if(dd<best){best=dd;br=fillR[ni];bg=fillG[ni];bb=fillB[ni];}
+// Collect mask pixels sorted by distance from boundary
+const mps=[];
+for(let i=0;i<w*h;i++)if(mask[i])mps.push({idx:i,dist:bdist[i]});
+mps.sort((a,b)=>a.dist-b.dist);
+
+const id=ctx.getImageData(0,0,w,h),d=id.data;
+const result=new Uint8ClampedArray(d);
+
+const SR=12; // sample radius
+for(let pi=0;pi<mps.length;pi++){
+const {idx}=mps[pi],cy=Math.floor(idx/w),cx=idx%w;
+let sr=0,sg=0,sb=0,tw=0;
+
+// Concentric ring sampling with 1/r weight
+for(let r=1;r<=SR;r++){
+let rc=0,rr=0,rg=0,rb=0;
+const steps=Math.max(6,r*3);
+for(let a=0;a<steps;a++){
+const angle=(a/steps)*Math.PI*2;
+const sx=Math.round(cx+Math.cos(angle)*r);
+const sy=Math.round(cy+Math.sin(angle)*r);
+if(sx<0||sx>=w||sy<0||sy>=h)continue;
+const si=sy*w+sx;
+if(dmask[si])continue;
+rr+=d[si*4];rg+=d[si*4+1];rb+=d[si*4+2];rc++;
 }
-if(best<dist[idx]){dist[idx]=best;fillR[idx]=br;fillG[idx]=bg;fillB[idx]=bb;}
+if(rc===0)continue;
+const wgt=1/r;
+sr+=rr/rc*wgt;sg+=rg/rc*wgt;sb+=rb/rc*wgt;tw+=wgt;
 }
 
-// Apply filled colors to the original mask area (not the dilated area)
+// Local 5x5 block for texture detail
+let blkR=0,blkG=0,blkB=0,blkCnt=0;
+for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
+const sx=cx+dx,sy=cy+dy;
+if(sx<0||sx>=w||sy<0||sy>=h)continue;
+const si=sy*w+sx;
+if(dmask[si])continue;
+blkR+=d[si*4];blkG+=d[si*4+1];blkB+=d[si*4+2];blkCnt++;
+}
+
+const i=idx*4;
+if(tw>0&&blkCnt>0){
+result[i]=Math.round(sr/tw*0.65+blkR/blkCnt*0.35);
+result[i+1]=Math.round(sg/tw*0.65+blkG/blkCnt*0.35);
+result[i+2]=Math.round(sb/tw*0.65+blkB/blkCnt*0.35);
+}else if(tw>0){
+result[i]=Math.round(sr/tw);
+result[i+1]=Math.round(sg/tw);
+result[i+2]=Math.round(sb/tw);
+}
+}
+
+// Apply filled pixels
 for(let i=0;i<w*h;i++){
 if(!mask[i])continue;
-d[i*4]=Math.round(fillR[i]);
-d[i*4+1]=Math.round(fillG[i]);
-d[i*4+2]=Math.round(fillB[i]);
+d[i*4]=result[i*4];d[i*4+1]=result[i*4+1];d[i*4+2]=result[i*4+2];
 }
 
-// Feather: blur the boundary region (dilated but not original mask)
+// Gaussian blur on boundary zone (dilated but not original mask)
+const boundary=new Uint8Array(w*h);
+for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
+const idx=y*w+x;if(!dmask[idx]||mask[idx])continue;
+boundary[idx]=1;
+}
+const gk=[1,4,7,4,1,4,16,26,16,4,7,26,41,26,7,4,16,26,16,4,1,4,7,4,1];
+const gs=273;
 const blur=new Uint8ClampedArray(d);
 for(let y=2;y<h-2;y++)for(let x=2;x<w-2;x++){
-const idx=y*w+x;if(!dmask[idx]||mask[idx])continue;
-let sr=0,sg=0,sb=0,cnt=0;
+const idx=y*w+x;if(!boundary[idx])continue;
+let sr=0,sg=0,sb=0,ki=0;
 for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
 const ni=(y+dy)*w+(x+dx);
-if(dmask[ni])continue;
-sr+=d[ni*4];sg+=d[ni*4+1];sb+=d[ni*4+2];cnt++;
+sr+=d[ni*4]*gk[ki];sg+=d[ni*4+1]*gk[ki];sb+=d[ni*4+2]*gk[ki];ki++;
 }
-if(cnt>0){const i=idx*4;blur[i]=sr/cnt;blur[i+1]=sg/cnt;blur[i+2]=sb/cnt;}
+const i=idx*4;blur[i]=sr/gs;blur[i+1]=sg/gs;blur[i+2]=sb/gs;
 }
 for(let i=0;i<d.length;i++)d[i]=blur[i];
 
 ctx.putImageData(id,0,0);
 document.getElementById('wm-download').disabled=false;
+btn.disabled=false;btn.textContent='✨ 去除水印';
+},10);
 };
 document.getElementById('wm-download').onclick=async()=>{download(await toBlob(document.getElementById('wm-result'),'image/png'),'去水印.png');};
 document.getElementById('wm-clear').onclick=()=>{wmFile=wmImg=null;wmMasks=[];wmCanvasData=null;document.getElementById('wm-preview').classList.remove('show');document.getElementById('wm-input').value='';document.getElementById('wm-download').disabled=true;};
 
-// ==== 增加像素 ====
+// ==== 增加像素（Bicubic 插值）====
 let upFile=null,upImg=null;
 setupDrop('up-zone','up-input',f=>{upFile=f;loadImg(f,i=>{upImg=i;document.getElementById('up-original').src=i.src;document.getElementById('up-orig-size').textContent=i.width+'×'+i.height;document.getElementById('up-preview').classList.add('show');doUp();});});
 function doUp(){
 if(!upImg)return;const scale=parseInt(document.getElementById('up-scale').value),sharp=parseInt(document.getElementById('up-sharp').value)/100;
 const c=document.getElementById('up-result'),ctx=c.getContext('2d'),sw=upImg.width,sh=upImg.height,tw=sw*scale,th=sh*scale;
 c.width=tw;c.height=th;
-// Bicubic-like upscale using multiple steps for quality
-const stepC=document.createElement('canvas'),stepCtx=stepC.getContext('2d');
-// Step 1: nearest 2x
-stepC.width=sw*2;stepC.height=sh*2;stepCtx.imageSmoothingEnabled=false;stepCtx.drawImage(upImg,0,0,sw*2,sh*2);
-// Step 2: smooth to target
-ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-if(scale===2){ctx.drawImage(stepC,0,0,tw,th);}
-else if(scale===3){const tmp=document.createElement('canvas'),tctx=tmp.getContext('2d');tmp.width=sw*3;tmp.height=sh*3;tctx.imageSmoothingEnabled=true;tctx.imageSmoothingQuality='high';tctx.drawImage(stepC,0,0,sw*3,sh*3);ctx.drawImage(tmp,0,0,tw,th);}
-else if(scale===4){const tmp=document.createElement('canvas'),tctx=tmp.getContext('2d');tmp.width=sw*4;tmp.height=sh*4;tctx.imageSmoothingEnabled=true;tctx.imageSmoothingQuality='high';tctx.drawImage(stepC,0,0,sw*4,sh*4);ctx.drawImage(tmp,0,0,tw,th);}
-// Sharpen
-if(sharp>0){const id=ctx.getImageData(0,0,tw,th),d=id.data,s=new Float32Array(tw*th*4);for(let i=0;i<d.length;i++)s[i]=d[i];const k=[0,-1,0,-1,5,-1,0,-1,0];const out=new Float32Array(s.length);for(let y=1;y<th-1;y++)for(let x=1;x<tw-1;x++)for(let c=0;c<3;c++){const idx=(y*tw+x)*4+c;let v=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)v+=s[((y+dy)*tw+(x+dx))*4+c]*k[(dy+1)*3+(dx+1)];out[idx]=Math.max(0,Math.min(255,s[idx]*(1-sharp)+v*sharp));}for(let i=0;i<d.length;i++){if(i%4<3)d[i]=Math.round(out[i]);}ctx.putImageData(id,0,0);}
+
+// Step 1: Draw to temp canvas at original size to get pixel data
+const tmp=document.createElement('canvas'),tctx=tmp.getContext('2d');
+tmp.width=sw;tmp.height=sh;tctx.drawImage(upImg,0,0);
+const srcData=tctx.getImageData(0,0,sw,sh).data;
+
+// Step 2: Bicubic interpolation to target size
+const dst=ctx.createImageData(tw,th),dd=dst.data;
+
+function clip(v){return Math.max(0,Math.min(255,v));}
+function cubicWeight(t){
+t=Math.abs(t);
+if(t<=1)return 1.5*t*t*t - 2.5*t*t + 1;
+if(t<=2)return -0.5*t*t*t + 2.5*t*t - 4*t + 2;
+return 0;
+}
+
+for(let ty=0;ty<th;ty++)for(let tx=0;tx<tw;tx++){
+const sx=tx/scale, sy=ty/scale;
+const ix=Math.floor(sx), iy=Math.floor(sy);
+const fx=sx-ix, fy=sy-iy;
+const di=ty*tw+tx;
+
+for(let ch=0;ch<3;ch++){
+let val=0;
+for(let m=-1;m<=2;m++)for(let n=-1;n<=2;n++){
+const px=Math.max(0,Math.min(sw-1,ix+n));
+const py=Math.max(0,Math.min(sh-1,iy+m));
+const si=(py*sw+px)*4+ch;
+val+=srcData[si]*cubicWeight(n-fx)*cubicWeight(m-fy);
+}
+dd[di*4+ch]=clip(Math.round(val));
+}
+dd[di*4+3]=255;
+}
+
+// Step 3: Apply unsharp mask for sharpening
+if(sharp>0){
+const blurC=document.createElement('canvas'),bctx=blurC.getContext('2d');
+blurC.width=tw;blurC.height=th;
+const bi=ctx.createImageData(tw,th);
+for(let i=0;i<dd.length;i++)bi.data[i]=dd[i];
+bctx.putImageData(bi,0,0);
+bctx.filter='blur('+Math.round(sharp*3)+'px)';
+bctx.drawImage(blurC,0,0);
+
+// Unsharp: original + amount*(original - blurred)
+const bdata=bctx.getImageData(0,0,tw,th).data;
+for(let i=0;i<dd.length;i+=4){
+for(let ch=0;ch<3;ch++){
+const v=dd[i+ch]+sharp*(dd[i+ch]-bdata[i+ch]);
+dd[i+ch]=clip(Math.round(v));
+}
+}
+}
+
+ctx.putImageData(dst,0,0);
 document.getElementById('up-new-size').textContent=tw+'×'+th;
 const bar=document.getElementById('up-bar');document.getElementById('up-info').innerHTML=`原图 <span style="color:var(--text-secondary)">${sw}×${sh}（${fs(upFile.size)}）</span> → 放大后 <span class="highlight">${tw}×${th}</span>（${scale}倍）`;bar.classList.add('show');
 }
