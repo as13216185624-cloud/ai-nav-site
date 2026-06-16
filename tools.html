@@ -58,7 +58,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .preview-row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;margin-top:10px;}
 .preview-box{flex:1;min-width:240px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#000;}
 .preview-box .label{font-size:.7rem;color:var(--text-secondary);padding:6px 12px;background:var(--tag-bg);border-bottom:1px solid var(--border);}
-.preview-box img,.preview-box canvas{width:100%;display:block;max-height:380px;object-fit:contain;}
+.preview-box img{width:100%;display:block;max-height:380px;object-fit:contain;}
+.preview-box canvas{display:block;max-width:100%;height:auto;}
 
 .ctrl-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
 .ctrl-row label{font-size:.82rem;color:var(--text-secondary);white-space:nowrap;}
@@ -283,129 +284,87 @@ document.getElementById('cp-fmt').onchange=doCp;document.getElementById('cp-mw')
 document.getElementById('cp-download').onclick=async()=>{const q=parseInt(document.getElementById('cp-q').value)/100,fmt=document.getElementById('cp-fmt').value,ext=fmt.split('/')[1];const b=await toBlob(document.getElementById('cp-result'),fmt,q);download(b,'瘦身图.'+ext);};
 document.getElementById('cp-clear').onclick=()=>{cpFile=cpImg=null;document.getElementById('cp-preview').classList.remove('show');document.getElementById('cp-bar').classList.remove('show');document.getElementById('cp-input').value='';};
 
-// ==== 去水印（Telea 快速行进法修复算法）====
-let wmFile=null,wmImg=null,wmMasks=[];
-setupDrop('wm-zone','wm-input',f=>{wmFile=f;loadImg(f,i=>{wmImg=i;wmMasks=[];document.getElementById('wm-preview').classList.add('show');document.getElementById('wm-download').disabled=true;initWm();});});
-function initWm(){const c=document.getElementById('wm-canvas'),ctx=c.getContext('2d');let w=wmImg.width,h=wmImg.height,mw=900;if(w>mw){h=h*mw/w;w=mw;}c.width=w;c.height=h;ctx.drawImage(wmImg,0,0,w,h);drawWmMarks();}
-function drawWmMarks(){const c=document.getElementById('wm-canvas'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.drawImage(wmImg,0,0,c.width,c.height);ctx.fillStyle='rgba(255,60,60,0.45)';wmMasks.forEach(m=>{ctx.beginPath();ctx.arc(m.x,m.y,m.r,0,Math.PI*2);ctx.fill();});}
+// ==== 去水印 ====
+let wmFile=null,wmImg=null,wmMasks=[],wmCanvasData=null;
+setupDrop('wm-zone','wm-input',f=>{wmFile=f;loadImg(f,i=>{wmImg=i;wmMasks=[];wmCanvasData=null;document.getElementById('wm-preview').classList.add('show');document.getElementById('wm-download').disabled=true;initWm();});});
+function initWm(){const c=document.getElementById('wm-canvas'),ctx=c.getContext('2d');let w=wmImg.width,h=wmImg.height,mw=900;if(w>mw){h=Math.round(h*mw/w);w=mw;}c.width=w;c.height=h;ctx.drawImage(wmImg,0,0,w,h);wmCanvasData=ctx.getImageData(0,0,w,h);drawWmMarks();}
+function drawWmMarks(){const c=document.getElementById('wm-canvas'),ctx=c.getContext('2d');ctx.putImageData(wmCanvasData,0,0);ctx.fillStyle='rgba(255,60,60,0.45)';wmMasks.forEach(m=>{ctx.beginPath();ctx.arc(m.x,m.y,m.r,0,Math.PI*2);ctx.fill();});}
 let drawing=false;
 document.getElementById('wm-canvas').onmousedown=e=>{drawing=true;addWmMark(e);};
 document.getElementById('wm-canvas').onmousemove=e=>{if(!drawing)return;addWmMark(e);};
 document.onmouseup=()=>drawing=false;
-function addWmMark(e){const c=document.getElementById('wm-canvas'),r=c.getBoundingClientRect(),sx=c.width/r.width,sy=c.height/r.height;wmMasks.push({x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy,r:parseInt(document.getElementById('wm-brush').value)});drawWmMarks();}
+function addWmMark(e){const c=document.getElementById('wm-canvas');const sx=c.width/c.offsetWidth,sy=c.height/c.offsetHeight;const rect=c.getBoundingClientRect();wmMasks.push({x:(e.clientX-rect.left)*sx,y:(e.clientY-rect.top)*sy,r:parseInt(document.getElementById('wm-brush').value)});drawWmMarks();}
 document.getElementById('wm-brush').oninput=function(){document.getElementById('wm-brush-v').textContent=this.value+'px';};
 document.getElementById('wm-undo').onclick=()=>{wmMasks.pop();drawWmMarks();};
 document.getElementById('wm-clearmask').onclick=()=>{wmMasks=[];drawWmMarks();};
 
-function inpaintTelea(imageData,mask,w,h){
-const d=imageData.data,eps=1e-8;
-const inside=new Int8Array(w*h);
-const T=new Float32Array(w*h).fill(1e10);
-const narrowBand=[];
-
-for(let i=0;i<w*h;i++)if(!mask[i]){inside[i]=2;T[i]=0;}
-
-for(let y=0;y<h;y++)for(let x=0;x<w;x++){
-const idx=y*w+x;if(!mask[idx])continue;
-let has=false;
-for(let dy=-1;dy<=1&&!has;dy++)for(let dx=-1;dx<=1&&!has;dx++){
-if(dx===0&&dy===0)continue;
-const nx=x+dx,ny=y+dy;
-if(nx>=0&&ny>=0&&nx<w&&ny<h&&!mask[ny*w+nx])has=true;
-}
-if(has){inside[idx]=1;T[idx]=0;narrowBand.push([x,y,0]);}
-}
-
-if(!narrowBand.length)return;
-
-let iter=0,maxIter=w*h*2;
-while(narrowBand.length&&iter++<maxIter){
-let mi=0;
-for(let i=1;i<narrowBand.length;i++)if(narrowBand[i][2]<narrowBand[mi][2])mi=i;
-const[px,py]=narrowBand.splice(mi,1)[0];
-const pidx=py*w+px;inside[pidx]=2;
-
-const R=Math.min(8,Math.max(3,Math.floor(Math.sqrt(wmMasks.length?wmMasks[0].r*1.2:8))));
-let sr=0,sg=0,sb=0,sw=0;
-for(let dy=-R;dy<=R;dy++)for(let dx=-R;dx<=R;dx++){
-const nx=px+dx,ny=py+dy;
-if(nx<0||ny<0||nx>=w||ny>=h)continue;
-const nidx=ny*w+nx;
-if(inside[nidx]!==2)continue;
-const dist2=dx*dx+dy*dy+eps;
-const lvlW=1/(1+Math.abs(T[nidx]));
-const wgt=1/(dist2)*lvlW;
-const i=nidx*4;sr+=d[i]*wgt;sg+=d[i+1]*wgt;sb+=d[i+2]*wgt;sw+=wgt;
-}
-if(sw>eps){const i=pidx*4;d[i]=sr/sw;d[i+1]=sg/sw;d[i+2]=sb/sw;}
-
-for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
-if(dx===0&&dy===0)continue;
-const nx=px+dx,ny=py+dy;
-if(nx<0||ny<0||nx>=w||ny>=h)continue;
-const nidx=ny*w+nx;
-if(inside[nidx]===0){
-inside[nidx]=1;
-let mx=1e10,my=1e10;
-if(nx>0&&inside[ny*w+(nx-1)]===2)mx=Math.min(mx,T[ny*w+(nx-1)]);
-if(nx<w-1&&inside[ny*w+(nx+1)]===2)mx=Math.min(mx,T[ny*w+(nx+1)]);
-if(ny>0&&inside[(ny-1)*w+nx]===2)my=Math.min(my,T[(ny-1)*w+nx]);
-if(ny<h-1&&inside[(ny+1)*w+nx]===2)my=Math.min(my,T[(ny+1)*w+nx]);
-if(mx<1e9&&my<1e9){
-const dT=mx-my;T[nidx]=(mx+my+Math.sqrt(Math.max(0,2-dT*dT)))/2;
-}else{T[nidx]=Math.min(mx,my)+1;}
-narrowBand.push([nx,ny,T[nidx]]);
-}
-}
-}
-
-// Post-process bilateral smoothing
-const smoothed=new Uint8ClampedArray(d.length);
-for(let i=0;i<d.length;i++)smoothed[i]=d[i];
-const SR=2;
-for(let y=0;y<h;y++)for(let x=0;x<w;x++){
-const idx=y*w+x;if(!mask[idx])continue;
-let sr2=0,sg2=0,sb2=0,sw2=0;const ci=idx*4;
-for(let dy=-SR;dy<=SR;dy++)for(let dx=-SR;dx<=SR;dx++){
-const nx=x+dx,ny=y+dy;
-if(nx<0||ny<0||nx>=w||ny>=h)continue;
-const ni=(ny*w+nx)*4;
-const dr=d[ci]-d[ni],dg=d[ci+1]-d[ni+1],db=d[ci+2]-d[ni+2];
-const spW=1/(dx*dx+dy*dy+1);
-const rW=Math.exp(-(dr*dr+dg*dg+db*db)/(2*30*30));
-const w=spW*rW;
-sr2+=d[ni]*w;sg2+=d[ni+1]*w;sb2+=d[ni+2]*w;sw2+=w;
-}
-if(sw2>eps){smoothed[ci]=sr2/sw2;smoothed[ci+1]=sg2/sw2;smoothed[ci+2]=sb2/sw2;}
-}
-for(let i=0;i<d.length;i++)d[i]=smoothed[i];
-}
-
 document.getElementById('wm-process').onclick=()=>{
 if(!wmImg||!wmMasks.length)return;
 const sc=document.getElementById('wm-canvas'),rc=document.getElementById('wm-result'),ctx=rc.getContext('2d'),w=sc.width,h=sc.height;
-rc.width=w;rc.height=h;ctx.drawImage(wmImg,0,0,w,h);
+rc.width=w;rc.height=h;
+ctx.putImageData(wmCanvasData,0,0);
 
+// Build mask from brush strokes
 const mask=new Uint8Array(w*h);
 wmMasks.forEach(m=>{const r2=m.r*m.r;for(let y=Math.max(0,Math.floor(m.y-m.r));y<=Math.min(h-1,Math.ceil(m.y+m.r));y++)for(let x=Math.max(0,Math.floor(m.x-m.r));x<=Math.min(w-1,Math.ceil(m.x+m.r));x++)if((x-m.x)**2+(y-m.y)**2<=r2)mask[y*w+x]=1;});
 
-const expanded=new Uint8Array(w*h);
-for(let i=0;i<w*h;i++)expanded[i]=mask[i];
-for(let y=0;y<h;y++)for(let x=0;x<w;x++){
-if(!mask[y*w+x])continue;
-for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
-const nx=x+dx,ny=y+dy;
-if(nx>=0&&ny>=0&&nx<w&&ny<h)expanded[ny*w+nx]=1;
+// Dilate mask by 3px for smooth transition
+const dilated=new Uint8Array(w*h);
+for(let i=0;i<w*h;i++)dilated[i]=mask[i];
+for(let pass=0;pass<3;pass++){
+const prev=new Uint8Array(dilated);
+for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
+if(prev[y*w+x])continue;
+if(prev[(y-1)*w+x]||prev[(y+1)*w+x]||prev[y*w+(x-1)]||prev[y*w+(x+1)]||prev[(y-1)*w+(x-1)]||prev[(y-1)*w+(x+1)]||prev[(y+1)*w+(x-1)]||prev[(y+1)*w+(x+1)])dilated[y*w+x]=1;
 }
 }
 
-const id=ctx.getImageData(0,0,w,h);
-inpaintTelea(id,expanded,w,h);
+// Multi-pass diffusion fill
+const id=ctx.getImageData(0,0,w,h),d=id.data;
+for(let pass=0;pass<5;pass++){
+const next=new Uint8ClampedArray(d);
+for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
+const idx=y*w+x;if(!dilated[idx])continue;
+let sr=0,sg=0,sb=0,cnt=0;
+for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+if(dx===0&&dy===0)continue;
+const ni=((y+dy)*w+(x+dx))*4;
+if(dilated[(y+dy)*w+(x+dx)])continue;
+sr+=d[ni];sg+=d[ni+1];sb+=d[ni+2];cnt++;
+}
+if(cnt){const i=idx*4;next[i]=sr/cnt;next[i+1]=sg/cnt;next[i+2]=sb/cnt;}else{const i=idx*4;next[i]=d[i];next[i+1]=d[i+1];next[i+2]=d[i+2];}
+}
+for(let i=0;i<d.length;i++)d[i]=next[i];
+// Shrink mask inward after each pass
+const newMask=new Uint8Array(w*h);
+for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
+const idx=y*w+x;if(!dilated[idx])continue;
+let hasOutside=false;
+for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dilated[(y+dy)*w+(x+dx)]){hasOutside=true;break;}}
+if(hasOutside)newMask[idx]=1;
+}
+for(let i=0;i<w*h;i++)dilated[i]=newMask[i];
+if(!dilated.some(v=>v))break;
+}
+// Final feather edge blend
+const result=new Uint8ClampedArray(d);
+for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
+const idx=y*w+x;if(!mask[idx])continue;
+let sr=0,sg=0,sb=0,cnt=0;
+for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){
+const ni=((y+dy)*w+(x+dx))*4;
+if(mask[(y+dy)*w+(x+dx)])continue;
+sr+=d[ni];sg+=d[ni+1];sb+=d[ni+2];cnt++;
+}
+if(cnt){const i=idx*4;result[i]=sr/cnt;result[i+1]=sg/cnt;result[i+2]=sb/cnt;}
+}
+for(let i=0;i<d.length;i++)d[i]=result[i];
+
 ctx.putImageData(id,0,0);
 document.getElementById('wm-download').disabled=false;
 };
 document.getElementById('wm-download').onclick=async()=>{download(await toBlob(document.getElementById('wm-result'),'image/png'),'去水印.png');};
-document.getElementById('wm-clear').onclick=()=>{wmFile=wmImg=null;wmMasks=[];document.getElementById('wm-preview').classList.remove('show');document.getElementById('wm-input').value='';document.getElementById('wm-download').disabled=true;};
+document.getElementById('wm-clear').onclick=()=>{wmFile=wmImg=null;wmMasks=[];wmCanvasData=null;document.getElementById('wm-preview').classList.remove('show');document.getElementById('wm-input').value='';document.getElementById('wm-download').disabled=true;};
 
 // ==== 增加像素 ====
 let upFile=null,upImg=null;
