@@ -63,6 +63,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .preview-box .label{font-size:.7rem;color:var(--text-secondary);padding:6px 12px;background:var(--tag-bg);border-bottom:1px solid var(--border);}
 .preview-box img{width:100%;display:block;max-height:380px;object-fit:contain;}
 .preview-box canvas{display:block;max-width:100%;height:auto;}
+#bg-result-wrap{background-image:linear-gradient(45deg,#1a1a1a 25%,transparent 25%),linear-gradient(-45deg,#1a1a1a 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1a1a1a 75%),linear-gradient(-45deg,transparent 75%,#1a1a1a 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0px;background-color:#111;}
 
 .ctrl-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
 .ctrl-row label{font-size:.82rem;color:var(--text-secondary);white-space:nowrap;}
@@ -140,7 +141,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 <div class="progress-info" id="bg-progress"></div>
 <div class="preview-row">
 <div class="preview-box"><div class="label">原图</div><img id="bg-original"></div>
-<div class="preview-box"><div class="label">抠图结果（透明底）</div><canvas id="bg-result"></canvas></div>
+<div class="preview-box" id="bg-result-wrap"><div class="label">抠图结果（透明底）</div><canvas id="bg-result"></canvas></div>
 </div>
 <div class="btn-row">
 <button class="btn btn-gold" id="bg-download" disabled>⬇️ 下载 PNG</button>
@@ -249,24 +250,27 @@ function fs(b){if(b<1024)return b+'B';if(b<1024*1024)return(b/1024).toFixed(1)+'
 function clamp(v,lo,hi){return v<lo?lo:v>hi?hi:v;}
 
 /* ================================================================
-   一键抠图 — 多色采样 + 自适应阈值 + 形态学清理 + 精细alpha + 去色偏
+   一键抠图 — 实时预览 + 多色采样 + 自适应阈值 + 形态学清理 + 精细alpha + 去色偏
    ================================================================ */
-let bgFile=null,bgImg=null;
+let bgFile=null,bgImg=null,bgCutting=false,bgNeedRecompute=false;
 setupDrop('bg-zone','bg-input',f=>{bgFile=f;loadImg(f,i=>{
   bgImg=i;document.getElementById('bg-original').src=i.src;
   document.getElementById('bg-preview').classList.add('show');
-  document.getElementById('bg-download').disabled=false;
+  doBgCut();
 });});
-document.getElementById('bg-clear').onclick=()=>{bgFile=bgImg=null;document.getElementById('bg-preview').classList.remove('show');document.getElementById('bg-input').value='';};
-document.getElementById('bg-tolerance').oninput=function(){document.getElementById('bg-tol-v').textContent=this.value;};
-document.getElementById('bg-feather').oninput=function(){document.getElementById('bg-feath-v').textContent=this.value+'px';};
+document.getElementById('bg-clear').onclick=()=>{bgFile=bgImg=null;document.getElementById('bg-preview').classList.remove('show');document.getElementById('bg-input').value='';document.getElementById('bg-progress').textContent='';};
+document.getElementById('bg-tolerance').oninput=function(){document.getElementById('bg-tol-v').textContent=this.value;bgNeedRecompute=true;doBgCut();};
+document.getElementById('bg-feather').oninput=function(){document.getElementById('bg-feath-v').textContent=this.value+'px';bgNeedRecompute=true;doBgCut();};
 
-document.getElementById('bg-download').onclick=async function(){
-  if(!bgImg)return;
-  const btn=this;btn.disabled=true;btn.textContent='⏳ 抠图中...';
+async function doBgCut(){
+  if(!bgImg||bgCutting){return;}
+  bgCutting=true;bgNeedRecompute=false;
   const prog=document.getElementById('bg-progress');
+  const dlBtn=document.getElementById('bg-download');
+  prog.textContent='⏳ 抠图中...';
   await new Promise(r=>setTimeout(r,30));
 
+  try{
   const c=document.getElementById('bg-result'),ctx=c.getContext('2d');
   let w=bgImg.width,h=bgImg.height;
   const mw=1400;if(w>mw){h=Math.round(h*mw/w);w=mw;}
@@ -340,11 +344,9 @@ document.getElementById('bg-download').onclick=async function(){
 
   // Step 4: Morphological close then open
   prog.textContent='清理边缘...';await new Promise(r=>setTimeout(r,10));
-  // Close: dilate bg 3px then erode 3px (fills small fg holes)
   let m=new Uint8Array(isBg);
   for(let pass=0;pass<3;pass++){const p=new Uint8Array(m);for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;if(!p[i]&&(p[(y-1)*w+x]||p[(y+1)*w+x]||p[i-1]||p[i+1]))m[i]=1;}}
   for(let pass=0;pass<3;pass++){const p=new Uint8Array(m);for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;if(p[i]&&!(p[(y-1)*w+x]&&p[(y+1)*w+x]&&p[i-1]&&p[i+1]))m[i]=0;}}
-  // Open: erode bg 2px then dilate 2px (removes small bg islands)
   for(let pass=0;pass<2;pass++){const p=new Uint8Array(m);for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;if(p[i]&&!(p[(y-1)*w+x]&&p[(y+1)*w+x]&&p[i-1]&&p[i+1]))m[i]=0;}}
   for(let pass=0;pass<2;pass++){const p=new Uint8Array(m);for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x;if(!p[i]&&(p[(y-1)*w+x]||p[(y+1)*w+x]||p[i-1]||p[i+1]))m[i]=1;}}
 
@@ -398,8 +400,17 @@ document.getElementById('bg-download').onclick=async function(){
   }
 
   ctx.putImageData(id,0,0);
-  prog.textContent='✅ 抠图完成';
-  c.toBlob(bl=>{download(bl,'抠图结果.png');btn.textContent='⬇️ 下载 PNG';btn.disabled=false;},'image/png');
+  prog.textContent='✅ 抠图完成，可调整参数实时预览';
+  dlBtn.disabled=false;
+  }catch(err){prog.innerHTML='<span class="warn">抠图失败: '+err.message+'</span>';}
+
+  bgCutting=false;
+  if(bgNeedRecompute){doBgCut();}
+}
+
+document.getElementById('bg-download').onclick=function(){
+  const c=document.getElementById('bg-result');
+  c.toBlob(bl=>{download(bl,'抠图结果.png');},'image/png');
 };
 
 /* ================================================================
