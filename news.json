@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "title": "全球最强AI模型Claude Fable 5突遭封禁，仅存活三天被拔网线",
+    "summary": "Anthropic发布史上最强模型Fable 5三天后，因美国出口管制令被强制下架。禁令连Anthropic自家外籍员工都无法使用，引发AI服务\"临时通行证\"本质的广泛讨论。",
+    "source": "人人都是产品经理",
+    "source_url": "https://www.woshipm.com/ai/7651840849931682313.html",
+    "date": "2026-06-16",
+    "category": "大模型",
+    "region": "国际"
+  },
+  {
+    "id": 2,
+    "title": "DeepSeek完成超500亿元首轮融资，创中国AI单轮融资纪录",
+    "summary": "中国AI企业DeepSeek完成超500亿元首轮融资，刷新国内人工智能产业单轮融资纪录，彰显资本对国产大模型赛道的强烈信心。",
+    "source": "财经媒体",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "投融资",
+    "region": "国内"
+  },
+  {
+    "id": 3,
+    "title": "OpenAI即将发布GPT-5.6，并酝酿大幅降价策略",
+    "summary": "OpenAI计划发布新一代大模型GPT-5.6，同时酝酿大幅降价，全球大模型竞争进入白热化阶段，价格战一触即发。",
+    "source": "科技媒体",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "大模型",
+    "region": "国际"
+  },
+  {
+    "id": 4,
+    "title": "讯飞星火大模型高考评测多项第一，数学148分碾压对手",
+    "summary": "2026年高考结束后多家媒体组织AI高考评测，讯飞星火在新高考I卷数学中以148分位列第一，语文作文、英文写作同样进入第一梯队。背后是科大讯飞20多年AI+教育深耕。",
+    "source": "中国经济新闻网",
+    "source_url": "https://www.cet.com.cn/wzsy/cyzx/10403009.shtml",
+    "date": "2026-06-15",
+    "category": "大模型",
+    "region": "国内"
+  },
+  {
+    "id": 5,
+    "title": "谷歌DeepMind发布DiffusionGemma开源文本扩散模型",
+    "summary": "谷歌DeepMind发布开源文本扩散模型DiffusionGemma，为AI文本生成领域提供全新非自回归技术路线，生成速度有望大幅提升。",
+    "source": "机器之心",
+    "source_url": "https://jigou.jiqizhixin.com/industry",
+    "date": "2026-06-16",
+    "category": "技术突破",
+    "region": "国际"
+  },
+  {
+    "id": 6,
+    "title": "欧盟AI法案将于8月2日全面生效，违规最高罚全球年营业额6%",
+    "summary": "欧盟《人工智能法案》将于2026年8月2日全面执行，违规企业面临最高全球年营业额6%的天价罚款，全球AI监管进入强执法时代。",
+    "source": "欧盟委员会",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "政策监管",
+    "region": "国际"
+  },
+  {
+    "id": 7,
+    "title": "宇树G1人形机器人登顶钦博拉索火山，终极目标珠穆朗玛峰",
+    "summary": "改装版宇树G1机器人成功登顶海拔6200米的厄瓜多尔钦博拉索火山，成为首个登顶2万英尺的人形机器人。团队\"三冠\"计划下一站瞄准珠峰，暂定2026年10月。",
+    "source": "量子位",
+    "source_url": "https://www.163.com/dy/article/KVFTASR60511DSSR.html",
+    "date": "2026-06-15",
+    "category": "机器人",
+    "region": "国内"
+  },
+  {
+    "id": 8,
+    "title": "工信部启动《人工智能终端智能化分级》国家标准，L1-L4四级划分",
+    "summary": "工信部等部门启动实施AI终端智能化分级国标，明确L1至L4级量化指标，抬高行业准入门槛，防止劣质产品以次充好。商务部同步筹划\"AI+消费\"政策体系。",
+    "source": "经济日报",
+    "source_url": "http://t.m.youth.cn/transfer/index/url/pinglun.youth.cn/cjkd/202606/t20260615_16714818.htm",
+    "date": "2026-06-15",
+    "category": "政策监管",
+    "region": "国内"
+  },
+  {
+    "id": 9,
+    "title": "清华大学联合软通计算机成立人工智能系统联合研究中心",
+    "summary": "清华计算机系与软通计算机共建AI系统联合研究中心，聚焦AI基础软硬件关键核心技术攻关，涵盖高性能存储、大模型训练与推理系统优化等方向。",
+    "source": "光明网",
+    "source_url": "https://www.toutiao.com/group/7651890654284562986/",
+    "date": "2026-06-16",
+    "category": "产学研",
+    "region": "国内"
+  },
+  {
+    "id": 10,
+    "title": "世界未来科技发展峰会发布可信AI语料全球倡议，确立六大标准",
+    "summary": "伦敦科技周期间，UCL联合多家机构发布可信AI语料全球倡议，提出可验证来源、合法授权、事实准确性等六大核心标准，并推出全球负责任AI合规工程平台FluxFormAI。",
+    "source": "新华财经",
+    "source_url": "https://finance.sina.cn/2026-06-15/detail-inicnpyt8289998.d.html",
+    "date": "2026-06-15",
+    "category": "AI治理",
+    "region": "国际"
+  },
+  {
+    "id": 11,
+    "title": "Agivar发布录屏教学AI Agent：录屏三分钟，换回每天两小时",
+    "summary": "AI初创公司Agivar推出桌面Agent产品，通过录屏教学让AI学习重复性工作流程，基于\"大脑+小脑\"双层架构实现快速执行，已在政务、ERP等场景落地。",
+    "source": "今日头条",
+    "source_url": "https://www.toutiao.com/",
+    "date": "2026-06-16",
+    "category": "AI应用",
+    "region": "国内"
+  },
+  {
+    "id": 12,
+    "title": "美国科罗拉多州AI法案将于6月30日生效，全球AI监管加速",
+    "summary": "继欧盟之后，美国科罗拉多州AI法案将于6月30日正式生效。与此同时马斯克宣布将举行虚拟技术会议分享AI与航天最新愿景。",
+    "source": "今日头条",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "政策监管",
+    "region": "国际"
+  },
+  {
+    "id": 13,
+    "title": "DeepMind AI系统独立完成首个重大科学发现",
+    "summary": "DeepMind的Turing-Bio AI系统独立完成首个重大科学发现，标志着AI在科学研究领域的应用取得突破性进展，成果发表于Nature期刊。",
+    "source": "Nature期刊",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "技术突破",
+    "region": "国际"
+  },
+  {
+    "id": 14,
+    "title": "智谱推出最新一代旗舰模型GLM-5.2",
+    "summary": "智谱AI宣布推出最新一代旗舰模型GLM-5.2，持续强化国产大模型在多模态理解和复杂推理方面的能力。",
+    "source": "36氪",
+    "source_url": "https://36kr.com/",
+    "date": "2026-06-15",
+    "category": "大模型",
+    "region": "国内"
+  },
+  {
+    "id": 15,
+    "title": "Windsurf收购案上演72小时\"三国杀\"，AI编程工具赛道白热化",
+    "summary": "AI编程工具Windsurf收购案引发多方角逐，72小时内出现多次反转，反映出AI开发工具领域的激烈竞争态势与资本追捧热度。",
+    "source": "投资界",
+    "source_url": "https://www.toutiao.com/group/7651759490450211380/",
+    "date": "2026-06-16",
+    "category": "投融资",
+    "region": "国际"
+  }
+]

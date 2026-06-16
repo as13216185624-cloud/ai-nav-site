@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 新闻 - AI工具箱 | 全球AI资讯每日更新</title>
+<style>
+:root {
+    --bg: #0f0f14; --card-bg: #1a1a24; --card-hover: #22223a;
+    --text: #e4e4ed; --text-secondary: #9d9db5; --accent: #6c5ce7;
+    --accent-glow: rgba(108,92,231,0.3); --border: #2a2a3a; --tag-bg: #252540;
+    --gradient: linear-gradient(135deg,#6c5ce7,#a29bfe);
+    --vpn: #ff6b6b; --cn: #00b894; --highlight: #fdcb6e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:100;background:rgba(15,15,20,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-logo{font-size:1.2rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
+.nav-links{display:flex;gap:20px;align-items:center;}
+.nav-link{color:var(--text-secondary);text-decoration:none;font-size:.9rem;transition:color .2s;padding:6px 0;}
+.nav-link:hover,.nav-link.active{color:var(--text);}
+.nav-link.active{border-bottom:2px solid var(--accent);}
+.nav-badge{background:var(--accent);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:8px;margin-left:4px;}
+
+/* Header */
+.header{background:linear-gradient(180deg,#1a1a30 0%,var(--bg) 100%);padding:40px 20px 32px;text-align:center;border-bottom:1px solid var(--border);}
+.header h1{font-size:2rem;font-weight:800;margin-bottom:8px;}
+.header h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header p{color:var(--text-secondary);font-size:.95rem;}
+.stats-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:16px;}
+.stat-item{display:flex;align-items:center;gap:6px;background:var(--card-bg);border:1px solid var(--border);padding:6px 16px;border-radius:20px;font-size:.82rem;color:var(--text-secondary);}
+.stat-item span{color:var(--accent);font-weight:700;}
+
+/* Filters */
+.filters{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;gap:10px;flex-wrap:wrap;}
+.filter-btn{padding:7px 16px;border-radius:18px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .2s;user-select:none;}
+.filter-btn:hover{border-color:var(--accent);color:var(--text);}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* News List */
+.main{max-width:900px;margin:0 auto;padding:8px 20px 60px;}
+.news-date-divider{display:flex;align-items:center;gap:12px;margin:24px 0 16px;color:var(--text-secondary);font-size:.85rem;font-weight:600;}
+.news-date-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.news-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:12px;transition:all .3s;cursor:pointer;}
+.news-card:hover{border-color:var(--accent);background:var(--card-hover);transform:translateX(4px);}
+.news-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:10px;}
+.news-title{font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.5;flex:1;}
+.news-badges{display:flex;gap:5px;flex-shrink:0;}
+.badge{font-size:.68rem;padding:2px 8px;border-radius:5px;font-weight:600;white-space:nowrap;}
+.badge-international{background:rgba(255,107,107,.2);color:var(--vpn);}
+.badge-domestic{background:rgba(0,184,148,.2);color:var(--cn);}
+.badge-hot{background:rgba(253,203,110,.2);color:var(--highlight);}
+
+.news-summary{font-size:.88rem;color:var(--text-secondary);line-height:1.7;margin-bottom:10px;}
+.news-meta{display:flex;align-items:center;gap:12px;font-size:.75rem;color:var(--text-secondary);flex-wrap:wrap;}
+.news-source{color:var(--accent);}
+.news-cat{background:var(--tag-bg);padding:2px 8px;border-radius:4px;font-size:.7rem;}
+
+.empty-state{text-align:center;padding:80px 20px;color:var(--text-secondary);}
+.empty-state .icon{font-size:3.5rem;margin-bottom:14px;}
+
+/* Footer */
+.footer{text-align:center;padding:32px 20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.82rem;}
+.footer a{color:var(--accent);text-decoration:none;}
+.update-hint{color:var(--highlight);font-size:.75rem;margin-top:4px;}
+
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:600px){
+.header h1{font-size:1.5rem;}
+.news-card{padding:16px 18px;}
+.news-title{font-size:.95rem;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-inner">
+<a href="index.html" class="nav-logo">🤖 AI 工具箱</a>
+<div class="nav-links">
+<a href="index.html" class="nav-link">工具导航</a>
+<a href="news.html" class="nav-link active">AI 新闻<span class="nav-badge">NEW</span></a>
+</div>
+</div>
+</nav>
+
+<header class="header">
+<h1><span>📰 全球 AI 新闻</span></h1>
+<p>每日自动更新 · 追踪 AI 行业最新动态 · 覆盖大模型 / 技术突破 / 投融资 / 政策监管</p>
+<div class="stats-row">
+<div class="stat-item">📰 今日更新 <span id="newsCount">0</span> 条</div>
+<div class="stat-item">🕐 更新时间 <span id="updateTime">--</span></div>
+</div>
+</header>
+
+<div class="filters">
+<button class="filter-btn active" data-cat="all">📋 全部</button>
+<button class="filter-btn" data-cat="大模型">🧠 大模型</button>
+<button class="filter-btn" data-cat="技术突破">🔬 技术突破</button>
+<button class="filter-btn" data-cat="投融资">💰 投融资</button>
+<button class="filter-btn" data-cat="政策监管">📜 政策监管</button>
+<button class="filter-btn" data-cat="机器人">🤖 机器人</button>
+<button class="filter-btn" data-cat="AI应用">📱 AI应用</button>
+<button class="filter-btn" data-cat="AI治理">🛡️ AI治理</button>
+<button class="filter-btn" data-cat="产学研">🏫 产学研</button>
+<button class="filter-btn" data-cat="国内">🇨🇳 国内</button>
+<button class="filter-btn" data-cat="国际">🌍 国际</button>
+</div>
+
+<main class="main" id="newsContainer"></main>
+
+<footer class="footer">
+<p>AI 工具箱 © 2026 · 新闻数据来自公开信源整理 · 每日自动更新</p>
+<p class="update-hint">⏰ 每日早间自动刷新最新 AI 资讯</p>
+</footer>
+
+<script>
+// ============ 加载新闻数据 ============
+let newsData = [];
+
+async function loadNews() {
+    try {
+        const resp = await fetch('news.json');
+        newsData = await resp.json();
+        newsData.sort((a,b) => b.date.localeCompare(a.date) || b.id - a.id);
+    } catch(e) {
+        newsData = [];
+    }
+    renderAll();
+    updateStats();
+}
+
+// ============ 渲染 ============
+const container = document.getElementById('newsContainer');
+const filterBtns = document.querySelectorAll('.filter-btn');
+let activeFilter = 'all';
+
+function updateStats() {
+    document.getElementById('newsCount').textContent = newsData.length;
+    const now = new Date();
+    document.getElementById('updateTime').textContent = 
+        `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+
+function getRegionBadge(region) {
+    return region === '国际' ? '<span class="badge badge-international">🌍 国际</span>' : '<span class="badge badge-domestic">🇨🇳 国内</span>';
+}
+
+function renderAll() {
+    let filtered = newsData;
+    if (activeFilter !== 'all') {
+        filtered = newsData.filter(n => n.category === activeFilter || n.region === activeFilter);
+    }
+    
+    if (!filtered.length) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>该分类暂无新闻，试试其他筛选条件</p></div>';
+        return;
+    }
+    
+    // Group by date
+    const groups = {};
+    filtered.forEach(n => {
+        if (!groups[n.date]) groups[n.date] = [];
+        groups[n.date].push(n);
+    });
+    
+    const dateLabels = {
+        '2026-06-16': '📅 今天 · 6月16日',
+        '2026-06-15': '📅 昨天 · 6月15日',
+    };
+    
+    let html = '';
+    for (const [date, items] of Object.entries(groups)) {
+        html += `<div class="news-date-divider">${dateLabels[date] || date}</div>`;
+        items.forEach(n => {
+            html += `
+            <div class="news-card" onclick="window.open('${n.source_url}','_blank')">
+                <div class="news-card-header">
+                    <div class="news-title">${n.title}</div>
+                    <div class="news-badges">${getRegionBadge(n.region)}<span class="badge badge-hot" style="background:rgba(108,92,231,.2);color:var(--accent);margin-left:4px;">${n.category}</span></div>
+                </div>
+                <div class="news-summary">${n.summary}</div>
+                <div class="news-meta">
+                    <span>📅 ${n.date}</span>
+                    <span>📰 来源：<span class="news-source">${n.source}</span></span>
+                </div>
+            </div>`;
+        });
+    }
+    container.innerHTML = html;
+}
+
+// ============ 筛选 ============
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.cat;
+        renderAll();
+    });
+});
+
+loadNews();
+</script>
+</body>
+</html>
