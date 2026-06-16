@@ -6,122 +6,140 @@
 <title>九万AI - 2026最全AI工具导航 | 国内国外 · 12大分类</title>
 <style>
 :root {
-    --bg: #000000; --card-bg: #0d0d0d; --card-hover: #1a1a1a;
-    --text: #e5e5e5; --text-secondary: #888888; --accent: #6c5ce7;
-    --accent-glow: rgba(108,92,231,0.25); --border: #1f1f1f; --tag-bg: #161616;
-    --gradient: linear-gradient(135deg,#6c5ce7,#a29bfe);
-    --free: #00b894; --paid: #fdcb6e; --vpn: #ff6b6b; --cn: #00b894;
+    --bg: #060606; --card-bg: #0e0d0b; --card-hover: #161412;
+    --text: #e6ddd0; --text-secondary: #8a8070; --accent: #c9a84c;
+    --accent-cyber: #00e5c0; --accent-glow: rgba(201,168,76,0.18);
+    --cyber-glow: rgba(0,229,192,0.15); --border: #1f1b14; --tag-bg: #12100c;
+    --gradient: linear-gradient(135deg,#c9a84c,#e8c547);
+    --cyber-gradient: linear-gradient(135deg,#00e5c0,#00b8a0);
+    --free: #00b894; --paid: #c9a84c; --vpn: #e85d5d; --cn: #00b894;
+    --ink: rgba(255,255,255,0.03);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei','Noto Serif SC',serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+
+/* Subtle background texture */
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,229,192,0.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
 
 /* Nav */
-.nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
+.nav{position:sticky;top:0;z-index:100;background:rgba(6,6,6,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
 .nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.nav-logo img{width:36px;height:36px;border-radius:8px;}
-.nav-logo img.nav-logo-main{width:36px;height:36px;border-radius:8px;margin-right:4px;}
-.nav-title-logo{height:22px;width:auto;border-radius:0!important;}
-.nav-logo-text{font-size:1.05rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-logo{display:flex;align-items:center;gap:0;text-decoration:none;}
+.nav-logo img.nav-logo-icon{width:36px;height:36px;border-radius:8px;}
 .nav-links{display:flex;gap:20px;align-items:center;}
-.nav-link{color:var(--text-secondary);text-decoration:none;font-size:.9rem;transition:color .2s;padding:6px 0;}
-.nav-link:hover,.nav-link.active{color:var(--text);}
-.nav-link.active{border-bottom:2px solid var(--accent);}
-.nav-badge{background:var(--accent);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:8px;margin-left:4px;}
+.nav-link{color:var(--text-secondary);text-decoration:none;font-size:.88rem;transition:color .2s;padding:6px 0;position:relative;}
+.nav-link:hover,.nav-link.active{color:var(--accent);}
+.nav-link.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gradient);border-radius:1px;}
+.nav-badge{background:var(--accent-cyber);color:#000;font-size:.62rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;}
 
 /* News Ticker */
-.news-ticker{background:#000;border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden;}
+.news-ticker{background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;overflow:hidden;position:relative;z-index:1;}
 .ticker-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:0 20px;}
-.ticker-label{flex-shrink:0;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:4px;white-space:nowrap;}
-.ticker-track{flex:1;overflow:hidden;position:relative;height:22px;}
+.ticker-label{flex-shrink:0;background:var(--cyber-gradient);color:#000;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:4px;white-space:nowrap;}
+.ticker-track{flex:1;overflow:hidden;position:relative;height:20px;}
 .ticker-list{display:flex;gap:0;position:absolute;animation:tickerScroll 60s linear infinite;}
-.ticker-item{display:flex;align-items:center;gap:8px;white-space:nowrap;padding-right:40px;font-size:.82rem;color:var(--text);}
+.ticker-item{display:flex;align-items:center;gap:8px;white-space:nowrap;padding-right:40px;font-size:.8rem;color:var(--text);}
 .ticker-item a{color:var(--text);text-decoration:none;transition:color .2s;}
-.ticker-item a:hover{color:var(--accent);}
-.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-.ticker-time{color:var(--text-secondary);font-size:.7rem;margin-right:4px;}
+.ticker-item a:hover{color:var(--accent-cyber);}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--accent-cyber);flex-shrink:0;box-shadow:0 0 6px var(--accent-cyber);}
 @keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .ticker-track:hover .ticker-list{animation-play-state:paused;}
-.header{background:#000;padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--border);}
-.header h1{font-size:2.5rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;}
-.header-title-logo{max-width:420px;width:70%;height:auto;margin-bottom:10px;}
-.header p{color:var(--text-secondary);font-size:1.05rem;max-width:600px;margin:0 auto 20px;}
-.stats-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:14px;}
-.stat-item{display:flex;align-items:center;gap:6px;background:var(--card-bg);border:1px solid var(--border);padding:6px 16px;border-radius:20px;font-size:.85rem;color:var(--text-secondary);}
-.stat-item span{color:var(--accent);font-weight:700;}
+
+/* Header */
+.header{background:var(--bg);padding:32px 20px 24px;text-align:center;border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.header-logo-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px;flex-wrap:wrap;}
+.header-logo-badge{width:64px;height:64px;border-radius:16px;filter:drop-shadow(0 0 16px rgba(201,168,76,0.3));}
+.header-title-logo{max-width:360px;width:60%;height:auto;filter:drop-shadow(0 0 12px rgba(255,255,255,0.08));}
+.header-divider{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:8px auto 12px;}
+.header p{color:var(--text-secondary);font-size:.92rem;max-width:600px;margin:0 auto 16px;}
+.stats-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;}
+.stat-item{display:flex;align-items:center;gap:6px;background:var(--card-bg);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:.8rem;color:var(--text-secondary);}
+.stat-item .stat-num{color:var(--accent);font-weight:700;}
+.stat-item .stat-cyber{color:var(--accent-cyber);font-weight:700;}
 .legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text-secondary);}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-secondary);}
 .legend-dot{width:10px;height:10px;border-radius:50%;}
-.legend-dot.vpn{background:var(--vpn);}
-.legend-dot.cn{background:var(--cn);}
+.legend-dot.vpn{background:var(--vpn);box-shadow:0 0 6px rgba(232,93,93,.4);}
+.legend-dot.cn{background:var(--cn);box-shadow:0 0 6px rgba(0,184,148,.4);}
 
 /* Controls */
-.controls{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;}
+.controls{position:sticky;top:56px;z-index:99;background:rgba(6,6,6,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 20px;}
 .controls-inner{max-width:1300px;margin:0 auto;}
-.controls-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
+.controls-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;}
 .controls-row:last-child{margin-bottom:0;}
 .search-box{flex:1;min-width:200px;position:relative;}
-.search-box input{width:100%;padding:10px 14px 10px 40px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;}
+.search-box input{width:100%;padding:10px 14px 10px 40px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.88rem;outline:none;transition:all .2s;}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
-.search-box .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-secondary);font-size:1rem;}
+.search-box .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-secondary);font-size:.95rem;}
 
 .region-tags,.filter-tags{display:flex;gap:6px;flex-wrap:wrap;}
-.region-tag,.filter-tag{padding:7px 14px;border-radius:18px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .2s;user-select:none;}
+.region-tag,.filter-tag{padding:6px 13px;border-radius:18px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.8rem;white-space:nowrap;transition:all .2s;user-select:none;}
 .region-tag:hover,.filter-tag:hover{border-color:var(--accent);color:var(--text);}
-.region-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.filter-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.region-tag.cn{border-color:rgba(0,184,148,.4);}
-.region-tag.cn.active{background:var(--cn);border-color:var(--cn);}
-.region-tag.intl{border-color:rgba(255,107,107,.4);}
-.region-tag.intl.active{background:var(--vpn);border-color:var(--vpn);}
+.region-tag.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:600;}
+.filter-tag.active{background:var(--accent-cyber);border-color:var(--accent-cyber);color:#000;font-weight:600;}
+.region-tag.cn{border-color:rgba(0,184,148,.3);}
+.region-tag.cn.active{background:var(--cn);border-color:var(--cn);color:#000;}
+.region-tag.intl{border-color:rgba(232,93,93,.3);}
+.region-tag.intl.active{background:var(--vpn);border-color:var(--vpn);color:#fff;}
 
 /* Main */
-.main{max-width:1300px;margin:0 auto;padding:28px 20px 60px;}
-.category-section{margin-bottom:40px;}
-.category-title{font-size:1.2rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.category-icon{font-size:1.4rem;}
+.main{max-width:1300px;margin:0 auto;padding:24px 20px 60px;position:relative;z-index:1;}
+.category-section{margin-bottom:36px;}
+.category-title{font-size:1.15rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--accent);letter-spacing:.5px;}
+.category-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.category-icon{font-size:1.3rem;filter:drop-shadow(0 0 4px var(--accent-glow));}
 .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;}
 
 /* Card */
-.tool-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s;cursor:pointer;}
-.tool-card:hover{border-color:var(--accent);background:var(--card-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(108,92,231,.12);}
-.tool-preview{width:100%;height:170px;background:#050505;overflow:hidden;position:relative;}
-.tool-preview img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.tool-card:hover .tool-preview img{transform:scale(1.05);}
-.preview-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d0d0d,#1a1a1a);color:var(--text-secondary);font-size:2.8rem;}
+.tool-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative;}
+.tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s;z-index:1;}
+.tool-card:hover{border-color:rgba(201,168,76,.3);background:var(--card-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.08);}
+.tool-card:hover::before{opacity:1;}
+.tool-preview{width:100%;height:180px;background:#040404;overflow:hidden;position:relative;}
+.tool-preview img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.tool-card:hover .tool-preview img{transform:scale(1.06);}
+.preview-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a0908,#11100e);position:relative;}
+.preview-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,.06) 0%,transparent 70%);}
+.preview-placeholder-icon{font-size:3.2rem;position:relative;z-index:1;filter:grayscale(.3);}
+.preview-placeholder-name{font-size:.75rem;color:var(--text-secondary);margin-top:6px;position:relative;z-index:1;letter-spacing:1px;}
 .preview-badges{position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:2;}
-.badge-vpn{background:rgba(255,107,107,.92);color:#fff;font-size:.68rem;padding:2px 8px;border-radius:5px;font-weight:600;}
-.badge-cn{background:rgba(0,184,148,.92);color:#fff;font-size:.68rem;padding:2px 8px;border-radius:5px;font-weight:600;}
-.badge-free,.badge-paid,.badge-freemium{font-size:.68rem;padding:2px 8px;border-radius:5px;font-weight:600;}
-.badge-free{background:rgba(0,184,148,.9);color:#fff;}
-.badge-paid{background:rgba(253,203,110,.9);color:#1a1a24;}
-.badge-freemium{background:rgba(108,92,231,.9);color:#fff;}
+.badge-vpn{background:rgba(232,93,93,.9);color:#fff;font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:600;}
+.badge-cn{background:rgba(0,184,148,.9);color:#000;font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:600;}
+.badge-free,.badge-paid,.badge-freemium{font-size:.65rem;padding:2px 8px;border-radius:4px;font-weight:600;}
+.badge-free{background:rgba(0,184,148,.9);color:#000;}
+.badge-paid{background:rgba(201,168,76,.9);color:#000;}
+.badge-freemium{background:rgba(0,229,192,.85);color:#000;}
 
-.tool-body{padding:16px 18px 18px;}
-.tool-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
-.tool-icon{width:38px;height:38px;border-radius:10px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.tool-name{font-size:1rem;font-weight:700;color:var(--text);}
-.tool-vendor{font-size:.75rem;color:var(--text-secondary);margin-bottom:5px;}
-.tool-desc{font-size:.82rem;color:var(--text-secondary);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.tool-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;}
-.tool-tag{font-size:.68rem;padding:2px 8px;background:var(--tag-bg);border-radius:5px;color:var(--text-secondary);}
-.tool-footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);}
-.tool-rating{display:flex;align-items:center;gap:3px;font-size:.78rem;color:var(--text-secondary);}
-.tool-rating .star{color:#fdcb6e;}
-.tool-link{padding:6px 14px;background:var(--gradient);color:#fff;border-radius:8px;text-decoration:none;font-size:.8rem;font-weight:600;transition:all .2s;}
-.tool-link:hover{transform:scale(1.05);box-shadow:0 4px 12px var(--accent-glow);}
+.tool-body{padding:16px 18px 16px;}
+.tool-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.tool-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(0,229,192,.1));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px solid rgba(201,168,76,.15);}
+.tool-name{font-size:.98rem;font-weight:700;color:var(--text);letter-spacing:.3px;}
+.tool-vendor{font-size:.72rem;color:var(--text-secondary);margin-bottom:4px;}
+.tool-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tool-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;}
+.tool-tag{font-size:.65rem;padding:2px 8px;background:var(--tag-bg);border-radius:4px;color:var(--text-secondary);border:1px solid var(--border);}
+.tool-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border);}
+.tool-rating{display:flex;align-items:center;gap:3px;font-size:.75rem;color:var(--text-secondary);}
+.tool-rating .star{color:var(--accent);}
+.tool-link{padding:5px 13px;background:var(--card-bg);color:var(--accent);border:1px solid rgba(201,168,76,.25);border-radius:6px;text-decoration:none;font-size:.78rem;font-weight:600;transition:all .2s;}
+.tool-link:hover{background:var(--accent);color:#000;box-shadow:0 0 12px var(--accent-glow);transform:scale(1.04);}
+
+/* Gallery dots for multi-preview cards */
+.preview-gallery{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2;}
+.preview-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s;}
+.preview-dot.active{background:var(--accent);box-shadow:0 0 6px var(--accent);}
 
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary);}
 .empty-state .icon{font-size:3rem;margin-bottom:14px;}
 
-.footer{text-align:center;padding:36px 20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.82rem;}
+.footer{text-align:center;padding:32px 20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.78rem;position:relative;z-index:1;}
 .footer a{color:var(--accent);text-decoration:none;}
 
 /* Modal */
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.88);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.active{display:flex;}
-.modal-content{max-width:90vw;max-height:85vh;border-radius:14px;overflow:hidden;position:relative;}
-.modal-content img{max-width:100%;max-height:85vh;object-fit:contain;}
+.modal-content{max-width:90vw;max-height:85vh;border-radius:12px;overflow:hidden;position:relative;}
+.modal-content img{max-width:100%;max-height:85vh;object-fit:contain;border-radius:12px;}
 .modal-close{position:absolute;top:8px;right:14px;color:#fff;font-size:1.4rem;cursor:pointer;background:rgba(0,0,0,.5);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:10;border:none;}
 .modal-close:hover{background:rgba(255,255,255,.2);}
 
@@ -131,9 +149,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .controls-inner{flex-direction:column;}
 .search-box{width:100%;}
 .filter-tags{justify-content:center;}
+.header-logo-badge{width:48px;height:48px;}
+.header-title-logo{max-width:280px;width:80%;}
 }
 
-::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 </style>
@@ -142,7 +162,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 <nav class="nav">
 <div class="nav-inner">
-<a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI"><img src="title-logo.png" alt="九萬AI" class="nav-title-logo"></a>
+<a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI" class="nav-logo-icon"></a>
 <div class="nav-links">
 <a href="index.html" class="nav-link active">工具导航</a>
 <a href="news.html" class="nav-link">AI 新闻<span class="nav-badge">NEW</span></a>
@@ -152,19 +172,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 <div class="news-ticker">
 <div class="ticker-inner">
-<span class="ticker-label">🔥 AI快讯</span>
+<span class="ticker-label">⚡ AI快讯</span>
 <div class="ticker-track"><div class="ticker-list" id="tickerList"></div></div>
 </div>
 </div>
 
 <header class="header">
+<div class="header-logo-row">
+<img src="logo.png" alt="九万AI" class="header-logo-badge">
 <img src="title-logo.png" alt="九萬AI" class="header-title-logo">
+</div>
+<div class="header-divider"></div>
 <p>精选 2026 年最值得关注的 AI 工具 · 覆盖 12 大分类 · 区分国内直连与需科学上网</p>
 <div class="stats-row">
-<div class="stat-item">📦 已收录 <span id="toolCount">0</span> 款工具</div>
-<div class="stat-item">🏷️ <span id="catCount">12</span> 个分类</div>
-<div class="stat-item">🇨🇳 国内直连 <span id="cnCount">0</span> 款</div>
-<div class="stat-item">🌍 需科学上网 <span id="intlCount">0</span> 款</div>
+<div class="stat-item">📦 已收录 <span class="stat-num" id="toolCount">0</span> 款工具</div>
+<div class="stat-item">🏷️ <span class="stat-cyber" id="catCount">12</span> 个分类</div>
+<div class="stat-item">🇨🇳 国内直连 <span class="stat-num" id="cnCount">0</span> 款</div>
+<div class="stat-item">🌍 需科学上网 <span class="stat-cyber" id="intlCount">0</span> 款</div>
 </div>
 <div class="legend">
 <div class="legend-item"><span class="legend-dot cn"></span> 国内直连</div>
@@ -225,109 +249,109 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 // ============ 工具数据库 ============
 const tools = [
     // ===== 大语言模型 =====
-    {id:1,name:"ChatGPT",vendor:"OpenAI",cat:"llm",desc:"全球用户量最大AI助手，GPT-5.4综合推理顶尖，支持多模态与插件生态。",icon:"🧠",tags:["多模态","插件","综合推理"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:true},
-    {id:2,name:"Claude",vendor:"Anthropic",cat:"llm",desc:"百万级超长上下文，长文本逻辑零断层，幻觉率全网最低，学术写作首选。",icon:"📜",tags:["长文本","学术","安全"],rating:9.4,price:"付费",pt:"paid",link:"https://claude.ai",vpn:true},
-    {id:3,name:"Gemini",vendor:"Google",cat:"llm",desc:"Google旗舰模型，深度集成Gmail/Docs/Sheets，支持实时搜索，免费版可用。",icon:"💎",tags:["多模态","Google生态","实时搜索"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://gemini.google.com",vpn:true},
-    {id:4,name:"DeepSeek",vendor:"深度求索",cat:"llm",desc:"国产开源大模型黑马，逻辑推理突出，免费额度充足，性价比极高。",icon:"🐋",tags:["开源","推理强","性价比"],rating:9.0,price:"免费",pt:"free",link:"https://chat.deepseek.com",vpn:false},
-    {id:5,name:"通义千问",vendor:"阿里巴巴",cat:"llm",desc:"中文理解天花板，本土化场景完美，电商/职场/公文优化到位，免费API额度。",icon:"☁️",tags:["中文优化","电商","多模态"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com",vpn:false},
-    {id:6,name:"Kimi",vendor:"月之暗面",cat:"llm",desc:"200万字超长上下文，擅长文档阅读分析和联网搜索，学术研究利器。",icon:"🌙",tags:["长文本","文档分析","联网"],rating:8.7,price:"免费",pt:"free",link:"https://kimi.moonshot.cn",vpn:false},
-    {id:7,name:"文心一言",vendor:"百度",cat:"llm",desc:"百度中文大模型，增强对话理解与知识问答，支持长文本生成和行业定制模型。",icon:"💬",tags:["中文优化","知识问答","行业定制"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://yiyan.baidu.com",vpn:false},
-    {id:8,name:"腾讯混元",vendor:"腾讯",cat:"llm",desc:"腾讯自研多模态大模型，支持文本、图像、视频生成，集成于腾讯云生态。",icon:"🐧",tags:["多模态","腾讯生态","API"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://hunyuan.tencent.com",vpn:false},
-    {id:9,name:"讯飞星火",vendor:"科大讯飞",cat:"llm",desc:"增强多语言翻译与逻辑推理，支持语音、图像输入，教育/医疗垂直场景强。",icon:"⭐",tags:["语音","教育","多语言"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://xinghuo.xfyun.cn",vpn:false},
-    {id:10,name:"智谱GLM",vendor:"智谱AI",cat:"llm",desc:"开源大模型，支持复杂任务分解与代码生成，ChatGLM系列可本地部署。",icon:"🔮",tags:["开源","代码","本地部署"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://chatglm.cn",vpn:false},
-    {id:11,name:"豆包",vendor:"字节跳动",cat:"llm",desc:"字节系AI助手，集成Seedance视频生成，聊天/写作/翻译/编程全能，免费。",icon:"🫘",tags:["免费","多模态","视频生成"],rating:8.3,price:"免费",pt:"free",link:"https://www.doubao.com",vpn:false},
-    {id:12,name:"Grok",vendor:"xAI",cat:"llm",desc:"马斯克旗下AI，实时数据交互能力强，Grok-3万亿参数对标GPT-4。",icon:"⚡",tags:["实时数据","超大参数","xAI"],rating:8.7,price:"付费",pt:"paid",link:"https://x.ai",vpn:true},
-    {id:13,name:"百川智能",vendor:"百川智能",cat:"llm",desc:"开源大模型系列，支持多语言交互与垂直微调，Baichuan-7B/13B轻量可部署。",icon:"🌊",tags:["开源","轻量化","微调"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.baichuan-ai.com",vpn:false},
+    {id:1,name:"ChatGPT",vendor:"OpenAI",cat:"llm",desc:"全球用户量最大AI助手，GPT-5.4综合推理顶尖，支持多模态与插件生态，DALL·E 3内置生图。代表作：自然对话、代码辅助、创意写作。",icon:"🧠",tags:["多模态","插件","综合推理"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:true},
+    {id:2,name:"Claude",vendor:"Anthropic",cat:"llm",desc:"百万级超长上下文，长文本逻辑零断层，幻觉率全网最低。代表作：学术论文分析、法律合同审查、代码库理解。",icon:"📜",tags:["长文本","学术","安全"],rating:9.4,price:"付费",pt:"paid",link:"https://claude.ai",vpn:true},
+    {id:3,name:"Gemini",vendor:"Google",cat:"llm",desc:"Google旗舰模型，深度集成Gmail/Docs/Sheets，实时搜索。代表作：数据分析可视化、多模态理解、实时信息整合。",icon:"💎",tags:["多模态","Google生态","实时搜索"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://gemini.google.com",vpn:true},
+    {id:4,name:"DeepSeek",vendor:"深度求索",cat:"llm",desc:"国产开源大模型黑马，逻辑推理突出，免费额度充足。代表作：数学推理、代码生成、长文写作。",icon:"🐋",tags:["开源","推理强","性价比"],rating:9.0,price:"免费",pt:"free",link:"https://chat.deepseek.com",vpn:false},
+    {id:5,name:"通义千问",vendor:"阿里巴巴",cat:"llm",desc:"中文理解天花板，电商/职场/公文优化到位。代表作：中文长文写作、电商文案、数据分析。",icon:"☁️",tags:["中文优化","电商","多模态"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com",vpn:false},
+    {id:6,name:"Kimi",vendor:"月之暗面",cat:"llm",desc:"200万字超长上下文，文档阅读分析利器。代表作：论文精读、财报分析、长篇小说理解。",icon:"🌙",tags:["长文本","文档分析","联网"],rating:8.7,price:"免费",pt:"free",link:"https://kimi.moonshot.cn",vpn:false},
+    {id:7,name:"文心一言",vendor:"百度",cat:"llm",desc:"百度中文大模型，知识问答与行业定制强。代表作：知识科普、行业报告、创意文案。",icon:"💬",tags:["中文优化","知识问答","行业定制"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://yiyan.baidu.com",vpn:false},
+    {id:8,name:"腾讯混元",vendor:"腾讯",cat:"llm",desc:"腾讯自研多模态大模型，集成于腾讯云生态。代表作：微信对话、企业知识库、图文理解。",icon:"🐧",tags:["多模态","腾讯生态","API"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://hunyuan.tencent.com",vpn:false},
+    {id:9,name:"讯飞星火",vendor:"科大讯飞",cat:"llm",desc:"多语言翻译与语音交互标杆。代表作：语音转文字、多语翻译、教育辅导。",icon:"⭐",tags:["语音","教育","多语言"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://xinghuo.xfyun.cn",vpn:false},
+    {id:10,name:"智谱GLM",vendor:"智谱AI",cat:"llm",desc:"开源大模型，ChatGLM系列可本地部署。代表作：企业私有化部署、代码辅助、学术研究。",icon:"🔮",tags:["开源","代码","本地部署"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://chatglm.cn",vpn:false},
+    {id:11,name:"豆包",vendor:"字节跳动",cat:"llm",desc:"字节系AI助手，集成Seedance视频生成，免费全能。代表作：日常对话、视频生成、翻译编程。",icon:"🫘",tags:["免费","多模态","视频生成"],rating:8.3,price:"免费",pt:"free",link:"https://www.doubao.com",vpn:false},
+    {id:12,name:"Grok",vendor:"xAI",cat:"llm",desc:"马斯克旗下AI，Grok-3万亿参数。代表作：实时数据分析、X平台集成、科学计算。",icon:"⚡",tags:["实时数据","超大参数","xAI"],rating:8.7,price:"付费",pt:"paid",link:"https://x.ai",vpn:true},
+    {id:13,name:"百川智能",vendor:"百川智能",cat:"llm",desc:"开源大模型系列，Baichuan-7B/13B轻量可部署。代表作：轻量部署、垂直领域微调、多语言对话。",icon:"🌊",tags:["开源","轻量化","微调"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.baichuan-ai.com",vpn:false},
 
     // ===== 图片生成 =====
-    {id:20,name:"Midjourney V7",vendor:"Midjourney Inc.",cat:"image",desc:"AI图像审美天花板，光影质感极强，概念艺术和品牌视觉首选。",icon:"🎨",tags:["审美顶尖","概念艺术","品牌"],rating:9.2,price:"付费",pt:"paid",link:"https://midjourney.com",vpn:true,preview:"https://s.coze.cn/image/qY8CSl5ntuk/"},
-    {id:21,name:"Flux Pro",vendor:"Black Forest Labs",cat:"image",desc:"文字渲染最精准，解决AI写中文痛点，开源生态好，海报设计神器。",icon:"🖼️",tags:["文字渲染","开源","海报"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://blackforestlabs.ai",vpn:true},
-    {id:22,name:"Stable Diffusion 3.5",vendor:"Stability AI",cat:"image",desc:"完全开源，可本地部署，ControlNet精确控制构图姿态，社区生态最丰富。",icon:"🎯",tags:["开源","本地部署","精确控制"],rating:8.8,price:"免费",pt:"free",link:"https://stability.ai",vpn:true,preview:"https://s.coze.cn/image/9D9lUp2dWNE/"},
-    {id:23,name:"DALL·E 3",vendor:"OpenAI",cat:"image",desc:"ChatGPT内置图像生成，提示词理解强，与GPT生态无缝衔接。",icon:"✨",tags:["ChatGPT集成","易用","提示词友好"],rating:8.5,price:"付费",pt:"paid",link:"https://openai.com/dall-e-3",vpn:true},
-    {id:24,name:"Adobe Firefly",vendor:"Adobe",cat:"image",desc:"Adobe官方AI图像工具，深度集成PS/AI，商用版权安全有保障。",icon:"🔥",tags:["Adobe生态","商用安全","设计集成"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://firefly.adobe.com",vpn:true},
-    {id:25,name:"Leonardo.AI",vendor:"Leonardo",cat:"image",desc:"游戏素材生成与3D模型渲染，每日赠送积分，支持NFT铸造。",icon:"🎮",tags:["游戏素材","3D渲染","积分制"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://leonardo.ai",vpn:true},
-    {id:26,name:"通义万相",vendor:"阿里巴巴",cat:"image",desc:"阿里系图像生成，中文提示词理解强，电商场景优化，免费额度足。",icon:"🖌️",tags:["中文优化","电商","免费"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com/wanxiang",vpn:false},
-    {id:27,name:"文心一格",vendor:"百度",cat:"image",desc:"百度AI艺术和创意辅助平台，支持多种风格，中文语义理解好。",icon:"🎪",tags:["中文语义","多风格","百度生态"],rating:8.0,price:"免费+付费",pt:"freemium",link:"https://yige.baidu.com",vpn:false},
+    {id:20,name:"Midjourney V7",vendor:"Midjourney Inc.",cat:"image",desc:"AI图像审美天花板，光影质感极强。代表作：概念艺术、品牌视觉、电影概念图。",icon:"🎨",tags:["审美顶尖","概念艺术","品牌"],rating:9.2,price:"付费",pt:"paid",link:"https://midjourney.com",vpn:true,preview:"https://s.coze.cn/image/qY8CSl5ntuk/"},
+    {id:21,name:"Flux Pro",vendor:"Black Forest Labs",cat:"image",desc:"文字渲染最精准，解决AI写中文痛点。代表作：海报设计、Logo生成、UI插图。",icon:"🖼️",tags:["文字渲染","开源","海报"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://blackforestlabs.ai",vpn:true},
+    {id:22,name:"Stable Diffusion 3.5",vendor:"Stability AI",cat:"image",desc:"完全开源，ControlNet精确控制构图。代表作：角色设计、场景概念、风格迁移。",icon:"🎯",tags:["开源","本地部署","精确控制"],rating:8.8,price:"免费",pt:"free",link:"https://stability.ai",vpn:true,preview:"https://s.coze.cn/image/9D9lUp2dWNE/"},
+    {id:23,name:"DALL·E 3",vendor:"OpenAI",cat:"image",desc:"ChatGPT内置生图，提示词理解强。代表作：创意插画、产品概念、社交媒体配图。",icon:"✨",tags:["ChatGPT集成","易用","提示词友好"],rating:8.5,price:"付费",pt:"paid",link:"https://openai.com/dall-e-3",vpn:true},
+    {id:24,name:"Adobe Firefly",vendor:"Adobe",cat:"image",desc:"Adobe官方AI工具，商用版权安全。代表作：电商设计、品牌视觉、PS/AI集成创作。",icon:"🔥",tags:["Adobe生态","商用安全","设计集成"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://firefly.adobe.com",vpn:true},
+    {id:25,name:"Leonardo.AI",vendor:"Leonardo",cat:"image",desc:"游戏素材生成与3D模型渲染，每日赠送积分。代表作：游戏角色、场景资产、NFT艺术。",icon:"🎮",tags:["游戏素材","3D渲染","积分制"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://leonardo.ai",vpn:true},
+    {id:26,name:"通义万相",vendor:"阿里巴巴",cat:"image",desc:"阿里系图像生成，中文提示词理解强。代表作：电商产品图、中文海报、短视频封面。",icon:"🖌️",tags:["中文优化","电商","免费"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com/wanxiang",vpn:false},
+    {id:27,name:"文心一格",vendor:"百度",cat:"image",desc:"百度AI艺术创作平台，中文语义理解好。代表作：国风插画、艺术创作、创意设计。",icon:"🎪",tags:["中文语义","多风格","百度生态"],rating:8.0,price:"免费+付费",pt:"freemium",link:"https://yige.baidu.com",vpn:false},
 
     // ===== 视频生成 =====
-    {id:30,name:"Sora 2",vendor:"OpenAI",cat:"video",desc:"物理真实度全网第一，支持10分钟视频，影视级概念片制作标杆。",icon:"🎬",tags:["影视级","10分钟","物理真实"],rating:9.3,price:"邀请制",pt:"paid",link:"https://sora.com",vpn:true,preview:"https://s.coze.cn/image/QmyyfxV7Ijw/"},
-    {id:31,name:"可灵 Kling 3.0",vendor:"快手",cat:"video",desc:"国产视频生成天花板，中文适配完美，长视频稳定性强，性价比极高。",icon:"🎥",tags:["国产最强","长视频","中文优化"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://klingai.com",vpn:false,preview:"https://s.coze.cn/image/3DAgE8-ZMdo/"},
-    {id:32,name:"Runway Gen-4.5",vendor:"Runway",cat:"video",desc:"视频编辑功能最全，画面拓展、风格迁移、局部修改，后期制作利器。",icon:"✂️",tags:["视频编辑","风格迁移","后期"],rating:8.9,price:"付费",pt:"paid",link:"https://runwayml.com",vpn:true},
-    {id:33,name:"Seedance 2.0",vendor:"字节跳动",cat:"video",desc:"已接入豆包免费使用，文字生成30秒高质量视频，零门槛上手。",icon:"🌱",tags:["免费","豆包集成","易上手"],rating:8.7,price:"免费",pt:"free",link:"https://www.doubao.com",vpn:false},
-    {id:34,name:"Pika Labs 3.0",vendor:"Pika",cat:"video",desc:"动画风格顶尖，2D/3D动画效果极佳，出片快，社交媒体创意短视频首选。",icon:"⚡",tags:["动画","创意短视频","快速出片"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://pika.art",vpn:true},
-    {id:35,name:"即梦 AI",vendor:"字节跳动",cat:"video",desc:"一站式文生图+视频，支持30s+视频生成，操作简单适合新手。",icon:"💭",tags:["一站式","文生视频","新手友好"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://jimeng.jianying.com",vpn:false},
-    {id:36,name:"Luma AI",vendor:"Luma",cat:"video",desc:"AI生成3D场景和电影级视觉，真实光照与运动模拟，创意专业人士首选。",icon:"📸",tags:["3D场景","电影级","创意"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lumalabs.ai",vpn:true},
-    {id:37,name:"Veo 3",vendor:"Google",cat:"video",desc:"原生音画同步，自动匹配BGM和人声解说，产品演示视频神器。",icon:"🎞️",tags:["音画同步","产品演示","Google"],rating:8.8,price:"付费",pt:"paid",link:"https://deepmind.google/technologies/veo/",vpn:true},
-    {id:38,name:"OpusClip",vendor:"OpusClip",cat:"video",desc:"AI自动剪辑长视频为短视频，智能字幕和爆款评分，播客/直播创作者必备。",icon:"📱",tags:["自动剪辑","短视频","字幕"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://opusclip.com",vpn:true},
+    {id:30,name:"Sora 2",vendor:"OpenAI",cat:"video",desc:"物理真实度全网第一，支持10分钟视频。代表作：影视概念片、产品广告、创意短片。",icon:"🎬",tags:["影视级","10分钟","物理真实"],rating:9.3,price:"邀请制",pt:"paid",link:"https://sora.com",vpn:true,preview:"https://s.coze.cn/image/QmyyfxV7Ijw/"},
+    {id:31,name:"可灵 Kling 3.0",vendor:"快手",cat:"video",desc:"国产视频生成天花板，中文适配完美。代表作：短视频创作、广告素材、影视特效。",icon:"🎥",tags:["国产最强","长视频","中文优化"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://klingai.com",vpn:false,preview:"https://s.coze.cn/image/3DAgE8-ZMdo/"},
+    {id:32,name:"Runway Gen-4.5",vendor:"Runway",cat:"video",desc:"视频编辑功能最全，风格迁移、局部修改。代表作：MV特效、广告后期、绿幕抠图。",icon:"✂️",tags:["视频编辑","风格迁移","后期"],rating:8.9,price:"付费",pt:"paid",link:"https://runwayml.com",vpn:true},
+    {id:33,name:"Seedance 2.0",vendor:"字节跳动",cat:"video",desc:"已接入豆包免费使用，零门槛上手。代表作：抖音短视频、产品展示、创意动画。",icon:"🌱",tags:["免费","豆包集成","易上手"],rating:8.7,price:"免费",pt:"free",link:"https://www.doubao.com",vpn:false},
+    {id:34,name:"Pika Labs 3.0",vendor:"Pika",cat:"video",desc:"动画风格顶尖，2D/3D动画效果极佳。代表作：动漫短片、社交媒体视频、创意广告。",icon:"⚡",tags:["动画","创意短视频","快速出片"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://pika.art",vpn:true},
+    {id:35,name:"即梦 AI",vendor:"字节跳动",cat:"video",desc:"一站式文生图+视频，操作简单。代表作：AI绘画转视频、创意短片、节日祝福。",icon:"💭",tags:["一站式","文生视频","新手友好"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://jimeng.jianying.com",vpn:false},
+    {id:36,name:"Luma AI",vendor:"Luma",cat:"video",desc:"AI生成3D场景和电影级视觉。代表作：3D场景漫游、电影感短片、产品3D展示。",icon:"📸",tags:["3D场景","电影级","创意"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lumalabs.ai",vpn:true},
+    {id:37,name:"Veo 3",vendor:"Google",cat:"video",desc:"原生音画同步，自动匹配BGM。代表作：产品演示视频、品牌宣传片、教育培训视频。",icon:"🎞️",tags:["音画同步","产品演示","Google"],rating:8.8,price:"付费",pt:"paid",link:"https://deepmind.google/technologies/veo/",vpn:true},
+    {id:38,name:"OpusClip",vendor:"OpusClip",cat:"video",desc:"AI自动剪辑长视频为短视频。代表作：播客剪辑、直播切片、社媒短视频。",icon:"📱",tags:["自动剪辑","短视频","字幕"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://opusclip.com",vpn:true},
 
     // ===== 音频音乐 =====
-    {id:40,name:"ElevenLabs",vendor:"ElevenLabs",cat:"audio",desc:"最逼真AI语音合成，支持29种语言，可克隆任意声音，播客/有声书神器。",icon:"🎙️",tags:["语音合成","声音克隆","29语言"],rating:9.3,price:"免费+付费",pt:"freemium",link:"https://elevenlabs.io",vpn:true},
-    {id:41,name:"Suno V4",vendor:"Suno",cat:"audio",desc:"AI音乐生成器，文字描述即可创作原创歌曲和BGM，音乐创作门槛降至零。",icon:"🎵",tags:["音乐生成","原创BGM","文字转音乐"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://suno.com",vpn:true},
-    {id:42,name:"Whisper",vendor:"OpenAI",cat:"audio",desc:"开源语音转文字，支持99种语言，可本地运行，准确率接近人工水平。",icon:"👂",tags:["语音转文字","开源","99语言"],rating:9.1,price:"免费",pt:"free",link:"https://openai.com/whisper",vpn:true},
-    {id:43,name:"网易天音",vendor:"网易",cat:"audio",desc:"网易AI音乐创作平台，一键生成编曲伴奏，适合短视频BGM和原创音乐。",icon:"🎶",tags:["编曲","BGM","短视频"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://tianyin.music.163.com",vpn:false},
-    {id:44,name:"TME Studio",vendor:"腾讯音乐",cat:"audio",desc:"腾讯音乐AI工具，支持音轨分离、智能混音，QQ音乐生态集成。",icon:"🎧",tags:["音轨分离","混音","QQ音乐"],rating:8.0,price:"免费",pt:"free",link:"https://y.qq.com/tme_studio",vpn:false},
-    {id:45,name:"马克配音",vendor:"TTSMaker",cat:"audio",desc:"免费文字转语音工具，支持多种音色和语速调节，短视频配音利器。",icon:"🗣️",tags:["文字转语音","多音色","免费"],rating:8.1,price:"免费",pt:"free",link:"https://ttsmaker.cn",vpn:false},
+    {id:40,name:"ElevenLabs",vendor:"ElevenLabs",cat:"audio",desc:"最逼真AI语音合成，可克隆任意声音。代表作：有声书配音、播客制作、多语配音。",icon:"🎙️",tags:["语音合成","声音克隆","29语言"],rating:9.3,price:"免费+付费",pt:"freemium",link:"https://elevenlabs.io",vpn:true},
+    {id:41,name:"Suno V4",vendor:"Suno",cat:"audio",desc:"文字描述即可创作原创歌曲。代表作：原创歌曲、BGM配乐、广告音乐。",icon:"🎵",tags:["音乐生成","原创BGM","文字转音乐"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://suno.com",vpn:true},
+    {id:42,name:"Whisper",vendor:"OpenAI",cat:"audio",desc:"开源语音转文字，99种语言准确率极高。代表作：会议记录、字幕生成、访谈转录。",icon:"👂",tags:["语音转文字","开源","99语言"],rating:9.1,price:"免费",pt:"free",link:"https://openai.com/whisper",vpn:true},
+    {id:43,name:"网易天音",vendor:"网易",cat:"audio",desc:"网易AI音乐创作平台。代表作：短视频BGM、原创编曲、音乐创作辅助。",icon:"🎶",tags:["编曲","BGM","短视频"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://tianyin.music.163.com",vpn:false},
+    {id:44,name:"TME Studio",vendor:"腾讯音乐",cat:"audio",desc:"腾讯音乐AI工具，音轨分离+智能混音。代表作：伴奏提取、混音制作、音乐编辑。",icon:"🎧",tags:["音轨分离","混音","QQ音乐"],rating:8.0,price:"免费",pt:"free",link:"https://y.qq.com/tme_studio",vpn:false},
+    {id:45,name:"马克配音",vendor:"TTSMaker",cat:"audio",desc:"免费文字转语音，多音色语速调节。代表作：短视频配音、有声内容、产品解说。",icon:"🗣️",tags:["文字转语音","多音色","免费"],rating:8.1,price:"免费",pt:"free",link:"https://ttsmaker.cn",vpn:false},
 
     // ===== 编程开发 =====
-    {id:50,name:"GitHub Copilot",vendor:"GitHub(Microsoft)",cat:"code",desc:"最广泛使用的AI编程助手，实时代码补全，支持40+语言和所有主流IDE。",icon:"🤖",tags:["代码补全","40+语言","IDE集成"],rating:9.0,price:"付费",pt:"paid",link:"https://github.com/features/copilot",vpn:true},
-    {id:51,name:"Cursor",vendor:"Anysphere",cat:"code",desc:"VS Code重构版，AI可读取整个代码库并进行大规模修改，编程效率飞跃。",icon:"🖱️",tags:["AI编辑器","代码库理解","VS Code"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://cursor.sh",vpn:false},
-    {id:52,name:"Windsurf",vendor:"Codeium",cat:"code",desc:"Agentic IDE，Cascade引擎理解整个代码库并执行多文件修改。",icon:"🌊",tags:["Agent IDE","多文件修改","智能"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://codeium.com/windsurf",vpn:false},
-    {id:53,name:"Trae",vendor:"字节跳动",cat:"code",desc:"中文开发者免费AI IDE，集成代码补全和对话，对国内用户极其友好。",icon:"🚀",tags:["免费IDE","中文友好","字节出品"],rating:8.5,price:"免费",pt:"free",link:"https://www.trae.ai",vpn:false},
-    {id:54,name:"aiXcoder",vendor:"aiXcoder",cat:"code",desc:"基于深度学习的智能编程机器人，代码生成补全翻译重构全能。",icon:"💡",tags:["代码生成","深度学习","国产"],rating:8.0,price:"免费+付费",pt:"freemium",link:"https://www.aixcoder.com",vpn:false},
-    {id:55,name:"Bolt.new",vendor:"StackBlitz",cat:"code",desc:"云端一体化Vibe Coding平台，浏览器内即可完成全栈开发与部署。",icon:"⚡",tags:["云端开发","全栈","浏览器"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://bolt.new",vpn:true},
-    {id:56,name:"商汤代码小浣熊",vendor:"商汤科技",cat:"code",desc:"商汤AI代码助手，覆盖代码生成补全翻译重构等场景。",icon:"🦝",tags:["代码助手","商汤","国产"],rating:7.9,price:"免费+付费",pt:"freemium",link:"https://raccoon.sensetime.com",vpn:false},
+    {id:50,name:"GitHub Copilot",vendor:"GitHub(Microsoft)",cat:"code",desc:"最广泛使用的AI编程助手，支持40+语言。代表作：实时代码补全、函数生成、Bug修复。",icon:"🤖",tags:["代码补全","40+语言","IDE集成"],rating:9.0,price:"付费",pt:"paid",link:"https://github.com/features/copilot",vpn:true},
+    {id:51,name:"Cursor",vendor:"Anysphere",cat:"code",desc:"VS Code重构版，AI可读取整个代码库。代表作：全栈开发、代码重构、项目搭建。",icon:"🖱️",tags:["AI编辑器","代码库理解","VS Code"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://cursor.sh",vpn:false},
+    {id:52,name:"Windsurf",vendor:"Codeium",cat:"code",desc:"Agentic IDE，Cascade引擎多文件修改。代表作：大型项目重构、自动化开发、团队协作。",icon:"🌊",tags:["Agent IDE","多文件修改","智能"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://codeium.com/windsurf",vpn:false},
+    {id:53,name:"Trae",vendor:"字节跳动",cat:"code",desc:"中文开发者免费AI IDE，国内极其友好。代表作：小程序开发、Web应用、中文编程。",icon:"🚀",tags:["免费IDE","中文友好","字节出品"],rating:8.5,price:"免费",pt:"free",link:"https://www.trae.ai",vpn:false},
+    {id:54,name:"aiXcoder",vendor:"aiXcoder",cat:"code",desc:"基于深度学习的智能编程机器人。代表作：代码生成、补全、翻译、重构。",icon:"💡",tags:["代码生成","深度学习","国产"],rating:8.0,price:"免费+付费",pt:"freemium",link:"https://www.aixcoder.com",vpn:false},
+    {id:55,name:"Bolt.new",vendor:"StackBlitz",cat:"code",desc:"浏览器内全栈开发与部署。代表作：Web应用搭建、原型开发、快速部署。",icon:"⚡",tags:["云端开发","全栈","浏览器"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://bolt.new",vpn:true},
+    {id:56,name:"商汤代码小浣熊",vendor:"商汤科技",cat:"code",desc:"商汤AI代码助手，覆盖多场景。代表作：代码审查、智能补全、项目重构。",icon:"🦝",tags:["代码助手","商汤","国产"],rating:7.9,price:"免费+付费",pt:"freemium",link:"https://raccoon.sensetime.com",vpn:false},
 
     // ===== 设计创作 =====
-    {id:60,name:"Canva AI",vendor:"Canva",cat:"design",desc:"1.7亿用户设计平台，Magic Design一句话生成完整设计，社交素材神器。",icon:"🎭",tags:["设计平台","模板丰富","社交素材"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://canva.com",vpn:false,preview:"https://s.coze.cn/image/GCzT4VWii-M/"},
-    {id:61,name:"Gamma",vendor:"Gamma",cat:"design",desc:"AI驱动演示文稿和网页生成，一句话生成精美PPT和落地页。",icon:"📊",tags:["PPT生成","网页生成","一句话创建"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://gamma.app",vpn:true},
-    {id:62,name:"Framer AI",vendor:"Framer",cat:"design",desc:"AI驱动网站建设，输入描述即可生成专业级响应式网页。",icon:"🏗️",tags:["网站建设","AI生成","响应式"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://framer.com",vpn:true},
-    {id:63,name:"稿定AI",vendor:"稿定设计",cat:"design",desc:"国产在线设计平台，AI抠图/海报生成/电商模板，中文场景优化。",icon:"🎯",tags:["电商模板","AI抠图","海报"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.gaoding.com",vpn:false},
+    {id:60,name:"Canva AI",vendor:"Canva",cat:"design",desc:"1.7亿用户设计平台，一句话生成完整设计。代表作：社交媒体素材、海报、演示文稿。",icon:"🎭",tags:["设计平台","模板丰富","社交素材"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://canva.com",vpn:false,preview:"https://s.coze.cn/image/GCzT4VWii-M/"},
+    {id:61,name:"Gamma",vendor:"Gamma",cat:"design",desc:"AI驱动PPT和网页生成。代表作：精美演示文稿、落地页、商业提案。",icon:"📊",tags:["PPT生成","网页生成","一句话创建"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://gamma.app",vpn:true},
+    {id:62,name:"Framer AI",vendor:"Framer",cat:"design",desc:"AI驱动网站建设，专业级响应式网页。代表作：企业官网、产品落地页、个人作品集。",icon:"🏗️",tags:["网站建设","AI生成","响应式"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://framer.com",vpn:true},
+    {id:63,name:"稿定AI",vendor:"稿定设计",cat:"design",desc:"国产在线设计平台，中文场景优化。代表作：电商模板、AI抠图、营销海报。",icon:"🎯",tags:["电商模板","AI抠图","海报"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.gaoding.com",vpn:false},
 
     // ===== 办公效率 =====
-    {id:70,name:"Notion AI",vendor:"Notion",cat:"productivity",desc:"AI增强知识管理和项目管理，自动摘要、生成待办、回答工作区问题。",icon:"📝",tags:["知识管理","项目管理","AI笔记"],rating:9.0,price:"付费",pt:"paid",link:"https://notion.so",vpn:true},
-    {id:71,name:"Jasper",vendor:"Jasper",cat:"productivity",desc:"AI营销内容平台，保持品牌声音一致性，批量生成营销文案和广告素材。",icon:"📢",tags:["营销文案","品牌声音","批量生成"],rating:8.5,price:"付费",pt:"paid",link:"https://jasper.ai",vpn:true},
-    {id:72,name:"Descript",vendor:"Descript",cat:"productivity",desc:"创新视频/播客编辑器，编辑文字即可编辑音视频，AI去除填充词。",icon:"🎧",tags:["视频编辑","播客","文字编辑"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://descript.com",vpn:true},
-    {id:73,name:"剪映 AI",vendor:"字节跳动",cat:"productivity",desc:"国内最流行视频剪辑工具，AI智能剪辑、自动字幕、AI配音一站式完成。",icon:"✂️",tags:["视频剪辑","自动字幕","AI配音"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://jianying.com",vpn:false},
-    {id:74,name:"Otter.ai",vendor:"Otter.ai",cat:"productivity",desc:"语音转文字与会议记录神器，每月300分钟免费录音，自动生成摘要。",icon:"🎤",tags:["语音转文字","会议记录","摘要"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://otter.ai",vpn:true},
-    {id:75,name:"Tome",vendor:"Tome",cat:"productivity",desc:"AI演示文稿生成，输入主题即可产出完整PPT，适合快速提案。",icon:"📑",tags:["PPT生成","快速提案","模板"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://tome.app",vpn:true},
+    {id:70,name:"Notion AI",vendor:"Notion",cat:"productivity",desc:"AI增强知识管理和项目管理。代表作：自动摘要、智能待办、知识库问答。",icon:"📝",tags:["知识管理","项目管理","AI笔记"],rating:9.0,price:"付费",pt:"paid",link:"https://notion.so",vpn:true},
+    {id:71,name:"Jasper",vendor:"Jasper",cat:"productivity",desc:"AI营销内容平台，保持品牌声音一致。代表作：营销文案、广告素材、社媒内容。",icon:"📢",tags:["营销文案","品牌声音","批量生成"],rating:8.5,price:"付费",pt:"paid",link:"https://jasper.ai",vpn:true},
+    {id:72,name:"Descript",vendor:"Descript",cat:"productivity",desc:"编辑文字即可编辑音视频。代表作：播客制作、视频剪辑、字幕生成。",icon:"🎧",tags:["视频编辑","播客","文字编辑"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://descript.com",vpn:true},
+    {id:73,name:"剪映 AI",vendor:"字节跳动",cat:"productivity",desc:"国内最流行视频剪辑，AI一站式完成。代表作：短视频创作、自动字幕、AI配音。",icon:"✂️",tags:["视频剪辑","自动字幕","AI配音"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://jianying.com",vpn:false},
+    {id:74,name:"Otter.ai",vendor:"Otter.ai",cat:"productivity",desc:"语音转文字与会议记录神器。代表作：会议纪要、访谈记录、课堂笔记。",icon:"🎤",tags:["语音转文字","会议记录","摘要"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://otter.ai",vpn:true},
+    {id:75,name:"Tome",vendor:"Tome",cat:"productivity",desc:"AI演示文稿生成，快速提案。代表作：商业提案、产品介绍、项目汇报。",icon:"📑",tags:["PPT生成","快速提案","模板"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://tome.app",vpn:true},
 
     // ===== 数字人 =====
-    {id:80,name:"HeyGen",vendor:"HeyGen",cat:"avatar",desc:"超写实数字人视频生成，唇同步精准，多语言实时翻译，企业培训首选。",icon:"👤",tags:["超写实","唇同步","多语言"],rating:9.1,price:"付费",pt:"paid",link:"https://heygen.com",vpn:true},
-    {id:81,name:"Synthesia",vendor:"Synthesia",cat:"avatar",desc:"企业级数字人平台，140+形象库，120+语言，适合培训与内部沟通。",icon:"🎬",tags:["企业级","多形象","120语言"],rating:8.9,price:"付费",pt:"paid",link:"https://synthesia.io",vpn:true},
-    {id:82,name:"腾讯智影",vendor:"腾讯",cat:"avatar",desc:"一站式智能视频创作，数十款数字人形象，集成DeepSeek，支持微信生态。",icon:"🎞️",tags:["数字人","DeepSeek","微信生态"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://zenvideo.qq.com",vpn:false},
-    {id:83,name:"商汤如影",vendor:"商汤科技",cat:"avatar",desc:"3D数字人逼真度高，面部动态与微表情高度还原，支持个性化学习。",icon:"🎭",tags:["3D数字人","微表情","个性化"],rating:8.5,price:"付费",pt:"paid",link:"https://senseavatar.sensetime.com",vpn:false},
-    {id:84,name:"D-ID",vendor:"D-ID",cat:"avatar",desc:"实时交互式数字人，可接入LLM进行自然对话，适合在线客服和虚拟主持。",icon:"🤖",tags:["实时交互","LLM集成","客服"],rating:8.7,price:"付费",pt:"paid",link:"https://d-id.com",vpn:true},
-    {id:85,name:"讯飞智作",vendor:"科大讯飞",cat:"avatar",desc:"讯飞AI音视频创作，声音克隆保真度高，支持方言与外语，教育/营销场景强。",icon:"🎙️",tags:["声音克隆","方言","教育"],rating:8.4,price:"付费",pt:"paid",link:"https://peiyin.xunfei.cn",vpn:false},
-    {id:86,name:"硅基智能",vendor:"硅基智能",cat:"avatar",desc:"电商直播数字人专家，支持2D真人克隆与3D虚拟人，15秒即可生成分身。",icon:"🛒",tags:["电商直播","真人克隆","低价"],rating:8.3,price:"付费",pt:"paid",link:"https://www.guiji.ai",vpn:false},
-    {id:87,name:"万兴播爆",vendor:"万兴科技",cat:"avatar",desc:"数字人营销视频制作，真人形象数字人快速生成，出海营销利器。",icon:"📺",tags:["营销视频","出海","快速生成"],rating:8.1,price:"付费",pt:"paid",link:"https://virbo.wondershare.cn",vpn:false},
+    {id:80,name:"HeyGen",vendor:"HeyGen",cat:"avatar",desc:"超写实数字人视频生成，唇同步精准。代表作：企业培训视频、多语营销、虚拟主播。",icon:"👤",tags:["超写实","唇同步","多语言"],rating:9.1,price:"付费",pt:"paid",link:"https://heygen.com",vpn:true},
+    {id:81,name:"Synthesia",vendor:"Synthesia",cat:"avatar",desc:"企业级数字人平台，140+形象库。代表作：企业培训、内部沟通、产品演示。",icon:"🎬",tags:["企业级","多形象","120语言"],rating:8.9,price:"付费",pt:"paid",link:"https://synthesia.io",vpn:true},
+    {id:82,name:"腾讯智影",vendor:"腾讯",cat:"avatar",desc:"一站式智能视频创作，集成DeepSeek。代表作：数字人播报、视频创作、微信生态。",icon:"🎞️",tags:["数字人","DeepSeek","微信生态"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://zenvideo.qq.com",vpn:false},
+    {id:83,name:"商汤如影",vendor:"商汤科技",cat:"avatar",desc:"3D数字人逼真度高，微表情还原。代表作：虚拟偶像、品牌代言、直播互动。",icon:"🎭",tags:["3D数字人","微表情","个性化"],rating:8.5,price:"付费",pt:"paid",link:"https://senseavatar.sensetime.com",vpn:false},
+    {id:84,name:"D-ID",vendor:"D-ID",cat:"avatar",desc:"实时交互式数字人，可接入LLM对话。代表作：在线客服、虚拟主持、教育培训。",icon:"🤖",tags:["实时交互","LLM集成","客服"],rating:8.7,price:"付费",pt:"paid",link:"https://d-id.com",vpn:true},
+    {id:85,name:"讯飞智作",vendor:"科大讯飞",cat:"avatar",desc:"声音克隆保真度高，支持方言外语。代表作：有声内容、教育配音、营销音频。",icon:"🎙️",tags:["声音克隆","方言","教育"],rating:8.4,price:"付费",pt:"paid",link:"https://peiyin.xunfei.cn",vpn:false},
+    {id:86,name:"硅基智能",vendor:"硅基智能",cat:"avatar",desc:"电商直播数字人专家，15秒生成分身。代表作：直播带货、品牌宣传、短视频营销。",icon:"🛒",tags:["电商直播","真人克隆","低价"],rating:8.3,price:"付费",pt:"paid",link:"https://www.guiji.ai",vpn:false},
+    {id:87,name:"万兴播爆",vendor:"万兴科技",cat:"avatar",desc:"数字人营销视频，出海营销利器。代表作：出海广告、产品推广、社媒视频。",icon:"📺",tags:["营销视频","出海","快速生成"],rating:8.1,price:"付费",pt:"paid",link:"https://virbo.wondershare.cn",vpn:false},
 
     // ===== AI搜索 =====
-    {id:90,name:"Perplexity AI",vendor:"Perplexity",cat:"search",desc:"AI搜索引擎，每个回答附带来源链接，适合研究、事实核查、市场调研。",icon:"🔎",tags:["搜索","溯源","研究"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://perplexity.ai",vpn:true},
-    {id:91,name:"秘塔AI搜索",vendor:"秘塔科技",cat:"search",desc:"国产AI搜索引擎，支持深度研究模式，自动整理信息生成结构化报告。",icon:"🔍",tags:["深度研究","结构化","国产"],rating:8.8,price:"免费",pt:"free",link:"https://metaso.cn",vpn:false},
-    {id:92,name:"天工AI搜索",vendor:"昆仑万维",cat:"search",desc:"国内AI搜索先行者，支持多轮追问和深度分析，结果可溯源。",icon:"🌐",tags:["多轮追问","深度分析","溯源"],rating:8.5,price:"免费",pt:"free",link:"https://www.tiangong.cn",vpn:false},
-    {id:93,name:"纳米搜索",vendor:"360",cat:"search",desc:"360旗下AI搜索，集成大模型能力，支持多模态搜索和智能摘要。",icon:"🔬",tags:["多模态搜索","智能摘要","360"],rating:8.2,price:"免费",pt:"free",link:"https://www.n.cn",vpn:false},
+    {id:90,name:"Perplexity AI",vendor:"Perplexity",cat:"search",desc:"AI搜索引擎，每个回答附来源链接。代表作：学术研究、事实核查、市场调研。",icon:"🔎",tags:["搜索","溯源","研究"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://perplexity.ai",vpn:true},
+    {id:91,name:"秘塔AI搜索",vendor:"秘塔科技",cat:"search",desc:"国产AI搜索，自动生成结构化报告。代表作：深度研究、行业分析、知识整理。",icon:"🔍",tags:["深度研究","结构化","国产"],rating:8.8,price:"免费",pt:"free",link:"https://metaso.cn",vpn:false},
+    {id:92,name:"天工AI搜索",vendor:"昆仑万维",cat:"search",desc:"国内AI搜索先行者，多轮追问。代表作：深度分析、溯源搜索、知识问答。",icon:"🌐",tags:["多轮追问","深度分析","溯源"],rating:8.5,price:"免费",pt:"free",link:"https://www.tiangong.cn",vpn:false},
+    {id:93,name:"纳米搜索",vendor:"360",cat:"search",desc:"360旗下AI搜索，多模态搜索。代表作：智能摘要、图文搜索、知识整合。",icon:"🔬",tags:["多模态搜索","智能摘要","360"],rating:8.2,price:"免费",pt:"free",link:"https://www.n.cn",vpn:false},
 
     // ===== 教育学习 =====
-    {id:100,name:"Duolingo Max",vendor:"Duolingo",cat:"edu",desc:"AI语言学习，GPT-4驱动Explain My Answer和Roleplay功能，沉浸式学外语。",icon:"🦉",tags:["语言学习","GPT-4","沉浸式"],rating:8.9,price:"付费",pt:"paid",link:"https://duolingo.com",vpn:true},
-    {id:101,name:"Photomath",vendor:"Google",cat:"edu",desc:"拍照解数学题，从算术到高等微积分，分步解析，学习理解而非抄答案。",icon:"📸",tags:["数学","拍照解题","分步解析"],rating:8.7,price:"免费",pt:"free",link:"https://photomath.com",vpn:true},
-    {id:102,name:"Wolfram Alpha",vendor:"Wolfram",cat:"edu",desc:"计算知识引擎黄金标准，数学/物理/化学/工程精准计算，STEM学生必备。",icon:"🧮",tags:["数学计算","STEM","精准"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://wolframalpha.com",vpn:true},
-    {id:103,name:"Elicit",vendor:"Elicit",cat:"edu",desc:"学术论文AI研究助手，自动搜索论文、提取关键发现、生成文献综述。",icon:"📖",tags:["学术论文","文献综述","研究"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://elicit.com",vpn:true},
-    {id:104,name:"Consensus",vendor:"Consensus",cat:"edu",desc:"循证AI搜索引擎，综合学术研究结论，用共识度指示器展示科学结论。",icon:"✅",tags:["循证","学术共识","科研"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://consensus.app",vpn:true},
-    {id:105,name:"Grammarly",vendor:"Grammarly",cat:"edu",desc:"AI写作助手，语法检查+风格优化+查重，学术写作润色必备。",icon:"✍️",tags:["语法检查","风格优化","查重"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://grammarly.com",vpn:true},
-    {id:106,name:"作业帮AI",vendor:"作业帮",cat:"edu",desc:"国内K12学习神器，AI拍照搜题+知识点讲解，覆盖全学科。",icon:"📚",tags:["K12","拍照搜题","全学科"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.zybang.com",vpn:false},
+    {id:100,name:"Duolingo Max",vendor:"Duolingo",cat:"edu",desc:"GPT-4驱动沉浸式外语学习。代表作：情景对话、语法讲解、角色扮演。",icon:"🦉",tags:["语言学习","GPT-4","沉浸式"],rating:8.9,price:"付费",pt:"paid",link:"https://duolingo.com",vpn:true},
+    {id:101,name:"Photomath",vendor:"Google",cat:"edu",desc:"拍照解数学题，分步解析理解。代表作：算术到微积分、分步讲解、图形可视化。",icon:"📸",tags:["数学","拍照解题","分步解析"],rating:8.7,price:"免费",pt:"free",link:"https://photomath.com",vpn:true},
+    {id:102,name:"Wolfram Alpha",vendor:"Wolfram",cat:"edu",desc:"计算知识引擎黄金标准。代表作：数学计算、物理模拟、化学分析。",icon:"🧮",tags:["数学计算","STEM","精准"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://wolframalpha.com",vpn:true},
+    {id:103,name:"Elicit",vendor:"Elicit",cat:"edu",desc:"学术论文AI研究助手。代表作：文献搜索、关键发现提取、文献综述生成。",icon:"📖",tags:["学术论文","文献综述","研究"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://elicit.com",vpn:true},
+    {id:104,name:"Consensus",vendor:"Consensus",cat:"edu",desc:"循证AI搜索引擎，展示科学结论。代表作：学术共识查询、研究对比、证据评估。",icon:"✅",tags:["循证","学术共识","科研"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://consensus.app",vpn:true},
+    {id:105,name:"Grammarly",vendor:"Grammarly",cat:"edu",desc:"AI写作助手，语法+风格+查重。代表作：学术润色、商务写作、英文优化。",icon:"✍️",tags:["语法检查","风格优化","查重"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://grammarly.com",vpn:true},
+    {id:106,name:"作业帮AI",vendor:"作业帮",cat:"edu",desc:"国内K12学习神器，全学科覆盖。代表作：拍照搜题、知识点讲解、练习辅导。",icon:"📚",tags:["K12","拍照搜题","全学科"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.zybang.com",vpn:false},
 
     // ===== Agent/自动化 =====
-    {id:110,name:"扣子 Coze",vendor:"字节跳动",cat:"agent",desc:"零代码AI Bot搭建平台，支持多模型、插件、知识库，可发布到飞书/微信。",icon:"🤖",tags:["零代码","Bot搭建","多渠道"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://www.coze.cn",vpn:false},
-    {id:111,name:"n8n",vendor:"n8n",cat:"agent",desc:"开源AI自动化工作流，可视化编排，自托管部署，技术团队首选Zapier替代。",icon:"🔄",tags:["开源","可视化","自托管"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://n8n.io",vpn:true},
-    {id:112,name:"Make",vendor:"Make(原Integromat)",cat:"agent",desc:"强大可视化自动化平台，连接数千应用，比Zapier更灵活的可视化编排。",icon:"🔗",tags:["可视化","千应用连接","自动化"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://make.com",vpn:true},
-    {id:113,name:"火山方舟",vendor:"字节跳动",cat:"agent",desc:"模型训练推理评测一站式平台，提供DeepSeek等热门模型API。",icon:"🌋",tags:["模型平台","API","训练推理"],rating:8.5,price:"付费",pt:"paid",link:"https://www.volcengine.com",vpn:false},
-    {id:114,name:"魔搭社区",vendor:"阿里巴巴",cat:"agent",desc:"阿里达摩院开源模型平台，超千个预训练模型，一键部署在线体验。",icon:"🧩",tags:["开源模型","一键部署","达摩院"],rating:8.6,price:"免费",pt:"free",link:"https://modelscope.cn",vpn:false},
+    {id:110,name:"扣子 Coze",vendor:"字节跳动",cat:"agent",desc:"零代码AI Bot搭建平台。代表作：智能客服、知识库问答、多渠道Bot。",icon:"🤖",tags:["零代码","Bot搭建","多渠道"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://www.coze.cn",vpn:false},
+    {id:111,name:"n8n",vendor:"n8n",cat:"agent",desc:"开源AI自动化工作流，可视化编排。代表作：数据同步、API集成、自动化流程。",icon:"🔄",tags:["开源","可视化","自托管"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://n8n.io",vpn:true},
+    {id:112,name:"Make",vendor:"Make(原Integromat)",cat:"agent",desc:"可视化自动化平台，千应用连接。代表作：跨平台自动化、数据流转、业务集成。",icon:"🔗",tags:["可视化","千应用连接","自动化"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://make.com",vpn:true},
+    {id:113,name:"火山方舟",vendor:"字节跳动",cat:"agent",desc:"模型训练推理一站式平台。代表作：模型API调用、训练微调、推理部署。",icon:"🌋",tags:["模型平台","API","训练推理"],rating:8.5,price:"付费",pt:"paid",link:"https://www.volcengine.com",vpn:false},
+    {id:114,name:"魔搭社区",vendor:"阿里巴巴",cat:"agent",desc:"阿里达摩院开源模型平台。代表作：模型体验、一键部署、开源社区。",icon:"🧩",tags:["开源模型","一键部署","达摩院"],rating:8.6,price:"免费",pt:"free",link:"https://modelscope.cn",vpn:false},
 
     // ===== 3D生成 =====
-    {id:120,name:"Meshy",vendor:"Meshy",cat:"3d",desc:"AI 3D模型生成，文字/图片转3D，自动绑定骨骼，游戏开发利器。",icon:"🧊",tags:["文字转3D","自动绑定","游戏"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://meshy.ai",vpn:true},
-    {id:121,name:"3D AI Studio",vendor:"3D AI Studio",cat:"3d",desc:"文字/图片生成3D角色，支持绑定和FBX/GLB导出，VRChat/VTuber神器。",icon:"🎮",tags:["3D角色","VRChat","VTuber"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://3daistudio.com",vpn:true},
-    {id:122,name:"Tripo AI",vendor:"Tripo",cat:"3d",desc:"AI快速生成高质量3D模型，支持文字/图片输入，PBR材质自动生成。",icon:"🔷",tags:["快速建模","PBR材质","AI生成"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.tripo3d.ai",vpn:true},
-    {id:123,name:"万彩AI",vendor:"万彩信息",cat:"3d",desc:"国产AI写作和短视频创作平台，支持3D动画演示制作。",icon:"🌈",tags:["3D动画","短视频","国产"],rating:7.9,price:"免费+付费",pt:"freemium",link:"https://ai.kezhan365.com",vpn:false},
+    {id:120,name:"Meshy",vendor:"Meshy",cat:"3d",desc:"AI 3D模型生成，文字/图片转3D。代表作：游戏资产、3D角色、场景建模。",icon:"🧊",tags:["文字转3D","自动绑定","游戏"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://meshy.ai",vpn:true},
+    {id:121,name:"3D AI Studio",vendor:"3D AI Studio",cat:"3d",desc:"文字/图片生成3D角色。代表作：VRChat形象、VTuber模型、游戏角色。",icon:"🎮",tags:["3D角色","VRChat","VTuber"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://3daistudio.com",vpn:true},
+    {id:122,name:"Tripo AI",vendor:"Tripo",cat:"3d",desc:"AI快速生成高质量3D模型。代表作：PBR材质模型、产品3D、建筑可视化。",icon:"🔷",tags:["快速建模","PBR材质","AI生成"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.tripo3d.ai",vpn:true},
+    {id:123,name:"万彩AI",vendor:"万彩信息",cat:"3d",desc:"国产AI写作和短视频创作平台。代表作：3D动画演示、短视频、微课制作。",icon:"🌈",tags:["3D动画","短视频","国产"],rating:7.9,price:"免费+付费",pt:"freemium",link:"https://ai.kezhan365.com",vpn:false},
 ];
 
 // ============ 渲染引擎 ============
@@ -382,17 +406,22 @@ function getPriceBadge(pt){
 }
 function getStars(r){
     let s='',f=Math.floor(r/2),h=r%2>=.5?1:0;
-    for(let i=0;i<f;i++)s+='<span class="star">⭐</span>';
-    if(h)s+='<span class="star">✨</span>';
+    for(let i=0;i<f;i++)s+='<span class="star">◆</span>';
+    if(h)s+='<span class="star">◇</span>';
     return s;
 }
 
 function renderCard(t){
-    const preview=t.preview?`<img src="${t.preview}" alt="${t.name}" loading="lazy" onclick="event.stopPropagation();openPreview('${t.preview}')">`:`<div class="preview-placeholder">${t.icon}</div>`;
     const vpnBadge=t.vpn?'<span class="badge-vpn">🔒 需科学上网</span>':'<span class="badge-cn">🇨🇳 国内直连</span>';
+    let previewHTML;
+    if(t.preview){
+        previewHTML=`<img src="${t.preview}" alt="${t.name}" loading="lazy" onclick="event.stopPropagation();openPreview('${t.preview}')">`;
+    }else{
+        previewHTML=`<div class="preview-placeholder"><span class="preview-placeholder-icon">${t.icon}</span><span class="preview-placeholder-name">${t.name}</span></div>`;
+    }
     return`
     <div class="tool-card" onclick="window.open('${t.link}','_blank')">
-        <div class="tool-preview">${preview}<div class="preview-badges">${vpnBadge}${getPriceBadge(t.pt)}</div></div>
+        <div class="tool-preview">${previewHTML}<div class="preview-badges">${vpnBadge}${getPriceBadge(t.pt)}</div></div>
         <div class="tool-body">
             <div class="tool-card-header"><div class="tool-icon">${t.icon}</div></div>
             <div class="tool-name">${t.name}</div>

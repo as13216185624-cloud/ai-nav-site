@@ -6,50 +6,52 @@
 <title>AI 新闻 - 九万AI | 全球AI资讯每日更新</title>
 <style>
 :root {
-    --bg: #000000; --card-bg: #0d0d0d; --card-hover: #1a1a1a;
-    --text: #e5e5e5; --text-secondary: #888888; --accent: #6c5ce7;
-    --accent-glow: rgba(108,92,231,0.25); --border: #1f1f1f; --tag-bg: #161616;
-    --gradient: linear-gradient(135deg,#6c5ce7,#a29bfe);
-    --vpn: #ff6b6b; --cn: #00b894; --highlight: #fdcb6e;
+    --bg: #060606; --card-bg: #0e0d0b; --card-hover: #161412;
+    --text: #e6ddd0; --text-secondary: #8a8070; --accent: #c9a84c;
+    --accent-cyber: #00e5c0; --accent-glow: rgba(201,168,76,0.18);
+    --cyber-glow: rgba(0,229,192,0.15); --border: #1f1b14; --tag-bg: #12100c;
+    --gradient: linear-gradient(135deg,#c9a84c,#e8c547);
+    --vpn: #e85d5d; --cn: #00b894; --highlight: #c9a84c;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei','Noto Serif SC',serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,229,192,0.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
 
 /* Nav */
-.nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
+.nav{position:sticky;top:0;z-index:100;background:rgba(6,6,6,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.nav-logo img{width:36px;height:36px;border-radius:8px;}
-.nav-title-logo{height:22px;width:auto;border-radius:0!important;}
-.nav-logo-text{font-size:1.05rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-logo{display:flex;align-items:center;gap:0;text-decoration:none;}
+.nav-logo img.nav-logo-icon{width:36px;height:36px;border-radius:8px;}
 .nav-links{display:flex;gap:20px;align-items:center;}
-.nav-link{color:var(--text-secondary);text-decoration:none;font-size:.9rem;transition:color .2s;padding:6px 0;}
-.nav-link:hover,.nav-link.active{color:var(--text);}
-.nav-link.active{border-bottom:2px solid var(--accent);}
-.nav-badge{background:var(--accent);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:8px;margin-left:4px;}
+.nav-link{color:var(--text-secondary);text-decoration:none;font-size:.88rem;transition:color .2s;padding:6px 0;position:relative;}
+.nav-link:hover,.nav-link.active{color:var(--accent);}
+.nav-link.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gradient);border-radius:1px;}
+.nav-badge{background:var(--accent-cyber);color:#000;font-size:.62rem;padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700;}
 
 /* Header */
-.header{background:#000;padding:40px 20px 32px;text-align:center;border-bottom:1px solid var(--border);}
-.header h1{font-size:2rem;font-weight:800;margin-bottom:8px;}
+.header{background:var(--bg);padding:36px 20px 28px;text-align:center;border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.header h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;color:var(--accent);}
 .header h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.header p{color:var(--text-secondary);font-size:.95rem;}
-.stats-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:16px;}
-.stat-item{display:flex;align-items:center;gap:6px;background:var(--card-bg);border:1px solid var(--border);padding:6px 16px;border-radius:20px;font-size:.82rem;color:var(--text-secondary);}
+.header p{color:var(--text-secondary);font-size:.9rem;}
+.stats-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:14px;}
+.stat-item{display:flex;align-items:center;gap:6px;background:var(--card-bg);border:1px solid var(--border);padding:5px 14px;border-radius:20px;font-size:.8rem;color:var(--text-secondary);}
 .stat-item span{color:var(--accent);font-weight:700;}
 
 /* Filters */
 .filters{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;gap:10px;flex-wrap:wrap;}
-.filter-btn{padding:7px 16px;border-radius:18px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .2s;user-select:none;}
+.filter-btn{padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.8rem;white-space:nowrap;transition:all .2s;user-select:none;}
 .filter-btn:hover{border-color:var(--accent);color:var(--text);}
-.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.filter-btn.active{background:var(--accent-cyber);border-color:var(--accent-cyber);color:#000;font-weight:600;}
 
 /* News List */
 .main{max-width:900px;margin:0 auto;padding:8px 20px 60px;}
 .news-date-divider{display:flex;align-items:center;gap:12px;margin:24px 0 16px;color:var(--text-secondary);font-size:.85rem;font-weight:600;}
 .news-date-divider::after{content:'';flex:1;height:1px;background:var(--border);}
 
-.news-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:12px;transition:all .3s;cursor:pointer;}
-.news-card:hover{border-color:var(--accent);background:var(--card-hover);transform:translateX(4px);}
+.news-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:10px;transition:all .3s;cursor:pointer;position:relative;}
+.news-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s;}
+.news-card:hover{border-color:rgba(201,168,76,.25);background:var(--card-hover);transform:translateX(4px);}
+.news-card:hover::before{opacity:1;}
 .news-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:10px;}
 .news-title{font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.5;flex:1;}
 .news-badges{display:flex;gap:5px;flex-shrink:0;}
@@ -86,7 +88,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 <nav class="nav">
 <div class="nav-inner">
-<a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI"><img src="title-logo.png" alt="九萬AI" class="nav-title-logo"></a>
+<a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI" class="nav-logo-icon"></a>
 <div class="nav-links">
 <a href="index.html" class="nav-link">工具导航</a>
 <a href="news.html" class="nav-link active">AI 新闻<span class="nav-badge">NEW</span></a>
