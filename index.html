@@ -7,7 +7,23 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="shortcut icon" href="favicon.ico">
 <title>九万AI - 2026最全AI工具导航 | 国内国外 · 12大分类</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
+/* Lucide icon base */
+.lucide{width:1em;height:1em;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;vertical-align:-.125em;}
+.lucide-stat{width:1.1em;height:1.1em;color:var(--accent);}
+.lucide-stat-cn{color:var(--cn);}
+.lucide-stat-intl{color:var(--accent-cyber);}
+.lucide-search{width:1em;height:1em;color:var(--text-secondary);}
+.lucide-tag{width:.95em;height:.95em;color:currentColor;margin-right:2px;}
+.lucide-cat{width:1.3em;height:1.3em;color:var(--accent);filter:drop-shadow(0 0 4px var(--accent-glow));}
+.lucide-placeholder{width:3.2rem;height:3.2rem;color:var(--text-secondary);opacity:.5;}
+.lucide-tool{width:1rem;height:1rem;color:var(--accent);}
+.lucide-star{width:.75em;height:.75em;color:var(--accent);fill:var(--accent);}
+.lucide-star-half{width:.75em;height:.75em;color:var(--accent);}
+.lucide-ticker{width:.85em;height:.85em;color:var(--accent-cyber);}
+.lucide-badge-vpn{width:.65em;height:.65em;color:#fff;}
+.lucide-badge-cn{width:.65em;height:.65em;color:#000;}
 :root {
     --bg: #060606; --card-bg: #0e0d0b; --card-hover: #161412;
     --text: #e6ddd0; --text-secondary: #8a8070; --accent: #c9a84c;
@@ -268,15 +284,15 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="controls-inner">
 <div class="controls-row">
 <div class="search-box">
-<span class="search-icon">🔍</span>
+<span class="search-icon"><i data-lucide="search" class="lucide-search"></i></span>
 <input type="text" id="searchInput" placeholder="搜索工具名称、厂商、功能或标签...">
 </div>
 </div>
 <div class="controls-row" style="justify-content:space-between;">
 <div class="region-tags" id="regionTags">
-<span class="region-tag active" data-region="all">🌐 全部</span>
-<span class="region-tag cn" data-region="cn">🇨🇳 国内</span>
-<span class="region-tag intl" data-region="intl">🌍 国外</span>
+<span class="region-tag active" data-region="all"><i data-lucide="layers" class="lucide-tag"></i> 全部</span>
+<span class="region-tag cn" data-region="cn"><i data-lucide="map-pin" class="lucide-tag"></i> 国内</span>
+<span class="region-tag intl" data-region="intl"><i data-lucide="globe" class="lucide-tag"></i> 国外</span>
 </div>
 </div>
 <div class="controls-row">
@@ -450,18 +466,18 @@ async function loadTicker(){
 loadTicker();
 
 const catMap={
-    llm:{name:'💬 大语言模型',icon:'💬'},
-    image:{name:'🎨 图片生成',icon:'🎨'},
-    video:{name:'🎬 视频生成',icon:'🎬'},
-    audio:{name:'🎵 音频音乐',icon:'🎵'},
-    code:{name:'💻 编程开发',icon:'💻'},
-    design:{name:'✏️ 设计创作',icon:'✏️'},
-    productivity:{name:'📋 办公效率',icon:'📋'},
-    avatar:{name:'🎭 数字人/虚拟人',icon:'🎭'},
-    search:{name:'🔍 AI搜索',icon:'🔍'},
-    edu:{name:'📚 教育学习',icon:'📚'},
-    agent:{name:'🧩 Agent/自动化',icon:'🧩'},
-    '3d':{name:'🏗️ 3D生成',icon:'🏗️'},
+    llm:{name:'大语言模型',icon:'message-circle'},
+    image:{name:'图片生成',icon:'image'},
+    video:{name:'视频生成',icon:'film'},
+    audio:{name:'音频音乐',icon:'music'},
+    code:{name:'编程开发',icon:'code'},
+    design:{name:'设计创作',icon:'pen-tool'},
+    productivity:{name:'办公效率',icon:'briefcase'},
+    avatar:{name:'数字人/虚拟人',icon:'user'},
+    search:{name:'AI搜索',icon:'search'},
+    edu:{name:'教育学习',icon:'graduation-cap'},
+    agent:{name:'Agent/自动化',icon:'bot'},
+    '3d':{name:'3D生成',icon:'box'},
 };
 
 function getPriceBadge(pt){
@@ -474,31 +490,32 @@ function getPriceBadge(pt){
 }
 function getStars(r){
     let s='',f=Math.floor(r/2),h=r%2>=.5?1:0;
-    for(let i=0;i<f;i++)s+='<span class="star">◆</span>';
-    if(h)s+='<span class="star">◇</span>';
+    for(let i=0;i<f;i++)s+='<i data-lucide="star" class="lucide-star"></i>';
+    if(h)s+='<i data-lucide="star-half" class="lucide-star-half"></i>';
     return s;
 }
 
 function renderCard(t){
-    const vpnBadge=t.vpn?'<span class="badge-vpn">🔒 需科学上网</span>':'<span class="badge-cn">🇨🇳 国内直连</span>';
+    const catIcon={'llm':'message-circle','image':'image','video':'film','audio':'music','code':'code','design':'pen-tool','productivity':'briefcase','avatar':'user','search':'search','edu':'graduation-cap','agent':'bot','3d':'box'}[t.cat]||'sparkles';
+    const vpnBadge=t.vpn?'<span class="badge-vpn"><i data-lucide="shield-alert" class="lucide-badge-vpn"></i> 需科学上网</span>':'<span class="badge-cn"><i data-lucide="shield-check" class="lucide-badge-cn"></i> 国内直连</span>';
     let previewHTML;
     if(t.preview){
         previewHTML=`<img src="${t.preview}" alt="${t.name}" loading="lazy" onclick="event.stopPropagation();openPreview('${t.preview}')">`;
     }else{
-        previewHTML=`<div class="preview-placeholder"><span class="preview-placeholder-icon">${t.icon}</span><span class="preview-placeholder-name">${t.name}</span></div>`;
+        previewHTML=`<div class="preview-placeholder"><i data-lucide="${catIcon}" class="lucide-placeholder"></i><span class="preview-placeholder-name">${t.name}</span></div>`;
     }
     return`
     <div class="tool-card" onclick="window.open('${t.link}','_blank')">
         <div class="tool-preview">${previewHTML}<div class="preview-badges">${vpnBadge}${getPriceBadge(t.pt)}</div></div>
         <div class="tool-body">
-            <div class="tool-card-header"><div class="tool-icon">${t.icon}</div></div>
+            <div class="tool-card-header"><div class="tool-icon"><i data-lucide="${catIcon}" class="lucide-tool"></i></div></div>
             <div class="tool-name">${t.name}</div>
             <div class="tool-vendor">${t.vendor}</div>
             <div class="tool-desc">${t.desc}</div>
             <div class="tool-tags">${t.tags.map(tg=>`<span class="tool-tag">${tg}</span>`).join('')}</div>
             <div class="tool-footer">
                 <div class="tool-rating">${getStars(t.rating)}<span>${t.rating}/10</span></div>
-                <a href="${t.link}" target="_blank" class="tool-link" onclick="event.stopPropagation()">访问 →</a>
+                <a href="${t.link}" target="_blank" class="tool-link" onclick="event.stopPropagation()">访问 <i data-lucide="arrow-right" style="width:.75em;height:.75em;vertical-align:-.1em;"></i></a>
             </div>
         </div>
     </div>`;
@@ -526,7 +543,7 @@ function renderAll(){
         let h='';
         for(const[c,cts]of Object.entries(g)){
             const info=catMap[c];
-            h+=`<section class="category-section"><h2 class="category-title"><span class="category-icon">${info.icon}</span>${info.name}<span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;margin-left:4px;">(${cts.length})</span></h2><div class="tools-grid">${cts.map(renderCard).join('')}</div></section>`;
+            h+=`<section class="category-section"><h2 class="category-title"><i data-lucide="${info.icon}" class="lucide-cat"></i>${info.name}<span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;margin-left:4px;">(${cts.length})</span></h2><div class="tools-grid">${cts.map(renderCard).join('')}</div></section>`;
         }
         container.innerHTML=h;
     }else{
@@ -539,11 +556,13 @@ function openPreview(url){document.getElementById('modalImage').src=url;document
 function closeModal(){document.getElementById('previewModal').classList.remove('active');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-searchInput.addEventListener('input',e=>{searchQuery=e.target.value.trim();renderAll();});
-regionTags.forEach(t=>{t.addEventListener('click',()=>{regionTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');activeRegion=t.dataset.region;renderAll();});});
-filterTags.forEach(t=>{t.addEventListener('click',()=>{filterTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');activeCategory=t.dataset.category;renderAll();});});
+searchInput.addEventListener('input',e=>{searchQuery=e.target.value.trim();renderAll();lucide.createIcons();});
+regionTags.forEach(t=>{t.addEventListener('click',()=>{regionTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');activeRegion=t.dataset.region;renderAll();lucide.createIcons();});});
+filterTags.forEach(t=>{t.addEventListener('click',()=>{filterTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');activeCategory=t.dataset.category;renderAll();lucide.createIcons();});});
 
 renderAll();
+// Initialize Lucide icons after render
+lucide.createIcons();
 </script>
 </body>
 </html>

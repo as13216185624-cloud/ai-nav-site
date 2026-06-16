@@ -7,7 +7,13 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="shortcut icon" href="favicon.ico">
 <title>在线工具 - 九万AI</title>
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
+/* Lucide icon base */
+.lucide{width:1em;height:1em;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;vertical-align:-.125em;}
+.lucide-upload{width:2.6rem;height:2.6rem;color:var(--text-secondary);opacity:.5;}
+.lucide-btn{width:.9em;height:.9em;vertical-align:-.15em;}
+.lucide-tab{width:.95em;height:.95em;vertical-align:-.15em;}
 :root {
     --bg: #060606; --card-bg: #0e0d0b; --card-hover: #161412;
     --text: #e6ddd0; --text-secondary: #8a8070; --accent: #c9a84c;
@@ -119,10 +125,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 <main class="main">
 
 <div class="tool-tabs">
-<button class="tool-tab active" data-tool="bgremove">🎭 一键抠图</button>
-<button class="tool-tab" data-tool="compress">📦 文件瘦身</button>
-<button class="tool-tab" data-tool="watermark">🧹 去水印</button>
-<button class="tool-tab" data-tool="upscale">🔍 增加像素</button>
+<button class="tool-tab active" data-tool="bgremove"><i data-lucide="scissors" class="lucide-tab"></i> 一键抠图</button>
+<button class="tool-tab" data-tool="compress"><i data-lucide="file-archive" class="lucide-tab"></i> 文件瘦身</button>
+<button class="tool-tab" data-tool="watermark"><i data-lucide="eraser" class="lucide-tab"></i> 去水印</button>
+<button class="tool-tab" data-tool="upscale"><i data-lucide="zoom-in" class="lucide-tab"></i> 增加像素</button>
 </div>
 
 <!-- ============ 一键抠图 ============ -->
@@ -130,7 +136,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 <h2>🎭 一键抠图</h2>
 <p class="sub">智能识别主体自动去背景。适合产品图、人像等主体与背景色差明显的图片。调整灵敏度可获得更好效果。</p>
 <div class="upload-zone" id="bg-zone">
-<span class="icon">📷</span><div class="text">点击或拖拽上传图片</div><div class="hint">JPG / PNG / WebP，建议 ≤10MB</div>
+<span class="icon"><i data-lucide="image" class="lucide-upload"></i></span><div class="text">点击或拖拽上传图片</div><div class="hint">JPG / PNG / WebP，建议 ≤10MB</div>
 <input type="file" accept="image/*" id="bg-input">
 </div>
 <div class="preview-area" id="bg-preview">
@@ -169,10 +175,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 <!-- ============ 去水印 ============ -->
 <div class="tool-panel" id="panel-watermark">
-<h2>🧹 去水印</h2>
+<h2><i data-lucide="eraser" class="lucide-tab"></i> 去水印</h2>
 <p class="sub">用画笔涂抹水印位置，智能填充去除。涂抹范围稍大于水印效果更好。</p>
 <div class="upload-zone" id="wm-zone">
-<span class="icon">🖌️</span><div class="text">点击或拖拽上传图片</div><div class="hint">水印越简单效果越好</div>
+<span class="icon"><i data-lucide="paintbrush" class="lucide-upload"></i></span><div class="text">点击或拖拽上传图片</div><div class="hint">水印越简单效果越好</div>
 <input type="file" accept="image/*" id="wm-input">
 </div>
 <div class="preview-area" id="wm-preview">
@@ -197,10 +203,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 
 <!-- ============ 增加像素 ============ -->
 <div class="tool-panel" id="panel-upscale">
-<h2>🔍 增加像素</h2>
+<h2><i data-lucide="zoom-in" class="lucide-tab"></i> 增加像素</h2>
 <p class="sub">放大低分辨率图片，增强边缘锐度与局部对比度，让放大后更清晰。</p>
 <div class="upload-zone" id="up-zone">
-<span class="icon">🔎</span><div class="text">点击或拖拽上传低分辨率图片</div><div class="hint">PNG / JPG，原始尺寸越小效果越明显</div>
+<span class="icon"><i data-lucide="maximize" class="lucide-upload"></i></span><div class="text">点击或拖拽上传低分辨率图片</div><div class="hint">PNG / JPG，原始尺寸越小效果越明显</div>
 <input type="file" accept="image/*" id="up-input">
 </div>
 <div class="preview-area" id="up-preview">
@@ -234,6 +240,7 @@ document.querySelectorAll('.tool-tab').forEach(t=>{
     t.classList.add('active');document.getElementById('panel-'+t.dataset.tool).classList.add('active');
   };
 });
+lucide.createIcons();
 
 /* ==== Helpers ==== */
 function setupDrop(zoneId,inputId,cb){
@@ -666,7 +673,7 @@ document.getElementById('wm-process').onclick=async()=>{
   for(let i=0;i<d.length;i++)d[i]=blur[i];
 
   ctx.putImageData(id,0,0);prog.textContent='✅ 去水印完成';
-  document.getElementById('wm-download').disabled=false;btn.disabled=false;btn.textContent='✨ 去除水印';
+  document.getElementById('wm-download').disabled=false;btn.disabled=false;btn.textContent='去除水印';
 };
 
 document.getElementById('wm-download').onclick=async()=>{download(await toBlob(document.getElementById('wm-result'),'image/png'),'去水印.png');};
