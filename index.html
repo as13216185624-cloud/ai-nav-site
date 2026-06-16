@@ -163,6 +163,72 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </head>
 <body>
 
+<!-- ========== 开场动画 ========== -->
+<div id="introOverlay" style="position:fixed;inset:0;z-index:9999;background:#060606;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .8s ease;">
+  <canvas id="introParticles" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <div id="introLogo" style="opacity:0;transform:scale(0.6);transition:all 1s cubic-bezier(.22,1,.36,1);">
+      <img src="logo.png" alt="九万AI" style="width:100px;height:100px;border-radius:16px;filter:drop-shadow(0 0 30px rgba(201,168,76,0.5));">
+    </div>
+    <div id="introTitle" style="opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.22,1,.36,1) .5s;margin-top:24px;">
+      <span style="font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#c9a84c,#e8c547,#00e5c0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:4px;">九万AI</span>
+    </div>
+    <div id="introSub" style="opacity:0;transform:translateY(15px);transition:all .7s cubic-bezier(.22,1,.36,1) .9s;margin-top:12px;">
+      <span style="font-size:1rem;color:#8a8070;letter-spacing:2px;">2026 最全 AI 工具导航</span>
+    </div>
+    <div id="introBtn" style="opacity:0;transform:translateY(15px);transition:all .7s cubic-bezier(.22,1,.36,1) 1.3s;margin-top:32px;">
+      <a href="javascript:void(0)" onclick="dismissIntro()" style="display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#c9a84c,#e8c547);color:#000;font-size:1rem;font-weight:700;border-radius:12px;text-decoration:none;letter-spacing:2px;box-shadow:0 0 30px rgba(201,168,76,0.3);transition:all .3s;" onmouseover="this.style.boxShadow='0 0 50px rgba(201,168,76,0.5)';this.style.transform='scale(1.05)'" onmouseout="this.style.boxShadow='0 0 30px rgba(201,168,76,0.3)';this.style.transform='scale(1)'">立即使用</a>
+    </div>
+  </div>
+  <div id="introSkip" style="position:absolute;bottom:30px;right:30px;opacity:0;transition:opacity .5s 2s;z-index:2;">
+    <span style="color:#5a5040;font-size:.78rem;cursor:pointer;" onclick="dismissIntro()" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='#5a5040'">跳过 ↗</span>
+  </div>
+</div>
+<script>
+(function(){
+  const c=document.getElementById('introParticles'),ctx=c.getContext('2d');
+  let w,h,particles=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<80;i++)particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.5,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,a:Math.random()*.5+.2});
+  let running=true;
+  function draw(){
+    if(!running)return;
+    ctx.clearRect(0,0,w,h);
+    for(const p of particles){
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+    }
+    // Draw connections
+    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(201,168,76,${.12*(1-dist/120)})`;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Animate in
+  setTimeout(()=>{document.getElementById('introLogo').style.opacity='1';document.getElementById('introLogo').style.transform='scale(1)';},200);
+  setTimeout(()=>{document.getElementById('introTitle').style.opacity='1';document.getElementById('introTitle').style.transform='translateY(0)';},500);
+  setTimeout(()=>{document.getElementById('introSub').style.opacity='1';document.getElementById('introSub').style.transform='translateY(0)';},900);
+  setTimeout(()=>{document.getElementById('introBtn').style.opacity='1';document.getElementById('introBtn').style.transform='translateY(0)';},1300);
+  setTimeout(()=>{document.getElementById('introSkip').style.opacity='1';},2000);
+
+  // Auto dismiss after 6s
+  setTimeout(()=>{if(running)dismissIntro();},6000);
+
+  window.dismissIntro=function(){
+    running=false;
+    const ov=document.getElementById('introOverlay');
+    ov.style.opacity='0';
+    setTimeout(()=>ov.remove(),800);
+  };
+})();
+</script>
+
 <nav class="nav">
 <div class="nav-inner">
 <a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI" class="nav-logo-icon"></a>
