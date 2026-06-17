@@ -549,8 +549,15 @@ function renderNews(){
 
 function loadNews(){
   fetch('news.json').then(r=>r.json()).then(news=>{
-    const html='<div class="showcase-grid">'+news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(n=>'<div class="showcase-card" onclick="showNewsDetail(\\''+n.title.replace(/'/g,"\\\\'")+'\\',\\''+(n.source_url||'').replace(/'/g,"\\\\'")+'\\',\\''+(n.summary||n.content||'').replace(/'/g,"\\\\'").substring(0,200)+'\\')"><div class="sc-preview" style="height:120px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📰</div><div class="sc-body"><div class="sc-title" style="font-size:.85rem;">'+n.title+'</div><div class="sc-meta">'+n.date+'</div></div></div>').join('')+'</div>';
+    const html='<div class="showcase-grid">'+news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map((n,i)=>'<div class="showcase-card" data-news-idx="'+i+'"><div class="sc-preview" style="height:120px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📰</div><div class="sc-body"><div class="sc-title" style="font-size:.85rem;">'+n.title+'</div><div class="sc-meta">'+n.date+'</div></div></div>').join('')+'</div>';
     document.getElementById('newsContent').innerHTML=html;
+    window._newsData=news;
+    document.querySelectorAll('#newsContent .showcase-card').forEach(el=>{
+      el.addEventListener('click',function(){
+        const d=window._newsData[parseInt(this.dataset.newsIdx)];
+        showNewsDetail(d.title,d.source_url||'',(d.summary||d.content||'').substring(0,200));
+      });
+    });
   }).catch(()=>{document.getElementById('newsContent').innerHTML='<p>暂无新闻数据</p>';});
 }
 
