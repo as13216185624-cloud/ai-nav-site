@@ -35,9 +35,21 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 
 /* Main */
 .main-wrap{flex:1;margin-left:220px;position:relative;z-index:1;min-height:100vh;}
-.top-bar{position:sticky;top:0;z-index:99;background:rgba(6,6,6,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 24px;}
-.top-bar-inner{max-width:1200px;margin:0 auto;}
-.search-row{display:flex;gap:12px;align-items:center;margin-bottom:12px;}
+
+/* Site Header */
+.site-header{background:linear-gradient(180deg,#000 0%,var(--bg) 100%);padding:28px 24px 20px;text-align:center;border-bottom:1px solid var(--border);position:relative;z-index:1;}
+.header-inner{max-width:1200px;margin:0 auto;}
+.header-logo-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:6px;flex-wrap:wrap;}
+.header-logo-badge{width:56px;height:56px;border-radius:12px;filter:drop-shadow(0 0 12px var(--accent-glow));}
+.header-title-logo{max-width:380px;width:55%;height:auto;filter:none;}
+.header-divider{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:10px auto 10px;}
+.header-sub{font-size:.82rem;color:var(--text-secondary);margin-bottom:12px;}
+.header-stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.hstat{font-size:.75rem;color:var(--text-secondary);background:var(--card-bg);border:1px solid var(--border);padding:4px 14px;border-radius:16px;}
+
+/* Search bar */
+.search-bar-wrap{max-width:1200px;margin:0 auto;padding:16px 24px;position:sticky;top:0;z-index:98;background:rgba(6,6,6,.94);backdrop-filter:blur(20px);}
+.search-row{display:flex;gap:12px;align-items:center;margin-bottom:10px;}
 .search-box{flex:1;position:relative;}
 .search-box input{width:100%;padding:12px 16px 12px 44px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;transition:all .2s;}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
@@ -54,7 +66,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .feature-card .fc-sub{font-size:.68rem;color:var(--text-secondary);}
 
 /* Main content */
-.main-content{max-width:1200px;margin:0 auto;padding:24px;}
+.main-content{max-width:1200px;margin:0 auto;padding:20px 24px;}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .section-title{font-size:1.2rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:8px;}
 .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);margin-left:12px;}
@@ -215,26 +227,42 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 
 <!-- Main -->
 <div class="main-wrap">
-  <div class="top-bar">
-    <div class="top-bar-inner">
-      <div class="search-row">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="搜索AI作品、工具、提示词...">
-        </div>
-        <div class="search-sources">
-          <span class="search-source active">站内</span>
-          <span class="search-source">Bing</span>
-          <span class="search-source">百度</span>
-          <span class="search-source">Google</span>
-        </div>
+  <!-- Header with logo -->
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="header-logo-row">
+        <img class="header-logo-badge" src="logo.png" alt="九万AI">
+        <img class="header-title-logo" src="jiuwan_logo.png" alt="九万AI">
       </div>
-      <div class="feature-cards">
-        <a class="feature-card" href="news.html"><span class="fc-icon">📡</span><div class="fc-info"><div class="fc-title">每日快讯</div><div class="fc-sub">AI行业最新动态</div></div></a>
-        <div class="feature-card" onclick="switchPage('showcase')"><span class="fc-icon">🎨</span><div class="fc-info"><div class="fc-title">精选作品</div><div class="fc-sub">每日更新AI创作</div></div></div>
-        <div class="feature-card" onclick="switchPage('tools')"><span class="fc-icon">🔧</span><div class="fc-info"><div class="fc-title">最新工具</div><div class="fc-sub">300+AI工具库</div></div></div>
-        <div class="feature-card" onclick="switchPage('news')"><span class="fc-icon">📖</span><div class="fc-info"><div class="fc-title">热门教程</div><div class="fc-sub">AI使用技巧指南</div></div></div>
+      <div class="header-divider"></div>
+      <p class="header-sub">AI作品精选 · 300+工具库 · 每日更新</p>
+      <div class="header-stats">
+        <span class="hstat">✨ 36件作品</span>
+        <span class="hstat">🧰 83款工具</span>
+        <span class="hstat">📰 每日快讯</span>
+        <span class="hstat">🇨🇳 国内直连</span>
       </div>
+    </div>
+  </div>
+  <!-- Search bar -->
+  <div class="search-bar-wrap">
+    <div class="search-row">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索AI作品、工具、提示词...">
+      </div>
+      <div class="search-sources">
+        <span class="search-source active">站内</span>
+        <span class="search-source">Bing</span>
+        <span class="search-source">百度</span>
+        <span class="search-source">Google</span>
+      </div>
+    </div>
+    <div class="feature-cards">
+      <a class="feature-card" href="news.html"><span class="fc-icon">📡</span><div class="fc-info"><div class="fc-title">每日快讯</div><div class="fc-sub">AI行业最新动态</div></div></a>
+      <div class="feature-card" onclick="switchPage('showcase')"><span class="fc-icon">🎨</span><div class="fc-info"><div class="fc-title">精选作品</div><div class="fc-sub">每日更新AI创作</div></div></div>
+      <div class="feature-card" onclick="switchPage('tools')"><span class="fc-icon">🔧</span><div class="fc-info"><div class="fc-title">最新工具</div><div class="fc-sub">300+AI工具库</div></div></div>
+      <div class="feature-card" onclick="switchPage('news')"><span class="fc-icon">📖</span><div class="fc-info"><div class="fc-title">热门教程</div><div class="fc-sub">AI使用技巧指南</div></div></div>
     </div>
   </div>
   <main class="main-content" id="mainContent"></main>
@@ -245,7 +273,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="modal-overlay" id="detailModal" onclick="closeDetail()">
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeDetail()">✕</button>
-    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;"><div class="modal-video" id="modalVideo" style="display:none;"><div class="video-placeholder"><span class="vp-icon">🎬</span><p class="vp-text">视频作品预览</p><p class="vp-sub">AI生成的视频作品，支持在线播放</p></div></div>
+    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;"><div class="modal-video" id="modalVideo" style="display:none;"><canvas id="videoCanvas" width="900" height="506"></canvas><div class="video-controls"><button class="vc-btn" id="vcPlay">▶</button><div class="vc-progress"><div class="vc-bar" id="vcBar"></div></div><span class="vc-time" id="vcTime">0:00 / 1:30</span><button class="vc-btn" id="vcFs">⛶</button></div></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -314,16 +342,101 @@ function showDetail(item){
     <div class="md-section"><div class="md-label">提示词 / Prompt</div><div class="md-prompt">${item.prompt}</div></div>
     <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${item.tags.map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
     <div class="md-actions">
-      <button class="md-btn primary" onclick="copyPrompt('${item.prompt.replace(/'/g,"\'")}')">📋 复制提示词</button>
+      <button class="md-btn primary" onclick="copyPrompt('${item.prompt.replace(/'/g,"\\'")}')">📋 复制提示词</button>
       <button class="md-btn secondary" onclick="closeDetail()">关闭</button>
     </div>`;
   document.getElementById('detailModal').classList.add('active');
   document.body.style.overflow='hidden';
+  if(isVideo)startVideoPlayer(item);
+}
+
+let videoAnimId=null,videoPlaying=false,videoProgress=0,videoDuration=90;
+function startVideoPlayer(item){
+  const canvas=document.getElementById('videoCanvas');
+  const ctx=canvas.getContext('2d');
+  const bar=document.getElementById('vcBar');
+  const time=document.getElementById('vcTime');
+  const playBtn=document.getElementById('vcPlay');
+  const W=canvas.width,H=canvas.height;
+  let t=0;
+  videoPlaying=true;videoProgress=0;
+  bar.style.width='0%';
+  time.textContent='0:00 / 1:30';
+  playBtn.textContent='⏸';
+  const bg=new Image();
+  bg.crossOrigin='anonymous';
+  bg.onload=()=>{
+    function draw(){
+      if(!videoPlaying){videoAnimId=requestAnimationFrame(draw);return;}
+      t+=0.016;
+      videoProgress=Math.min(t/videoDuration,1);
+      bar.style.width=(videoProgress*100)+'%';
+      const s=Math.floor(t);
+      const m=Math.floor(s/60),sec=s%60;
+      time.textContent=m+':'+String(sec).padStart(2,'0')+' / 1:30';
+      ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+      ctx.globalAlpha=0.85;
+      ctx.drawImage(bg,0,0,W,H);
+      ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(0,0,0,.06)';
+      for(let y=0;y<H;y+=3)ctx.fillRect(0,y,W,1);
+      const colors=['#c9a84c','#00e5c0','#e8c547','rgba(0,229,192,.7)','rgba(201,168,76,.5)'];
+      for(let i=0;i<40;i++){
+        const x=(Math.sin(t*2+i*1.7)*0.5+0.5)*W;
+        const y=((t*40+i*23)%(H+40))-20;
+        const r=1+Math.random()*3;
+        ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fillStyle=colors[Math.floor(Math.random()*colors.length)];
+        ctx.fill();
+      }
+      for(let i=0;i<5;i++){
+        const ox=(Math.cos(t*0.8+i*2.1)*0.3+0.5)*W;
+        const oy=(Math.sin(t*1.1+i*1.8)*0.3+0.5)*H;
+        const grd=ctx.createRadialGradient(ox,oy,0,ox,oy,60);
+        grd.addColorStop(0,'rgba(201,168,76,.25)');
+        grd.addColorStop(.5,'rgba(0,229,192,.1)');
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=grd;ctx.beginPath();ctx.arc(ox,oy,60,0,Math.PI*2);ctx.fill();
+      }
+      ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(0,H-36,W,36);
+      ctx.fillStyle='#fff';ctx.font='bold 15px sans-serif';ctx.fillText('🎬 '+item.title,16,H-12);
+      if(!videoPlaying){
+        ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,W,H);
+        ctx.fillStyle='#fff';ctx.font='48px sans-serif';ctx.textAlign='center';
+        ctx.fillText('▶',W/2,H/2+16);ctx.textAlign='start';
+      }
+      if(t>=videoDuration){videoPlaying=false;playBtn.textContent='▶';bar.style.width='100%';}
+      videoAnimId=requestAnimationFrame(draw);
+    }
+    draw();
+  };
+  bg.onerror=()=>{};
+  bg.src=item.image;
+  playBtn.onclick=()=>{
+    videoPlaying=!videoPlaying;
+    playBtn.textContent=videoPlaying?'⏸':'▶';
+    if(videoProgress>=1){videoProgress=0;t=0;bar.style.width='0%';videoPlaying=true;playBtn.textContent='⏸';}
+  };
+  canvas.onclick=()=>playBtn.click();
+  document.getElementById('vcBar').parentElement.onclick=function(e){
+    const rect=this.getBoundingClientRect();
+    videoProgress=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+    t=videoProgress*videoDuration;
+    bar.style.width=(videoProgress*100)+'%';
+  };
+  document.getElementById('vcFs').onclick=()=>{
+    const v=document.getElementById('modalVideo');
+    if(document.fullscreenElement){document.exitFullscreen();}
+    else{v.requestFullscreen().catch(()=>{});}
+  };
 }
 
 function closeDetail(){
+  if(videoAnimId){cancelAnimationFrame(videoAnimId);videoAnimId=null;}
+  videoPlaying=false;videoProgress=0;
   document.getElementById('detailModal').classList.remove('active');
   document.body.style.overflow='';
+  document.getElementById('modalImg').style.display='';
 }
 
 function copyPrompt(text){
