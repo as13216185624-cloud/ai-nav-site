@@ -1,0 +1,1735 @@
+<!DOCTYPE html><!-- Last Published: Fri Jun 12 2026 18:03:17 GMT+0000 (Coordinated Universal Time) --><html data-wf-domain="www.opus.pro" data-wf-page="65a7268a3d5bcf09584d77ba" data-wf-site="6388604483b03a9ecb34d695" lang="en-US"><head><meta charset="utf-8"/><link href="https://cdn.prod.website-files.com" rel="preconnect" crossorigin="anonymous"/><title>OpusClip - AI-powered Video Repurposing</title><link rel="alternate" hrefLang="x-default" href="https://www.opus.pro/redirecting"/><link rel="alternate" hrefLang="en-US" href="https://www.opus.pro/redirecting"/><link rel="alternate" hrefLang="es" href="https://www.opus.pro/es-es/redirecting"/><link rel="alternate" hrefLang="pt-BR" href="https://www.opus.pro/pt-br/redirecting"/><link rel="alternate" hrefLang="de-DE" href="https://www.opus.pro/de-de/redirecting"/><link rel="alternate" hrefLang="fr-FR" href="https://www.opus.pro/fr-fr/redirecting"/><meta content="OpusClip turns long videos into high-quality viral clips for you to share on TikTok, YouTube Shorts, and Reels to increase social media reach." name="description"/><meta content="OpusClip - AI-powered Video Repurposing" property="og:title"/><meta content="OpusClip turns long videos into high-quality viral clips for you to share on TikTok, YouTube Shorts, and Reels to increase social media reach." property="og:description"/><meta content="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/64ae675f14a0eac9ee21233f_social-preview-c.png" property="og:image"/><meta content="OpusClip - AI-powered Video Repurposing" name="twitter:title"/><meta content="OpusClip turns long videos into high-quality viral clips for you to share on TikTok, YouTube Shorts, and Reels to increase social media reach." name="twitter:description"/><meta content="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/64ae675f14a0eac9ee21233f_social-preview-c.png" name="twitter:image"/><meta property="og:type" content="website"/><meta content="summary_large_image" name="twitter:card"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="noindex" name="robots"/><link href="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/css/opusclip-staging.shared.47bb72ea5.min.css" rel="stylesheet" type="text/css" integrity="sha384-R7ty6lHUmogA/byh95q2dIO9IbwyuFjp3eBStxfN8F8wF0FqCHsTQ8/+FIlX8LqP" crossorigin="anonymous"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/><script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script><script type="text/javascript">WebFont.load({  google: {    families: ["Lora:300,400,500,600,700"]  }});</script><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/64351a9e4e9223f5e0f46d64_ico-final.png" rel="shortcut icon" type="image/x-icon"/><link href="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/6435197bfb1d6e486e04c37b_webclip.png" rel="apple-touch-icon"/><!-- Clip & Webflow cookie-based language consistency -->
+<script
+  async
+  src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/693a9e565021b9843e6d530f_Clip%20%26%20Webflow%20cookie-based%20language%20consistency%2012112025.txt"
+  type="text/javascript"
+></script>
+<!-- Clip & Webflow message-based language consistency -->
+<script
+  defer
+  src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/693aa26372f9259bd205e8a5_Clip%20%26%20Webflow%20message-based%20language%20consistency%2012112025.txt"
+  type="text/javascript"
+></script>
+
+<!-- Statsig Sidecar ~ 10/28/24 -->
+<script src="https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-ECxX0UGYv9w3jWKTO7e2doE79AWuSCSygX0RzesRzEs"></script>
+<!-- End of Statsig Sidecar -->
+<!-- don't index Spanish pages or URLs with ?  -->
+<script>
+  'use strict'
+  ;(function () {
+    const url = window.location.href
+    //const isSpanishPage = url.includes('es-es')
+    const hasQueryParam = url.includes('?')
+    const hasHashInUrl = url.includes('#')
+    if (hasQueryParam || hasHashInUrl) {
+      const noIndexMetaTag = document.createElement('meta')
+      noIndexMetaTag.name = 'robots'
+      noIndexMetaTag.content = 'noindex'
+      document.head.appendChild(noIndexMetaTag)
+    }
+    //console.log('isSpanishPage is' + ' ' + isSpanishPage)
+    console.log('hasQueryParam is' + ' ' + hasQueryParam)
+    console.log('hasHashInUrl is' + ' ' + hasHashInUrl)
+  })()
+</script>
+<script>
+  /* "use strict";
+(function () {
+     const isSpanishPage = window.location.href.includes('es-es');
+     if (isSpanishPage) {
+         const noIndexMetaTag = document.createElement('meta');
+         noIndexMetaTag.name = 'robots';
+         noIndexMetaTag.content = 'noindex';
+         document.head.appendChild(noIndexMetaTag);
+     }
+ })();
+ */
+</script>
+<!-- preconnect to required origins -->
+<link rel="preconnect" href="https://uploads-ssl.webflow.com" />
+<link rel="dns-prefetch" href="https://uploads-ssl.webflow.com" />
+<link rel="preconnect" href="https://assets-global.website-files.com" />
+<link rel="dns-prefetch" href="https://assets-global.website-files.com" />
+
+<!-- Geofencing by Jay -->
+<script type="application/javascript">
+  function fetchApiBlockAdvicePromise() {
+    return fetch('https://api.opus.pro/api/client-access-control?q=ipRisk')
+      .then((resp) => resp.json())
+      .then((json) => {
+        // set opusIPInfo (oIP)
+        window._oIP ||= json.data.detail
+        window.dispatchEvent(new CustomEvent('ipInfoLoaded', json.data.detail))
+        return json.data.shouldBlock && json.data.blockReason == 'country'
+      })
+  }
+  const getCtas = () => document.querySelectorAll('.a_header_form-block,.a_nav_form-block')
+  function onBlockAdvice(shouldBlockByIp) {
+    const allowedUaRegex =
+      /Googlebot|Bingbot|Slurp|DuckDuckBot|facebot|facebookexternalhit|Applebot|LinkedInBot|Twitterbot/i
+    const exemptPaths = [
+      '/terms-of-service',
+      '/privacy-policy',
+      '/not-available',
+      '/supported-countries',
+      '/pricing-early',
+      '/pricing',
+      '/no-capacity',
+    ]
+    const countryAllowed = !shouldBlockByIp
+    const pageAllowed = exemptPaths.includes(location.pathname)
+    const uaAllowed = allowedUaRegex.test(navigator.userAgent)
+    if (countryAllowed || pageAllowed || uaAllowed) return
+    getCtas().forEach((it) => (it.style.visibility = 'hidden'))
+    window.location.replace('/not-available')
+  }
+  fetchApiBlockAdvicePromise().then(onBlockAdvice)
+  const fallbackBlockList = ['CN', 'TW', 'HK']
+  function countryip(data) {
+    onBlockAdvice(fallbackBlockList.includes(data.country))
+  }
+</script>
+<!-- DO NOT remove JSONP script below -->
+<script src="//get.geojs.io/v1/ip/country.js" async></script>
+<!-- End of Geofencing -->
+
+<!-- Google Tag Manager | Installed by Lirian&Parker on 2.23.24 -->
+<script>
+  function gtag() {
+    dataLayer.push(arguments)
+  }
+  ;(function (w, d, s, l, i) {
+    w[l] = w[l] || []
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : ''
+    j.async = true
+    j.src = 'https://a.opus.pro/gtm/init.js?id=' + i + dl
+    f.parentNode.insertBefore(j, f)
+  })(window, document, 'script', 'dataLayer', 'GTM-5B6S625')
+</script>
+<!-- End of Google Tag Manager -->
+
+<!-- NCF Filter+Search Plugin | Installed by Parker on 12.22.22 -->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"
+></script>
+<script async src="https://cdn.nocodeflow.net/tools/nocode.js"></script>
+<script async src="https://cdn.nocodeflow.net/tools/filter.js"></script>
+<!-- End of NCF Filter+Search Plugin -->
+
+<style>
+  /** customized style */
+  .rich-text.overwrite-font p {
+    font-family: Gilroy;
+  }
+  body {
+    overflow-wrap: break-word;
+  }
+  .force-hide {
+    display: none !important;
+  }
+</style>
+
+<style>
+  /* Studio navbar white styles */
+  .a_studio-navbar_component.white {
+    background-color: white;
+  }
+  /* Links and dropdown toggle */
+  .a_studio-navbar_component.white .a_studio-navbar_nav-link,
+  .a_studio-navbar_component.white .a_studio-navbar_dropdown-toggle {
+    color: #24235e;
+  }
+  .a_studio-navbar_component.white .a_studio-navbar_nav-link:hover,
+  .a_studio-navbar_component.white .a_studio-navbar_dropdown-toggle.w--open {
+    color: #6723ff;
+  }
+  /* Logo */
+  .a_studio-navbar_component.white .a_studio-navbar_logo-white {
+    opacity: 0;
+  }
+  .a_studio-navbar_component.white .a_studio-navbar_logo-color {
+    opacity: 1;
+  }
+  /* Button */
+  .a_studio-navbar_component.white .a_button.is-studio-nav {
+    background-color: #6723ff;
+  }
+  .a_studio-navbar_component.white .a_button.is-studio-nav:hover {
+    background-color: #3600ae;
+    color: white;
+  }
+  /* Burger */
+  .a_studio-navbar_component.white .a_studio-navbar_menu-btn-line {
+    background-color: #24235e;
+  }
+  /* Mobile menu */
+  @media (max-width: 991px) {
+    .a_studio-navbar_component.white .a_studio-navbar_menu.w-nav-menu {
+      background-color: white;
+    }
+  }
+  /* Add text highlighter */
+  ::-moz-selection {
+    /* Code for Firefox */
+    color: white;
+    background: #27272a;
+  }
+  ::selection {
+    color: white;
+    background: #27272a;
+  }
+</style>
+
+<!-- install mixpanel script  -->
+<script type="text/javascript" async>
+  ;(function (f, b) {
+    if (!b.__SV) {
+      var e, g, i, h
+      window.mixpanel = b
+      b._i = []
+      b.init = function (e, f, c) {
+        function g(a, d) {
+          var b = d.split('.')
+          2 == b.length && ((a = a[b[0]]), (d = b[1]))
+          a[d] = function () {
+            a.push([d].concat(Array.prototype.slice.call(arguments, 0)))
+          }
+        }
+        var a = b
+        'undefined' !== typeof c ? (a = b[c] = []) : (c = 'mixpanel')
+        a.people = a.people || []
+        a.toString = function (a) {
+          var d = 'mixpanel'
+          'mixpanel' !== c && (d += '.' + c)
+          a || (d += ' (stub)')
+          return d
+        }
+        a.people.toString = function () {
+          return a.toString(1) + '.people (stub)'
+        }
+        i =
+          'disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove'.split(
+            ' ',
+          )
+        for (h = 0; h < i.length; h++) g(a, i[h])
+        var j = 'set set_once union unset remove delete'.split(' ')
+        a.get_group = function () {
+          function b(c) {
+            d[c] = function () {
+              call2_args = arguments
+              call2 = [c].concat(Array.prototype.slice.call(call2_args, 0))
+              a.push([e, call2])
+            }
+          }
+          for (
+            var d = {}, e = ['get_group'].concat(Array.prototype.slice.call(arguments, 0)), c = 0;
+            c < j.length;
+            c++
+          )
+            b(j[c])
+          return d
+        }
+        b._i.push([e, f, c])
+      }
+      b.__SV = 1.2
+      e = f.createElement('script')
+      e.type = 'text/javascript'
+      e.async = !0
+      e.src =
+        'undefined' !== typeof MIXPANEL_CUSTOM_LIB_URL
+          ? MIXPANEL_CUSTOM_LIB_URL
+          : 'file:' === f.location.protocol &&
+              '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'.match(/^\/\//)
+            ? 'https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
+            : '//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js'
+      g = f.getElementsByTagName('script')[0]
+      g.parentNode.insertBefore(e, g)
+    }
+  })(document, window.mixpanel || [])
+
+  // Register browser language after Mixpanel loads
+  document.addEventListener('DOMContentLoaded', () => {
+    /**
+     * navigator.languages and navigator.language are not supported in all browsers.
+     *
+     * Returns the value of Accept-Languages (HTTP header) as a nsTArray of
+     * languages. The value is set in the preference by the user ("Content
+     * Languages").
+     *
+     * "en", "en-US" and "i-cherokee" and "" are valid languages tokens.
+     *
+     * If there is no valid language, the value of getWebExposedLocales is
+     * used to ensure that locale spoofing is honored and to reduce
+     * fingerprinting.
+     *
+     * See RFC 7231, Section 9.7 "Browser Fingerprinting" and
+     * RFC 2616, Section 15.1.4 "Privacy Issues Connected to Accept Headers"
+     * for more detail.
+     */
+    const browserLanguage =
+      document.documentElement.lang ||
+      (navigator.languages?.[0] || navigator.language || 'en').split('-')[0]
+    mixpanel.register({ browserLanguage })
+  })
+</script>
+
+<!-- Start Func to render iFrame -->
+<script>
+  const CLIP_APP_URL = 'https://clip.opus.pro'
+  const DEFAULT_LANG = 'en'
+  let random = undefined
+
+  function throttleTrack(ratio, cb) {
+    if (!random) {
+      random = Math.random()
+    }
+    if (random < ratio) {
+      cb && cb()
+    }
+  }
+
+  function normalizeLangCode(langCode) {
+    if (!langCode) return DEFAULT_LANG
+    const parts = langCode.split('-')
+    if (parts.length === 2) {
+      return `${parts[0].toLowerCase()}-${parts[1].toUpperCase()}`
+    }
+    return langCode.toLowerCase()
+  }
+
+  function getCurrentLang() {
+    const [, lang] = window.location.pathname.match(/\/([a-z]{2}-[a-z]{2})(\/|$)/) || []
+    const detectedLang = lang || DEFAULT_LANG
+    return normalizeLangCode(detectedLang)
+  }
+
+  function renderEmbedIframe(mergedParams) {
+    const updatedUrl = new URL(window.location.href)
+    for (const [key, value] of Object.entries(mergedParams)) {
+      updatedUrl.searchParams.set(key, value)
+    }
+    console.log('pathname', updatedUrl.pathname)
+
+    let iframe = document.createElement('iframe')
+    const iframeUrl = new URL('/lp-embed', CLIP_APP_URL)
+
+    // Current Page UTM Parameters
+    updatedUrl.searchParams.forEach((value, key) => {
+      iframeUrl.searchParams.set(key, value)
+    })
+
+    // lang
+    iframeUrl.searchParams.set('lang', getCurrentLang())
+
+    // documentReferrer
+    if (document.referrer) {
+      iframeUrl.searchParams.set('documentReferrer', encodeURIComponent(document.referrer))
+    }
+
+    iframe.src = iframeUrl.toString()
+
+    iframe.style.display = 'none'
+    iframe.style.visibility = 'hidden'
+    document.body.appendChild(iframe)
+    console.log('iframe rendered', iframe.src)
+
+    throttleTrack(0.1, () => {
+      const url = new URL(window.location.href)
+      const searchParams = url.searchParams
+      const paramsObject = {}
+      searchParams.forEach((value, key) => {
+        paramsObject[key] = value
+      })
+      mixpanel.track('webflow-embed-iframe', {
+        type: 'init',
+        webflowHref: window.location.href,
+        ...paramsObject,
+      })
+    })
+  }
+</script>
+<!-- End Fuc to render iFrame -->
+
+<!-- Start Populate mixpanel event when we click calculate price button -->
+<script async>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    // Select the calculate button by anchor element using the data attribute
+    const calculateButton = document.querySelector('a[data-element="calculate-button"]')
+
+    // Add an event listener to the anchor element for the 'click' event
+    calculateButton.addEventListener('click', (event) => {
+      // Extract URL parameters and convert them to an object
+      const url = new URL(window.location.href)
+      const searchParams = url.searchParams
+      const paramsObject = {}
+      searchParams.forEach((value, key) => {
+        paramsObject[key] = value
+      })
+
+      // Track the event with Mixpanel
+      mixpanel.track('price-calculate', {
+        webflowHref: window.location.href,
+        ...paramsObject,
+      })
+    })
+  })
+</script>
+<!-- End Populate mixpanel event when we click calculate price button -->
+
+<!-- Start of Keep URL parameters in users session -->
+<script>
+  'use strict'
+  const SUPPORTED_DOMAINS = ['opusclip-staging.webflow.io', 'www.opus.pro', 'clip.opus.pro']
+  const isSessionStorageSupported = () => {
+    try {
+      return !!window.sessionStorage
+    } catch (error) {
+      return false
+    }
+  }
+  const getUrlParameters = () => {
+    const params = {}
+    const queryString = window.location.search.substring(1)
+    const pairs = queryString.split('&')
+    for (const pair of pairs) {
+      const [key, value] = pair.split('=')
+      if (key && value) {
+        params[key] = decodeURIComponent(value)
+      }
+    }
+    return params
+  }
+  const storeParameters = (params) => {
+    if (isSessionStorageSupported()) {
+      delete params['tag']
+      sessionStorage.setItem('storedUrlParams', JSON.stringify(params))
+    }
+  }
+  const retrieveParameters = () => {
+    if (isSessionStorageSupported()) {
+      const storedUrlParams = sessionStorage.getItem('storedUrlParams')
+      return storedUrlParams ? JSON.parse(storedUrlParams) : {}
+    }
+    return {}
+  }
+  const processLocationParams = (mergedParams) => {
+    storeParameters(mergedParams)
+    const updatedUrl = new URL(window.location.href)
+    for (const [key, value] of Object.entries(mergedParams)) {
+      updatedUrl.searchParams.set(key, value)
+    }
+    window.history.replaceState({}, '', updatedUrl)
+  }
+  const processHrefParams = (mergedParams) => {
+    const currentDomain = window.location.hostname
+    const domainRegex = new RegExp(SUPPORTED_DOMAINS.join('|'), 'i')
+    const matchingElements = []
+    document.querySelectorAll('[href]').forEach((element) => {
+      const href = element.getAttribute('href')
+      if (href) {
+        const absoluteHref = href.startsWith('/')
+          ? `${window.location.protocol}//${currentDomain}${href}`
+          : href
+        if (domainRegex.test(absoluteHref)) {
+          matchingElements.push({ element, href: absoluteHref })
+        }
+      }
+    })
+    // print all matching elements where href is "https://clip.opus.pro/dashboard"
+    console.log(
+      'Matching elements',
+      matchingElements.filter(({ href }) => href === 'https://clip.opus.pro/dashboard'),
+    )
+    for (const { element, href } of matchingElements) {
+      const url = new URL(href, window.location.href)
+      for (const [key, value] of Object.entries(mergedParams)) {
+        url.searchParams.set(key, value)
+      }
+      element.setAttribute('href', url.href)
+    }
+  }
+  const currentParams = getUrlParameters()
+  const storedParams = retrieveParameters()
+  const mergedParams = { ...storedParams, ...currentParams }
+
+  // process location url
+  // processLocationParams(mergedParams)
+
+  $(function () {
+    renderEmbedIframe(mergedParams)
+    processHrefParams(mergedParams)
+  })
+</script>
+<!-- End of Keep URL parameters in users session -->
+
+<!-- Start PostCrossDomainMessage login status -->
+<script>
+  function toggleDashBoardButton(isLogin) {
+    if (isLogin) {
+      $('#sign-in').addClass('force-hide')
+      $('#sign-in-mobile').addClass('force-hide')
+      $('#start-free-trial').addClass('force-hide')
+      $('#my-dashboard').removeClass('force-hide')
+      $('#my-dashboard-mobile').removeClass('force-hide')
+      sessionStorage.setItem('logged_in', 'yes')
+    } else {
+      $('#sign-in').removeClass('force-hide')
+      $('#sign-in-mobile').removeClass('force-hide')
+      $('#start-free-trial').removeClass('force-hide')
+      $('#my-dashboard').addClass('force-hide')
+      $('#my-dashboard-mobile').addClass('force-hide')
+      sessionStorage.removeItem('logged_in')
+    }
+  }
+  if (sessionStorage.getItem('logged_in') === 'yes') {
+    toggleDashBoardButton(true)
+  }
+  window.addEventListener('message', function (event) {
+    if (event.origin === CLIP_APP_URL) {
+      if (event.data) {
+        if (event.data.type === 'embed-success') {
+          throttleTrack(0.1, () => {
+            mixpanel.track('webflow-embed-iframe', {
+              type: 'success',
+              webflowHref: window.location.href,
+              ...event.data.content,
+            })
+          })
+        }
+      }
+      if (event.data && event.data === 'CLIP_LOGGED_IN') {
+        toggleDashBoardButton(true)
+      }
+      if (event.data && event.data === 'CLIP_LOGGED_OUT') {
+        toggleDashBoardButton(false)
+      }
+    }
+  })
+</script>
+<!-- End PostCrossDomainMessage login status -->
+
+<!-- [Attributes by Finsweet] Accessibility -->
+<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-a11y@1/a11y.js"></script>
+
+<!-- Init GIS -->
+<script async defer src="https://accounts.google.com/gsi/client"></script>
+
+<script>
+  const GSI_MAX_TRIES = 120;
+  const GSI_DELAY_MS  = 80;
+
+  let gsiInited = false;
+
+  function gsiBuildRedirectUrl(idToken) {
+    const sp = new URLSearchParams(window.location.search);
+    const existingState = sp.get('state');
+    if (existingState) {
+      return `${CLIP_APP_URL}/auth/callback?id_token=${encodeURIComponent(idToken)}&state=${existingState}`;
+    }
+    const backTo   = sp.get('back_to') || `${CLIP_APP_URL}/dashboard`;
+    const returnTo = `${CLIP_APP_URL}/auth/callback?back_to=${encodeURIComponent(backTo)}`;
+    const stateObj = { returnTo, provider: 'GoogleOAuth' };
+    const stateEnc = encodeURIComponent(JSON.stringify(stateObj));
+    return `${CLIP_APP_URL}/auth/callback?id_token=${encodeURIComponent(idToken)}&state=${stateEnc}`;
+  }
+
+  function gsiHandleIdToken(resp) {
+    const idToken = resp?.credential;
+    mixpanel.track('google-onetap-click', {
+      hasIdToken: Boolean(idToken),
+    })
+    if (!idToken) return;
+    const url = gsiBuildRedirectUrl(idToken);
+    window.location.assign(url);
+  }
+
+  function gsiInit(clientId) {
+	if (window.location.pathname !== '/') return;
+    if (gsiInited || !window.google?.accounts?.id) return;
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: gsiHandleIdToken,
+      use_fedcm_for_prompt: true,
+      context: 'signin',
+    });
+    gsiInited = true;
+  }
+
+  function gsiPrompt() {
+    if (!gsiInited) return;
+    google.accounts.id.prompt((n) => {
+      console.log('notDisplayed:', n.getNotDisplayedReason?.());
+      console.log('skipped:', n.getSkippedReason?.());
+      console.log('dismissed:', n.getDismissedReason?.());      
+      mixpanel.track('google-onetap-prompt', {
+      	notDisplayed: n.getNotDisplayedReason?.(),
+        skipped: n.getSkippedReason?.(),
+        dismissed: n.getDismissedReason?.()
+	  })
+    });
+  }
+
+  function gsiWhenReady(cb) {
+    let tries = 0;
+    const t = setInterval(() => {
+      if (window.google?.accounts?.id) {
+        clearInterval(t);
+        cb();
+        return;
+      }
+      tries += 1;
+      if (tries >= GSI_MAX_TRIES) {
+        clearInterval(t);
+        console.error(`[GSI] Not available after ${tries} tries (~${Math.round((tries * GSI_DELAY_MS)/100)/10}s).`);
+      }
+    }, GSI_DELAY_MS);
+  }
+
+  window.addEventListener('message', (event) => {
+    const data = event?.data;
+    if (!data || typeof data !== 'object') return;
+
+    // Initialize only; do not auto-prompt
+    if (data.type === 'gsi_init' && data.content?.clientId) {
+      const { clientId } = data.content;
+      gsiWhenReady(() => {
+        gsiInit(clientId);
+      });
+    }
+
+    // If you want to show the One Tap later, send a separate gsi_login
+    if (data.type === 'gsi_login') {
+      if (gsiInited) {
+        gsiPrompt();
+      } else if (data.content?.clientId) {
+        const { clientId } = data.content;
+        gsiWhenReady(() => {
+          gsiInit(clientId);
+          gsiPrompt();
+        });
+      }
+    }
+  });
+</script>
+
+
+<!-- Bing Webmaster Tools verification tag -->
+<meta name="msvalidate.01" content="5F9BFB02371FD8AE86D18D398F88387F" />
+<style>
+
+/* Set 'opacity' to '0' for banner wrapper on page load to prevent flash */
+#banner-wrapper {
+	opacity: 0;
+}
+
+img {
+pointer-events: none;
+}
+img::selection {
+Background:none;
+}
+
+/* customers swiper */
+[data-element="customers-swiper-wrapper"] {
+	transition-timing-function: linear;
+}
+
+</style>
+
+<!-- Rewardful -->
+<script>
+(function(w,r){w._rwq=r;w[r]=w[r]||function(){(w[r].q=w[r].q||[]).push(arguments)}})(window,'rewardful');
+</script>
+<script defer src="https://clip.opus.pro/rewardful-1685611423100.js" data-rewardful="f0b17b"/><script type="text/javascript">window.__WEBFLOW_CURRENCY_SETTINGS = {"currencyCode":"USD","symbol":"$","decimal":".","fractionDigits":2,"group":",","template":"{{wf {\"path\":\"symbol\",\"type\":\"PlainText\"} }} {{wf {\"path\":\"amount\",\"type\":\"CommercePrice\"} }} {{wf {\"path\":\"currencyCode\",\"type\":\"PlainText\"} }}","hideDecimalForWholeNumbers":false};</script></head><body class="a_body-bluish-black a_text-color-white"><div id="Google-Tag-Manager" class="google-tag-manager w-embed w-iframe"><!-- Google Tag Manager (noscript) | Installed by Lirian&Parker on 2.23.24 -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5B6S625"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --></div><div class="a_page-wrapper"><div class="a_global-styles w-embed"><style>
+/* Make text look crisper and more legible in all browsers */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  top: 0 !important;
+}
+
+/* Make sure containers never lose their center alignment */
+.a_container-large {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.a_nlp_container-large {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.a_navbar_container {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.a_nlp-nav_container {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.a_container-medium {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.a_container-small {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+/* Prevent all click and hover interaction with an element */
+.a_pointer-events-off {
+	pointer-events: none;
+}
+
+/* Fix iOS box-shadow for focused inputs */
+.a_form-input, .a-ca_form-input, .a_select, .a_checkbox, .a_radio {
+	-webkit-appearance: none;
+}
+
+/* Font color for focused input placeholder */
+input.a_form-input:focus::placeholder {
+	color: #9B9EA3 !important;
+}
+
+/* Disabled input style */
+input.a_form-input:disabled{
+	background-color: transparent !important;
+  opacity: 0.3;
+}
+
+/* Invalid input style */
+input.a_form-input:invalid {
+	border-color: #ef4444 !important;
+  color: #9B9EA3 !important;
+}
+
+/* Disable selection highlighting */
+.a_noselect, [data-noselect] {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+/* Force safari to respect border radius on images & videos */
+.a_img-mask {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* Fix blue borders in Safari on focus */
+.a_scroll-anchor:focus { outline: none; }
+
+/* These classes are never overwritten */
+.a_hide {
+  display: none !important;
+}
+
+.a_font-weight-semibold {
+	font-weight: 600 !important;
+}
+
+.a_font-weight-medium {
+	font-weight: 500 !important;
+}
+
+/* Arrow animation for buttons with arrow icons */
+.a_button.is-icon:hover > .a_arrow-icon  {
+	transform: translateX(0.3rem);
+}
+/* FAQ accordions hover animaiton */
+.a_faq_accordion:hover > .a_faq_question {
+  opacity: 0.8;
+}
+/* Footer socials hover animaiton */
+.a_footer_social-link:hover > .a_icon-1x1-medium {
+  transform: translateY(-0.4rem);
+}
+/* Hover animation for header button */
+@media screen and (min-width: 992px) {
+ .a_button_wrapper > .a_button:hover ~ .a_button-bg-circles {
+  transform: scale(1, 1);
+	}
+}
+/* Disabled buttons */
+.a_button.is-disabled {
+pointer-events: none;
+}
+/* Arrow animation for buttons with arrow icons for feature pages */
+.af_button.is-icon:hover > .af_arrow-icon  {
+	transform: translateX(0.3rem);
+}
+/* List with letters */
+.a_list-type-letters {
+	list-style-type: lower-latin;
+}
+
+/* Break words at any character */
+.word-break-all {
+  word-break: break-all;
+}
+
+/* Adds vertical align middle*/
+.a_vertical-align-middle {
+	 vertical-align: middle;
+}
+
+/* Adds vertical align top*/
+.a_vertical-align-top {
+	 vertical-align: top;
+}
+
+/* Adds overflow-x clip */
+.a_overflow-x-clip {
+	overflow-x: clip;
+}
+
+/* Apply "..." after 1 line of text */
+.text-style-1line {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+/* navbar dropdown */
+[data-element="navbar-dropdown-toggle"].w--open {
+	color: white;
+}
+
+@media screen and (max-width: 767px) {
+  .mobile-hide {
+    display: none !important;
+  }
+}
+
+/* hide scrollbar */
+[data-element='hide-scrollbar'],
+[data-hide-scrollbar] {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+[data-element='hide-scrollbar']::-webkit-scrollbar,
+[data-hide-scrollbar]::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* play/pause video buttons */
+@media screen and (min-width: 992px) {
+  .w-backgroundvideo-backgroundvideoplaypausebutton.w-background-video--control {
+    transition: opacity 0.2s ease;
+  }
+  .w-backgroundvideo-backgroundvideoplaypausebutton.w-background-video--control:hover {
+    opacity: 0.7;
+  }
+}
+
+/* focus-visible states */
+/* dropdown-toggle, dropdown-links */
+.w-dropdown-toggle:focus-visible, .w-dropdown-link:focus-visible {
+  outline: Highlight auto 1px;
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
+/* header input */
+@media screen and (min-width: 992px) {
+  .a_header_input-wrapper:has(input:focus-visible) {
+    box-shadow: 0 0 0 0.1875rem #6723ffcc;
+  }
+}
+
+/* geist font */
+[data-font='geist'], 
+.a-ca_body,
+[data-font='geist'] *, 
+.a-ca_body * {
+  font-family: Geistvf, sans-serif !important;
+  font-feature-settings:
+    'ss01' on,
+    'ss03' on,
+    'ss04' on,
+    'ss06' on,
+    'ss08' on;
+}
+
+[data-font="geist"],
+.a-ca_body code *,
+[data-font="geist"] code *,
+.a-ca_body code * {
+  font-family: Geistmono, monospace !important;
+}
+
+/* video controls */
+.a-ca_f-cta_bg-video-controls button {
+	pointer-events: auto;
+}
+
+/* hardware acceleration */
+[data-hardware-acceleration] {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* fix Safari icons shift */
+svg {
+  transform: scale(1, 1);
+}
+
+/* hide empty cms sections */
+[data-cms-section]:not(:has(.w-dyn-item)),
+[data-cms-section]:has(.w-dyn-item):not(
+    :has(.w-dyn-item > :not(.w-condition-invisible))
+  ) {
+  display: none;
+}
+
+.text-color-inherit {
+  color: inherit;
+}
+</style></div><main class="a_main-wrapper"><header a-navbar-show-input="trigger" class="a_section_how-work-header"><div class="a_padding-global"><div class="a_container-large"><div class="a_how-work-header_wrapper"><div class="a_how-work-header_heading-wrapper"><h2 class="a_heading-style-heading-two">Redirecting you to opus.pro</h2><p class="a_text-size-small a_text-color-grey">Whoops, it looks like you typed <span class="text-span-33">opusclip.com</span>, so we&#x27;re redirecting you to our official website at <span class="text-span-34">opus.pro</span>. Your journey to effortless video repurposing continues in a moment...</p></div></div></div></div></header></main><div data-element="ca-cookie-and-conversion-banner-wrapper" data-wf--cookies-and-conversion-banner--variant="base" class="a-ca_cookie-and-conversion-banner_component"><div data-element="conversion-banner" class="a-ca_conversion-banner"><div class="a_custom-styles w-embed"><style>
+/* fix footer bottom padding */
+@media screen and (max-width: 991px) {
+  footer {
+    padding-bottom: 10.5rem !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  footer {
+    padding-bottom: 7.9375rem !important;
+  }
+}
+</style></div><div class="a-ca_padding-global"><div class="a-ca_conversion-banner_wrapper"><a data-element="conversion-banner-button" data-custom-url="" href="https://clip.opus.pro/dashboard" class="a-ca_button is-2lines-text is-home-button ctalink w-inline-block"><div class="a-ca_conversion-banner_button_text">Get 90 Credits for Free 🎁</div><div class="a-ca_conversion-banner_button_disclaimer">No credit card required</div></a><div class="a-ca_conversion-banner_bot-wrap"><div class="a-ca_conversion-banner_stars-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="100%" fill="none" viewBox="0 0 88 16" class="conversion-banner_stars_svg"><path fill="currentColor" d="M14.95 6.088a1.025 1.025 0 0 0-.912-.713l-3.713-.256L8.95 1.65A1.025 1.025 0 0 0 8 1a1.025 1.025 0 0 0-.95.65l-1.4 3.488-3.687.237a1.03 1.03 0 0 0-.913.713 1.05 1.05 0 0 0 .325 1.13l2.838 2.4-.844 3.32a1.16 1.16 0 0 0 .437 1.224 1.125 1.125 0 0 0 1.257.038l2.93-1.856h.013l3.156 1.994c.162.105.351.161.544.162a1.03 1.03 0 0 0 .988-1.3L11.8 9.569l2.825-2.35a1.05 1.05 0 0 0 .325-1.131M32.95 6.088a1.025 1.025 0 0 0-.913-.713l-3.712-.256L26.95 1.65A1.025 1.025 0 0 0 26 1a1.025 1.025 0 0 0-.95.65l-1.4 3.488-3.687.237a1.03 1.03 0 0 0-.913.713 1.05 1.05 0 0 0 .325 1.13l2.837 2.4-.843 3.32a1.16 1.16 0 0 0 .437 1.224 1.125 1.125 0 0 0 1.256.038l2.932-1.856h.012l3.157 1.994c.161.105.35.161.543.162a1.03 1.03 0 0 0 .988-1.3L29.8 9.569l2.825-2.35a1.05 1.05 0 0 0 .325-1.131M50.95 6.088a1.025 1.025 0 0 0-.913-.713l-3.712-.256L44.95 1.65A1.025 1.025 0 0 0 44 1a1.025 1.025 0 0 0-.95.65l-1.4 3.488-3.687.237a1.03 1.03 0 0 0-.913.713 1.05 1.05 0 0 0 .325 1.13l2.837 2.4-.843 3.32a1.16 1.16 0 0 0 .437 1.224 1.125 1.125 0 0 0 1.257.038l2.93-1.856h.013l3.157 1.994c.161.105.35.161.543.162a1.03 1.03 0 0 0 .988-1.3L47.8 9.569l2.825-2.35a1.05 1.05 0 0 0 .325-1.131M68.95 6.088a1.025 1.025 0 0 0-.913-.713l-3.712-.256L62.95 1.65A1.025 1.025 0 0 0 62 1a1.025 1.025 0 0 0-.95.65l-1.4 3.488-3.687.237a1.03 1.03 0 0 0-.913.713 1.05 1.05 0 0 0 .325 1.13l2.837 2.4-.843 3.32a1.16 1.16 0 0 0 .437 1.224 1.125 1.125 0 0 0 1.257.038l2.93-1.856h.013l3.156 1.994c.162.105.351.161.544.162a1.03 1.03 0 0 0 .988-1.3L65.8 9.569l2.825-2.35a1.05 1.05 0 0 0 .325-1.131M86.95 6.088a1.025 1.025 0 0 0-.913-.713l-3.712-.256L80.95 1.65A1.025 1.025 0 0 0 80 1a1.025 1.025 0 0 0-.95.65l-1.4 3.488-3.687.237a1.03 1.03 0 0 0-.913.713 1.05 1.05 0 0 0 .325 1.13l2.838 2.4-.844 3.32a1.16 1.16 0 0 0 .437 1.224 1.125 1.125 0 0 0 1.257.038l2.93-1.856h.013l3.156 1.994c.162.105.351.161.544.162a1.03 1.03 0 0 0 .988-1.3L83.8 9.569l2.825-2.35a1.05 1.05 0 0 0 .325-1.131"></path></svg></div><div>Trusted by 16 million video creators</div></div></div></div></div><div class="a_custom-code w-embed w-script"><script>
+'use strict';
+window.addEventListener('load', () => {
+  // show-hide conversion banner
+  const banner = document.querySelector('[data-element="conversion-banner"]');
+  let hideBannerTimeout;
+  function showBanner() {
+    if (!banner) return;
+    clearTimeout(hideBannerTimeout);
+    banner.style.display = 'flex';
+    banner.offsetHeight;
+    banner.style.opacity = '1';
+  }
+  function hideBanner() {
+    if (!banner) return;
+    banner.style.opacity = '0';
+    hideBannerTimeout = setTimeout(() => {
+      banner.style.display = 'none';
+    }, 300);
+  }
+  const bannerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        hideBanner();
+      } else {
+        showBanner();
+      }
+    });
+  });
+  function getVisibleTrigger() {
+    const customTriggers = document.querySelectorAll(
+      '[data-element="conversion-banner-trigger"]'
+    );
+    for (const trigger of customTriggers) {
+      const rect = trigger.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        return trigger;
+      }
+    }
+    const headers = document.querySelectorAll('header');
+    for (const header of headers) {
+      const rect = header.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        return header;
+      }
+    }
+    return null;
+  }
+  function handleViewportChange(event) {
+    const matches =
+      event instanceof MediaQueryList ? event.matches : event.matches;
+    if (matches) {
+      const visibleTrigger = getVisibleTrigger();
+      if (visibleTrigger) {
+        bannerObserver.observe(visibleTrigger);
+      }
+    } else {
+      hideBanner();
+      bannerObserver.disconnect();
+    }
+  }
+  const mediaQuery = window.matchMedia('(max-width: 991px)');
+  handleViewportChange(mediaQuery);
+  mediaQuery.addEventListener('change', handleViewportChange);
+});
+</script>
+
+<script>
+"use strict";
+document.addEventListener('DOMContentLoaded', () => {
+    const conversionBannerButton = document.querySelector('[data-element="conversion-banner-button"]');
+    if (!conversionBannerButton) {
+        return;
+    }
+    const customUrl = conversionBannerButton.getAttribute('data-custom-url');
+    if (customUrl && customUrl.trim() !== '') {
+        const existingUrl = new URL(conversionBannerButton.href);
+        const newUrl = new URL(customUrl);
+        const existingParams = new URLSearchParams(existingUrl.search);
+        existingParams.forEach((value, key) => {
+            newUrl.searchParams.set(key, value);
+        });
+        const customUrlParams = new URLSearchParams(new URL(customUrl).search);
+        customUrlParams.forEach((value, key) => {
+            newUrl.searchParams.set(key, value);
+        });
+        conversionBannerButton.href = newUrl.toString();
+    }
+});
+</script></div><div fs-cc="banner" class="a_cookie-banner"><div class="a_padding-global"><div class="a_cookie-banner_wrapper"><div class="a_cookies-text">We and our vendors use technology that collects or records personal information about your use of our site so we can improve and personalize our products and services, for analytics and marketing, and to fulfill your requests. We may also share this information with marketing vendors, social media companies, and analytics partners, which may be considered &quot;targeted advertising,&quot; &quot;selling,&quot; or &quot;sharing&quot; under some state laws. By using our website, you acknowledge and agree to our <a target="_blank" href="https://www.opus.pro/terms-of-service" class="white-link-white-underline white-underline"><span class="a_text-color-white white-link-white-underline">Terms of Use</span></a> and <a target="_blank" href="https://www.opus.pro/privacy-policy" class="white-link-white-underline white-underline"><span class="a_text-color-white white-link-white-underline">Privacy Policy</span></a>.</div><div class="a_cookie-banner_right-wrapper"><button fs-cc="close" aria-label="Hide cookie consent banner" class="a_cookie-banner_close"><img src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/67d2ab5fdffcca62bee4eefe_xmark.svg" loading="lazy" alt="close icon" class="a_icon-1x1-xsmall"/></button></div></div></div></div></div></div><script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6388604483b03a9ecb34d695" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/js/opusclip-staging.schunk.36b8fb49256177c8.js" type="text/javascript" integrity="sha384-4abIlA5/v7XaW1HMXKBgnUuhnjBYJ/Z9C1OSg4OhmVw9O3QeHJ/qJqFBERCDPv7G" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/js/opusclip-staging.schunk.6dab1630fcf68b2b.js" type="text/javascript" integrity="sha384-tTVNXyHNxoNAk0yiKhzZgG1Pgivyf/ulzLq/qWPM1onxIc5ki7DhFDdJEHRqqlr3" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/js/opusclip-staging.38e26ae5.68900a8076a9f507.js" type="text/javascript" integrity="sha384-4u26/v7V6+7CfKdKS0a2N7tjW7dptG5jO4MbIxAn1+Djd3PeUvCn/fYNqJtq0h6i" crossorigin="anonymous"></script><script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js" type="text/javascript"></script><script async>
+  // Show navbar affiliate link, if url contains 'utm_source=vidcon'
+  const currentURL = window.location.href
+  const navAffiliateLink = document.querySelector('[data-element="nav-affiliate-link"]')
+  if (navAffiliateLink) {
+    navAffiliateLink.classList.toggle('a_hide', !currentURL.includes('utm_source=vidcon'))
+  }
+</script>
+
+<script defer>
+  // Studio navbar white background-color interaction
+  // Check if the '.a_studio-navbar_component' element exists
+  // and is not undefined or null
+  if (
+    typeof document.querySelector('.a_studio-navbar_component') !== 'undefined' &&
+    document.querySelector('.a_studio-navbar_component') != null
+  ) {
+    // Get references to the '.a_navbar_spacer' and '.a_studio-navbar_component' elements
+    const navBarSpacer = document.querySelector('.a_navbar_spacer')
+    const studioNavbar = document.querySelector('.a_studio-navbar_component')
+    // Create a new IntersectionObserver that will call a function when
+    // the '.a_navbar_spacer' element intersects with the viewport
+    const studioNavbarIntersectionObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          // If the '.a_navbar_spacer' element is in view, remove the 'white' class
+          // from the '.a_studio-navbar_component' element
+          studioNavbar.classList.remove('white')
+        } else if (!entries[0].isIntersecting != null) {
+          // If the '.a_navbar_spacer' element is not in view, add the 'white' class
+          // to the '.a_studio-navbar_component' element
+          studioNavbar.classList.add('white')
+        }
+      },
+      { threshold: [0.9] }, // Set the threshold for intersection to 0.9
+    )
+    // Observe the '.a_navbar_spacer' element for intersection with the viewport
+    studioNavbarIntersectionObserver.observe(navBarSpacer)
+  }
+</script>
+
+<script async>
+  // Set maximum height of nav menu to 100vh on small devices
+  $(window).on('load resize', () => {
+    const documentWidth = $(document).width()
+    if (documentWidth < 992 && $('[data-element="navmenu"]').length) {
+      const navbarHeight = $('*[data-element="navbar"]').height()
+      const navmenuHeight = window.innerHeight - navbarHeight
+      $('*[data-element="navmenu"]').css('max-height', `${navmenuHeight}px`)
+    } else {
+      $('*[data-element="navmenu"]').css('max-height', 'none')
+    }
+  })
+</script>
+
+<!-- Cookie Consent START -->
+<script defer>
+  const banner = document.querySelector('[fs-cc="banner"]')
+  if (banner) {
+    const closeButton = document.querySelector('[fs-cc="close"]')
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+      let expires = ''
+      if (days) {
+        const date = new Date()
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+        expires = `; expires=${date.toUTCString()}`
+      }
+      document.cookie = `${name}=${value}${expires}; path=/`
+    }
+    // Function to get a cookie by name
+    function getCookie(name) {
+      const nameEQ = `${name}=`
+      const ca = document.cookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) === ' ') {
+          c = c.substring(1, c.length)
+        }
+        if (c.indexOf(nameEQ) === 0) {
+          return c.substring(nameEQ.length, c.length)
+        }
+      }
+      return null
+    }
+    // Function to hide the cookie banner
+    function hideCookieBanner() {
+      banner.style.display = 'none'
+    }
+    // Don't display multiple cookie banners for EU countries:
+    // Display the cookie banner when the page loads or country info loads
+    // NOTE: Parker added IN, AU, NZ to the end of the list on 1.5.25 (previously ended with SE
+    function displayCookieBanner() {
+      if (!getCookie('cookieConsent') && window._oIP && !['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IN', 'AU', 'NZ'].includes(window._oIP.countryCode)) {
+        banner.style.display = 'flex'
+      }
+    }
+    window.addEventListener('load', displayCookieBanner)
+    window.addEventListener('ipInfoLoaded', displayCookieBanner)
+
+    // Add click event listeners to close button
+    closeButton?.addEventListener('click', () => {
+      // Set a cookie or store the acceptance in local storage
+      setCookie('cookieConsent', true, 180)
+      hideCookieBanner()
+    })
+  }
+</script>
+<!-- Cookie Consent END -->
+
+<!-- Go To Dashboard with UTM -->
+<script type='application/javascript'>
+  function getQueryParams(utmContent) {
+    const p = new URLSearchParams(window.location.search)
+    if (utmContent && !p.get('utm_content')) p.set('utm_content', utmContent)
+    return p
+  }
+  function goToDashboard(utmContent) {
+    const p = getQueryParams(utmContent)
+    
+    // get stored params and merge them
+    const storedParams = retrieveParameters();
+    Object.entries(storedParams).forEach(([key, value]) => {
+      p.set(key, value);
+    });
+
+    
+    console.log("QueryParams",p);
+    const baseUrl = 'https://clip.opus.pro'
+    const currentUrl = new URL(window.location.href)
+    console.log("Pathname",currentUrl.pathname);
+
+    let dashboardUrl = `${baseUrl}/dashboard?${p.toString()}`
+
+    // Yong--0511-2024:support Spanish login/sign up page
+    if (currentUrl.pathname.includes('/es-es')) {
+      dashboardUrl = `${baseUrl}/es-es/dashboard?${p.toString()}`
+    }
+    window.location.href = dashboardUrl
+  }
+  $('#sign-in-mobile').on('click', function() {
+    goToDashboard()
+  })
+  $('#sign-in').on('click', function() {
+    goToDashboard()
+  })
+  $('#my-dashboard').on('click', function() {
+    goToDashboard()
+  })
+  $('#my-dashboard-mobile').on('click', function() {
+    goToDashboard()
+  })
+  $('#start-free-trial').on('click', function() {
+    goToDashboard()
+  })
+  $('[id^="upload-file"]').on('click', function() {
+    goToDashboard()
+  })
+</script>
+<!-- End for Go To Dashboard -->
+
+<!-- Start of Harley profitwell js -->
+<script id='profitwell-js' data-pw-auth='c56b1535b18d0f38a74812dd654de9b3' defer>
+  (function(i, s, o, g, r, a, m) {
+    i[o] = i[o] || function() {
+      (i[o].q = i[o].q || []).push(arguments)
+    }
+    a = s.createElement(g)
+    m = s.getElementsByTagName(g)[0]
+    a.async = 1
+    a.src = r + '?auth=' +
+      s.getElementById(o + '-js').getAttribute('data-pw-auth')
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'profitwell', 'script', 'https://public.profitwell.com/js/profitwell.js')
+  profitwell('start', {})
+</script>
+<!-- End of Harley profitwell js -->
+
+<!-- install mixpanel for all webpages -->
+<script async>
+  (function () {
+    // OC project token
+    const OC_TOKEN = "c6867cb9d3aa0892931dab875068281c";
+
+    // AO project token
+    const AO_TOKEN = "7bb8bd164664df4c5ef69fcaae8f1de0";
+
+    // Keeps OC behavior unchanged (still auto pageviews, still default instance)
+    mixpanel.init(OC_TOKEN, {
+      api_host: "https://mp.opus.pro",
+      track_pageview: true,
+    });
+
+    // Add AO as a named instance (no auto pageviews!)
+    mixpanel.init(
+      AO_TOKEN,
+      {
+        api_host: "https://mp.opus.pro",
+        track_pageview: false,
+      },
+      "ao"
+    );
+
+    // Routes that should ALSO send pageview into AO
+    const path = window.location.pathname;
+    const isAOPage =
+          path === "/agent" ||
+          path.startsWith("/agent/") ||
+          path === "/ai-motion-graphics";
+
+    if (!isAOPage) return;
+
+    const url = new URL(window.location.href);
+    const props = {
+      referrer: document.referrer || undefined,
+      utm_source: url.searchParams.get("utm_source") || undefined,
+      utm_medium: url.searchParams.get("utm_medium") || undefined,
+      utm_campaign: url.searchParams.get("utm_campaign") || undefined,
+      utm_content: url.searchParams.get("utm_content") || undefined,
+      utm_term: url.searchParams.get("utm_term") || undefined,
+      lang: document.documentElement.lang || undefined,
+      // browser language (for consistency with existing tracking)
+      browserLanguage: (navigator.languages?.[0] || navigator.language || 'en').split('-')[0],
+    };
+
+    // Fire a pageview into AO only (OC pageview already happens automatically)
+    if (mixpanel.ao?.track_pageview) {
+      mixpanel.ao.track_pageview(props);
+    } else {
+      // fallback if track_pageview isn't available on the client version
+      mixpanel.ao.track("$pageview", props);
+    }
+  })();
+</script>
+
+<!-- Start Block affiliate commissions from Google Ads -->
+<script>
+  $(function(){
+    let referral_url = new URL(window.location.href);
+    if (referral_url.searchParams.has('gclid') && referral_url.searchParams.has('via')) {
+      setTimeout(function(){
+        document.cookie = "rewardful.referral=;domain=.opus.pro;path=/;max-age=0";
+        console.log("f")
+      }, 2000)
+    }
+  });
+</script>
+<!-- End Block affiliate commissions from Google Ads -->
+
+<!-- Start Block Navbar Banners  -->
+<script>
+  "use strict";
+  (function () {
+    const navbarBannersWrappers = document.querySelectorAll('[data-element="navbar-banners-wrapper"]');
+    const navbarBanners = document.querySelectorAll('[data-navbar-banner]');
+    function showBannersWrappers() {
+      navbarBannersWrappers.forEach((navbarBannersWrapper) => {
+        navbarBannersWrapper.style.display = 'grid';
+        navbarBannersWrapper.style.gridTemplateRows = '0fr';
+        setTimeout(() => {
+          navbarBannersWrapper.style.gridTemplateRows = '1fr';
+        });
+      });
+    }
+    function showBanner(bannerId) {
+      navbarBanners.forEach((banner) => {
+        if (banner.getAttribute('data-navbar-banner') === bannerId) {
+          banner.style.display = 'grid';
+        }
+      });
+    }
+    function hideBanner(bannerId) {
+      navbarBanners.forEach((banner) => {
+        if (banner.getAttribute('data-navbar-banner') === bannerId) {
+          setCookie(`${bannerId}`, true, 180);
+          banner.style.gridTemplateRows = '0fr';
+          setTimeout(() => {
+            banner.style.display = 'none';
+          }, 200);
+        }
+      });
+    }
+    function setCookie(name, value, days) {
+      let expires = ''
+      if (days) {
+        const date = new Date()
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+        expires = `; expires=${date.toUTCString()}`
+      }
+      document.cookie = `${name}=${value}${expires}; path=/`
+    }
+    function getCookie(name) {
+      const nameEQ = `${name}=`
+      const ca = document.cookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) === ' ') {
+          c = c.substring(1, c.length)
+        }
+        if (c.indexOf(nameEQ) === 0) {
+          return c.substring(nameEQ.length, c.length)
+        }
+      }
+      return null
+    }
+    window.addEventListener('load', () => {
+      // get banners array to show
+      const bannersIdsToShowDiv = document.querySelector('[data-show-banners-all-pages]');
+      // all pages
+      const bannersIdsToShowAllPagesAttributeValue = bannersIdsToShowDiv === null || bannersIdsToShowDiv === void 0 ? void 0 : bannersIdsToShowDiv.getAttribute('data-show-banners-all-pages');
+      let bannersIdsToShowAllPages = [];
+      if (bannersIdsToShowAllPagesAttributeValue) {
+        bannersIdsToShowAllPages = bannersIdsToShowAllPagesAttributeValue
+        .split(',')
+        .map((value) => value.trim());
+      }
+      // this page
+      const bannersIdsToShowCurrentPageAttributeValue = bannersIdsToShowDiv === null || bannersIdsToShowDiv === void 0 ? void 0 : bannersIdsToShowDiv.getAttribute('data-show-banners-current-page');
+      let bannersIdsToShowCurrentPage = [];
+      if (bannersIdsToShowCurrentPageAttributeValue) {
+        bannersIdsToShowCurrentPage = bannersIdsToShowCurrentPageAttributeValue
+        .split(',')
+        .map((value) => value.trim());
+      }
+      // concat
+      const bannersIdsToShowConcat = [
+        ...bannersIdsToShowAllPages,
+        ...bannersIdsToShowCurrentPage,
+      ];
+      const bannersIdsToShow = [...new Set(bannersIdsToShowConcat)];
+      // show needed banners
+      navbarBanners.forEach((banner) => {
+        const currentBannerId = banner.getAttribute('data-navbar-banner');
+        // return if banner is not needed
+        if (currentBannerId && !bannersIdsToShow.includes(currentBannerId)) {
+          return;
+        }
+        const navbarBannerCloseTriggers = banner.querySelectorAll('[data-element="navbar-banner-close-trigger"]');
+        if (!getCookie(`${currentBannerId}`)) {
+          if (currentBannerId) {
+            showBanner(currentBannerId);
+          }
+        }
+        navbarBannerCloseTriggers.forEach((trigger) => {
+          trigger.addEventListener('click', () => {
+            if (currentBannerId) {
+              hideBanner(currentBannerId);
+            }
+          });
+        });
+      });
+      showBannersWrappers();
+    });
+  })();
+</script>
+<!-- End Block Navbar Banners  -->
+
+
+<!-- Start FAQ Schema  -->
+<script>
+/**
+ * Universal FAQ JSON-LD injector (with Finsweet support)
+ * - Detects existing FAQ (@graph-aware) and skips unless window.opusFAQForce = true
+ * - Harvests: Finsweet Accordion, Webflow accordion, custom FAQ blocks, "Got questions" sections, plain-text blog FAQs
+ * - Sanitizes answers to minimal HTML
+ * - Re-runs briefly to catch late DOM
+ */
+(function () {
+  function text(el){ return (el && (el.innerText || el.textContent) || '').trim(); }
+  function isHeading(el){ return !!el && /^H[1-6]$/.test(el.tagName); }
+  function hLevel(el){ return isHeading(el) ? +el.tagName.slice(1) : 7; }
+  function endsQ(s){ return /\?\s*!*$/.test(s||''); }
+  function likelyQ(s){ return !!s && s.length>=6 && s.length<=200 && endsQ(s); }
+  function trimToFirstQ(s){ var i=(s||'').indexOf('?'); return i>=0 ? s.slice(0,i+1).trim() : s; }
+
+  // Robust "page already has FAQ" detector (arrays & @graph)
+  function pageHasFAQ(){
+    return Array.from(document.querySelectorAll('script[type="application/ld+json"]')).some(function (s) {
+      try {
+        var o = JSON.parse(s.textContent);
+        function hasFAQNode(node){
+          if (!node || typeof node !== 'object') return false;
+          var t = node['@type'];
+          if (Array.isArray(t) ? t.includes('FAQPage') : t === 'FAQPage') return true;
+          if (Array.isArray(node)) return node.some(hasFAQNode);
+          if (Array.isArray(node['@graph'])) return node['@graph'].some(hasFAQNode);
+          return false;
+        }
+        return hasFAQNode(o);
+      } catch (e) { return false; }
+    });
+  }
+
+  // Sanitizer: safe, minimal HTML
+  function sanitizeAllowedHTML(el){
+    if (!el) return '';
+    var c = el.cloneNode(true);
+    c.querySelectorAll('script,style,noscript,form,input,button,select,textarea,iframe').forEach(function(n){ n.remove(); });
+    // If a nested question sneaks into the answer, cut it and everything after it
+    var cut = c.querySelector('h1,h2,h3,h4,h5,h6, .a-ca_faq_question, .a-ca_faq_question_h3, .w-accordion-title, [fs-accordion-element="trigger"]');
+    if (cut){ var n = cut; while (n){ var next = n.nextSibling; n.remove(); n = next; } }
+    // Keep only simple content; unwrap DIV/SPAN
+    var allowed = new Set(['P','UL','OL','LI','A','BR','STRONG','EM','CODE','BLOCKQUOTE']);
+    function unwrap(node){
+      var parent = node.parentNode;
+      while (node.firstChild) parent.insertBefore(node.firstChild, node);
+      parent.removeChild(node);
+    }
+    c.querySelectorAll('*').forEach(function(node){
+      if (!allowed.has(node.tagName)) {
+        if (node.tagName === 'DIV' || node.tagName === 'SPAN') unwrap(node);
+        else node.remove();
+      }
+    });
+    // Strip attributes (keep basic link attrs)
+    c.querySelectorAll('*').forEach(function(node){
+      var keep = (node.tagName === 'A') ? ['href','rel','target'] : [];
+      Array.from(node.attributes).forEach(function(attr){
+        if (!keep.includes(attr.name.toLowerCase())) node.removeAttribute(attr.name);
+      });
+    });
+    return (c.innerHTML || '').trim();
+  }
+
+  function buildAndInject(faqs){
+    if (faqs.length < 2) return false; // avoid false positives
+    var jsonLd = { "@context":"https://schema.org", "@type":"FAQPage", "mainEntity": faqs };
+    window.opusFAQ = { export: function(){ return JSON.stringify(jsonLd, null, 2); }, count: faqs.length };
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.text = JSON.stringify(jsonLd);
+    document.head.appendChild(s);
+    return true;
+  }
+
+  function run(){
+    var FORCE = !!window.opusFAQForce;
+    if (!FORCE && pageHasFAQ()) return false;
+
+    var faqs = [], seen = new Set();
+    function addFAQ(q, aHTML){
+      if (!q || !aHTML) return;
+      q = trimToFirstQ(q);
+      if (!endsQ(q)) return;
+      var key = q.toLowerCase().replace(/\s+/g,' ').trim();
+      if (seen.has(key)) return; seen.add(key);
+      faqs.push({ "@type":"Question", "name": q, "acceptedAnswer": { "@type":"Answer", "text": aHTML } });
+    }
+
+    // ================= 1) Component harvesting =================
+    var containers = [];
+
+    // Known wrappers
+    document.querySelectorAll('.a-ca_faq_wrapper .a-ca_faq_items, .home0625_faq_accordions').forEach(function(el){ containers.push(el); });
+
+    // Finsweet group wrapper
+    document.querySelectorAll('[fs-accordion-element="group"]').forEach(function(el){ if (!containers.includes(el)) containers.push(el); });
+
+    // Generic patterns
+    document.querySelectorAll('[data-faq-items], .w-accordion, [class*="faq_accordions"], [class*="faq-accordions"], [class*="faq"] [class*="items"], [class*="faq"] [class*="list"], [class*="faq"], [id*="faq"]').forEach(function(el){
+      if (!containers.includes(el)) containers.push(el);
+    });
+
+    function findItems(cont){
+      // Finsweet items first
+      var items = Array.from(cont.querySelectorAll('[fs-accordion-element="item"]'));
+      // Other item patterns
+      items = items.concat(Array.from(cont.querySelectorAll('[data-faq-item], .w-accordion-item, [class*="accordion-item"], [class*="faq-item"], [class*="faq__item"], [class*="faqAccordionItem"]')));
+      // Fallback: direct children that look like items
+      if (!items.length && cont.children && cont.children.length) {
+        items = Array.from(cont.children).filter(function(el){
+          return el.querySelector('[fs-accordion-element="trigger"], .a-ca_faq_question_h3, [data-faq-q]') &&
+                 el.querySelector('[fs-accordion-element="content"], .a-ca_faq_answer, [data-faq-a]');
+        });
+      }
+      // Deduplicate
+      return Array.from(new Set(items));
+    }
+
+    function extractFromItem(item){
+      // Prefer Finsweet trigger/content, then explicit data attrs, then common classes
+      var qEl = item.querySelector('[fs-accordion-element="trigger"], [data-faq-q], .a-ca_faq_question_h3, .w-accordion-title, h1,h2,h3,h4,h5,h6, button[aria-controls], [role="button"]');
+      var aEl = item.querySelector('[fs-accordion-element="content"], [data-faq-a], .a-ca_faq_answer, .faq-a, .faq__a, .w-accordion-content, .accordion__content, [role="region"]');
+      var q = text(qEl);
+      var aHTML = sanitizeAllowedHTML(aEl);
+      addFAQ(q, aHTML);
+    }
+
+    containers.forEach(function(cont){ findItems(cont).forEach(extractFromItem); });
+
+    // ================= 2) Plain-text blog endings =================
+    var articleRoots = Array.from(document.querySelectorAll('article, [role="main"] article, .w-richtext, [itemprop="articleBody"], [data-article], main article, .blog_richtext'));
+    if (!articleRoots.length){
+      var rtes = document.querySelectorAll('.w-richtext'); if (rtes.length) articleRoots = [rtes[rtes.length-1]];
+    }
+    function lastFAQAnchor(root){
+      var hs = Array.from(root.querySelectorAll('h2,h3,h4,h5,h6')).filter(function(h){
+        var s = text(h).toLowerCase();
+        return /\bfaq\b|\bfaqs\b|frequently\s+asked/.test(s);
+      });
+      return hs.length ? hs[hs.length-1] : null;
+    }
+    function collectPlain(root){
+      var anchor = lastFAQAnchor(root); if (!anchor) return;
+      var stop = hLevel(anchor), node = anchor.nextElementSibling;
+      function isQ(el){
+        if (!el) return false;
+        if (/^H[3-6]$/.test(el.tagName) && likelyQ(text(el))) return true;
+        var strong = el.matches('p,li') ? el.querySelector('strong,b') : null;
+        if (strong && likelyQ(text(strong))) return true;
+        if (el.tagName==='P' && likelyQ(text(el))) return true;
+        return false;
+      }
+      while (node){
+        if (isHeading(node) && hLevel(node) <= stop) break;
+        if (isQ(node)){
+          var q = trimToFirstQ(text(node));
+          var parts=[], cur=node.nextElementSibling;
+          while (cur){
+            if (isHeading(cur) && hLevel(cur) <= stop) break;
+            if (isQ(cur)) break;
+            if (/^(P|UL|OL|DIV|BLOCKQUOTE|FIGURE)$/i.test(cur.tagName)){
+              var html = sanitizeAllowedHTML(cur); if (html) parts.push(html);
+            }
+            cur=cur.nextElementSibling;
+          }
+          if (parts.length) addFAQ(q, parts.join(''));
+          node=cur; continue;
+        }
+        node=node.nextElementSibling;
+      }
+    }
+    articleRoots.forEach(collectPlain);
+
+    // ================= 3) "Got questions" sections =================
+    // Headings
+    var gotHeads = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6')).filter(function(h){
+      return /got\s+questions!?/i.test(text(h));
+    });
+    // Containers that contain the phrase (e.g., homepage layout)
+    var container1200 = Array.from(document.querySelectorAll('.a_container-1200, .home0625_faq_layout')).filter(function(el){
+      return /got\s+questions!?/i.test(text(el));
+    });
+    if (!gotHeads.length && !container1200.length) {
+      var candidates = Array.from(document.querySelectorAll('section, .section, [data-section], .wf-section, [class*="questions"], [class*="faq"], div, p, span'))
+        .filter(function(el){ var s=text(el); return s && s.length<=120 && /got\s+questions!?/i.test(s); });
+      gotHeads = candidates;
+    }
+
+    function nearestRegion(node){
+      return node.closest('.home0625_faq_section, .a_container-1200, section, .section, [data-section], .wf-section, main, body') || document.body;
+    }
+    function harvestAround(node){
+      var region = nearestRegion(node);
+      // Prefer accordions inside the same region
+      var roots = Array.from(region.querySelectorAll('[fs-accordion-element="group"], .w-accordion, [class*="accordion"], [role="tablist"], [aria-multiselectable]'));
+      var row = node.parentElement;
+      if (row){
+        roots = Array.from(new Set(roots.concat(Array.from(row.querySelectorAll('[fs-accordion-element="group"], .w-accordion, [class*="accordion"], [role="tablist"], [aria-multiselectable]')))));
+      }
+      var found = 0;
+      roots.forEach(function(r){ findItems(r).forEach(function(i){ extractFromItem(i); found++; }); });
+      if (found) return;
+
+      // Fallback: parse Q?/answer paragraphs after the label
+      var stop = isHeading(node) ? hLevel(node) : 2;
+      var nodeAfter = node.nextElementSibling;
+      function isQNode(el){
+        if (!el) return false;
+        if (/^H[3-6]$/.test(el.tagName) && likelyQ(text(el))) return true;
+        var strong = el.matches('p,li,div') ? el.querySelector('strong,b') : null;
+        if (strong && likelyQ(text(strong))) return true;
+        if ((el.tagName==='P' || el.tagName==='DIV') && likelyQ(text(el))) return true;
+        return false;
+      }
+      var cur = nodeAfter;
+      while (cur && cur !== region.nextElementSibling){
+        if (isHeading(cur) && hLevel(cur) <= stop) break;
+        if (isQNode(cur)){
+          var qText=trimToFirstQ(text(cur)), parts=[], nxt=cur.nextElementSibling;
+          while (nxt){
+            if (isHeading(nxt) && hLevel(nxt) <= stop) break;
+            if (isQNode(nxt)) break;
+            if (/^(P|UL|OL|DIV|BLOCKQUOTE|FIGURE)$/i.test(nxt.tagName)){
+              var html=sanitizeAllowedHTML(nxt); if (html) parts.push(html);
+            }
+            nxt=nxt.nextElementSibling;
+          }
+          if (parts.length) addFAQ(qText, parts.join(''));
+          cur=nxt; continue;
+        }
+        cur=cur.nextElementSibling;
+      }
+    }
+    gotHeads.forEach(harvestAround);
+    container1200.forEach(harvestAround);
+
+    return buildAndInject(faqs);
+  }
+
+  // Run now; if nothing injected, re-run briefly to catch late DOM
+  var injected = run();
+  if (!injected) {
+    var attempts = 0, maxAttempts = 3, timer = null;
+    var tryAgain = function(){ if (attempts >= maxAttempts) return; attempts++; if (!run()) timer = setTimeout(tryAgain, 500); };
+    // MutationObserver to re-try when homepage blocks render
+    var observer = new MutationObserver(function(){ tryAgain(); });
+    try { observer.observe(document.documentElement, { childList: true, subtree: true }); } catch(e){}
+    tryAgain();
+  }
+})();
+</script>
+
+
+<!-- End FAQ Schema  -->
+<!-- swiper  -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js" integrity="sha384-kLg4yw7ysk2F34aYhHIrdq/AXIkHzZ808L3af45jUqWQoMPN8VnJneCjOR8+THSG" crossorigin="anonymous"></script>
+<!-- customers & statistics swipers -->
+<script src="https://cdn.prod.website-files.com/6388604483b03a9ecb34d695/65084c40d8ab2afe46fbe691_customersAndStatisticsSwipers.txt" type="text/javascript"></script>
+<script>
+  setTimeout(() => {
+     window.location.href = '/'
+  }, 3000);
+</script>
+<script>
+  const sources = document.getElementsByTagName('source')
+  for (let source of sources) {
+    const src = source.src
+    if (src.endsWith('.webm')) {
+      source.remove()
+    }
+  }
+  window.Webflow ||= []
+  window.Webflow.push(() => {
+    // Prevent closing accordion on text link click inside answer
+    const accordions = document.querySelectorAll('.a_nlp_faq_accordion')
+    accordions.forEach((accordion) => {
+      accordion.addEventListener('click', (e) => {
+        if (e.target.matches('.a_text-style-link')) {
+          e.stopPropagation()
+        }
+      })
+    })
+  })
+</script>
+
+<script>
+  // show conversion banner when the user scrolls past trigger on mobile
+  const conversionBanner = document.querySelector(
+    '[data-element="conversion-banner"]',
+  )
+  const conversionBannerTrigger = document.querySelector(
+    '[data-element="conversion-banner-trigger"]',
+  )
+  let hideBannerTimeout
+  function showConversionBanner() {
+    if (!conversionBanner) return
+    clearTimeout(hideBannerTimeout)
+    conversionBanner.style.display = 'flex'
+    conversionBanner.offsetHeight
+    conversionBanner.style.opacity = '1'
+  }
+  function hideBanner() {
+    if (!conversionBanner) return
+    conversionBanner.style.opacity = '0'
+    hideBannerTimeout = setTimeout(() => {
+      conversionBanner.style.display = 'none'
+    }, 300)
+  }
+  const conversionBannerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        hideBanner()
+      } else {
+        showConversionBanner()
+      }
+    })
+  })
+  function handleViewportChange(event) {
+    if (event.matches) {
+      conversionBannerObserver.observe(conversionBannerTrigger)
+    } else {
+      hideBanner()
+      conversionBannerObserver.unobserve(conversionBannerTrigger)
+    }
+  }
+  const mediaQuery = window.matchMedia('(max-width: 991px)')
+  handleViewportChange(mediaQuery)
+  mediaQuery.addListener(handleViewportChange)
+</script>
+
+<!-- navbar banner -->
+<!--
+<script>
+const navbarBannerCloseTrigger = document.querySelector('[data-element="navbar-banner-close-trigger"]');
+const navbarBanner = document.querySelector('[data-element="navbar-banner"]');
+const navbarBannerSpacer = document.querySelector('[data-element="navbar-banner-spacer"]');
+window.addEventListener('load', () => {
+    if (navbarBanner && navbarBannerSpacer) {
+        const hideBanner = () => {
+            navbarBanner.style.gridTemplateRows = '0fr';
+            navbarBannerSpacer.style.gridTemplateRows = '0fr';
+            setTimeout(() => {
+                navbarBanner.style.display = 'none';
+                navbarBannerSpacer.style.display = 'none';
+            }, 200);
+        };
+        if (!getCookie('homepage-hide-navbar-banner')) {
+            navbarBanner.style.display = 'grid';
+            navbarBannerSpacer.style.display = 'grid';
+            navbarBanner.style.gridTemplateRows = '0fr';
+            navbarBannerSpacer.style.gridTemplateRows = '0fr';
+            setTimeout(() => {
+                navbarBanner.style.gridTemplateRows = '1fr';
+                navbarBannerSpacer.style.gridTemplateRows = '1fr';
+            });
+        }
+        navbarBannerCloseTrigger?.addEventListener('click', () => {
+            setCookie('homepage-hide-navbar-banner', true, 180);
+            hideBanner();
+        });
+    }
+});
+</script>
+-->
+</body></html>

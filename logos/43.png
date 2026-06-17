@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+  &#x7F51;&#x6613;&#x5929;&#x97F3; - &#x4E00;&#x7AD9;&#x5F0F;AI&#x97F3;&#x4E50;&#x521B;&#x4F5C;&#x5DE5;&#x5177; - &#x5B98;&#x7F51;
+</title>
+<meta name="keywords" content="&#x7F51;&#x6613;&#x5929;&#x97F3;&#x3001;&#x5929;&#x97F3;&#x3001;AI&#x7F16;&#x66F2;&#x3001;AI&#x4F34;&#x594F;&#x3001;&#x97F3;&#x4E50;&#x521B;&#x4F5C;&#x3001;&#x7F16;&#x66F2;&#x3001;&#x4F34;&#x594F;&#x3001;&#x5199;&#x6B4C;&#x3001;&#x96F6;&#x57FA;&#x7840;&#x5199;&#x6B4C;&#x3001;&#x7F51;&#x6613;&#x3001;AI&#x97F3;&#x4E50;&#x3001;&#x81EA;&#x52A8;&#x7F16;&#x66F2;&#x3001;&#x81EA;&#x52A8;&#x4F34;&#x594F;&#x3001;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x3001;&#x514D;&#x8D39;&#x97F3;&#x4E50;&#x3001;&#x81EA;&#x5B66;&#x7F16;&#x66F2;">
+<meta name="description" content="&#x7F51;&#x6613;&#x5929;&#x97F3;AI&#x521B;&#x4F5C;&#x5E73;&#x53F0;&#xFF0C;&#x8BCD;&#x66F2;&#x7F16;&#x5531;&#x6837;&#x6837;&#x7CBE;&#x901A;&#xFF0C;&#x6D77;&#x91CF;&#x98CE;&#x683C;&#x5168;&#x90E8;&#x514D;&#x8D39;&#x4F7F;&#x7528;&#xFF0C;&#x8FD8;&#x4E0D;&#x5FEB;&#x6765;&#x70B9;&#x4EAE;&#x4F60;&#x7684;&#x97F3;&#x4E50;&#x5929;&#x8D4B;&#xFF01;">
+
+    <meta name="renderer" content="webkit">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="robots" content="all">
+    <meta name="author" content="&#x7F51;&#x6613;&#xFF0C;NetEase Inc.">
+    <meta name="copyright" content="&#x7F51;&#x6613;&#xFF0C;NetEase Inc.">
+    <link rel="dns-prefetch" href="https://nie.res.netease.com">
+    <!--[if lt IE 9]>
+    <script src="https://nie.res.netease.com/comm/html5/html5shiv.js"></script>
+    <![endif]-->
+    <!-- jquery mix NIE (最新版本）-->
+    <script charset="utf-8" src="https://nie.res.netease.com/comm/js/jquery(mixNIE).1.11.js"></script>
+    <link rel="icon" href="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/img/favicon_021f7155.ico">
+<link href="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/css/vendor_5959bde2.css" rel="stylesheet"><link href="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/css/index_3a8c938e.css" rel="stylesheet"></head>
+
+<script>!function(){"use strict";!function(a,r,o){a.corona_error_cache=function(r){a.corona_error_cache.data.push(r)},a.corona_error_cache.data=[];var t=a[r];a[r]=function(r,o,n,e,c){a.corona_error_cache({e:c||"未知错误，由预置脚本捕获",event:"error"}),t&&t.apply(a,arguments)};var n=a[o];a[o]=function(r){a.corona_error_cache({e:r.reason,event:"unhandledrejection"}),n&&n.apply(a,arguments)}}(window,"onerror","onunhandledrejection")}();</script><body>
+<div id="app"></div>
+
+<!-- JS放底部-->
+<script src="https://nie.res.netease.com/comm/js/nie/ref/??es6-promise.js,es6-promise.auto.min.js,polyfill.7.4.4.js"></script>
+<script src="https://nie.res.netease.com/comm/js/nie/ref/??vue.2.5.0.js,vue-router.3.0.1.js,vuex.3.0.1.js,tweenmax.js"></script>
+<script src="//at.alicdn.com/t/font_2777750_g79ufhprxtu.js"></script>
+<script type="text/javascript" src="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/js/vendor_165f02fb.js"></script><script type="text/javascript" src="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/js/lib_cbdaba01.js"></script><script type="text/javascript" src="https://s7.music.126.net/6369f9ec78c25c1818ccfc08/js/index_1d007c01.js"></script><script>!function(e,n,t,s,c){var r=void 0!==t&&t.resolve,a=e[s];(a=e[s]=function(){this.modules={}}).callbacks=[],a.ready=r?function(){return a.instance?t.resolve(a.instance.vars()):new t(function(e){return a.callbacks.push(e)})}:function(e){return a.instance?e(a.instance.vars()):a.callbacks.push(e)};var i=n.createElement(c),u=n.getElementsByTagName(c)[0];i.async=!0,i.src="https://s6.music.126.net/puzzle/puzzle@001D04.js",u.parentNode.insertBefore(i,u)}(window,document,window.Promise,"puzzle","script");</script></body>
+
+</html>

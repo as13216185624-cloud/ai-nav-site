@@ -1,0 +1,365 @@
+
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><link rel="icon" href="https://img.alicdn.com/imgextra/i2/O1CN01LIU5g723EeHFxGlTi_!!6000000007224-2-tps-150-150.png"/><link rel="shortcut icon" href="https://img.alicdn.com/imgextra/i2/O1CN01LIU5g723EeHFxGlTi_!!6000000007224-2-tps-150-150.png"/><meta name="wpk-bid" content="hec5s2f3-m5eay1vi"/><meta name="wpk-rel" content="1.0.146"/><meta name="aplus-waiting" content="MAN"/><meta name="aplus-core" content="aplus.js"/><meta name="aplus-xplug" content="NONE"/><meta name="aplus-apm-track" content="on"/><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, disablepreview"/><meta id="WV.Meta.Nav.HideNavBar" value="HideStatusBar"/><meta id="WV.Meta.StopSaveImage" value="true"/><script src="//g.alicdn.com/??mtb/lib-promise/3.1.3/polyfillB.js,mtb/lib-mtop/2.4.0/mtop.js,mtb/lib-login/1.6.4/login.js"></script><meta name="data-fact" content="5176"/><meta name="exposure-on"/><meta name="ut-on"/><meta name="aplus-toUT" content="on"/><meta name="multiple-page"/><script type="text/javascript">
+    
+    function compareVersion(currentVersion, compare) {
+      var list1 = compare.split('.').map(function(i){return parseInt(i)});
+      var list2 = currentVersion.split('.').map(function(i){return parseInt(i)})
+      var a1 = list1[0];
+      var b1 = list1[1];
+      var c1 = list1[2];
+      var a2 = list2[0];
+      var b2 = list2[1];
+      var c2 = list2[2];
+    
+      if (currentVersion === compare) {
+        return 0;
+      }
+    
+      var r =
+        a2 > a1 || (a1 === a2 && b2 > b1) || (a1 === a2 && b1 === b2 && c2 > c1);
+    
+      return r ? 1 : -1;
+    };
+  
+    
+    function getAppVersion () {
+      var userAgent = navigator.userAgent;
+      var CommonMatch = userAgent.match(/TONGYI\/(\d+\.\d+\.\d+)/);
+      if (CommonMatch) {
+        return CommonMatch[1];
+      }
+      var iOSMatch = userAgent.match(/Tongyi4iPhone\/(\d+\.\d+\.\d+)/);
+      if (iOSMatch) {
+        return iOSMatch[1];
+      }
+      var iOSMatch2 = userAgent.match(/TongyiApp\/(\d+\.\d+\.\d+)/);
+      if (iOSMatch2) {
+        return iOSMatch2[1];
+      }
+      var androidMatch = userAgent.match(/tongyi\/(\d+\.\d+\.\d+)/);
+      if (androidMatch) {
+        return androidMatch[1];
+      }
+      return '';
+    };
+
+    var APP_VERSION = getAppVersion();
+    var inTYAPP = !!APP_VERSION;
+  
+
+    function waitForBody(cb) {
+      if (document.body) {
+        cb();
+      } else {
+        requestAnimationFrame(function() {
+          waitForBody(cb);
+        });
+      }
+    };
+  </script><script type="text/javascript">
+  var lock = false;
+  var lockReload = false;
+  var element = document.createElement('div');
+
+  function addTips() {
+    if (!document.body) {
+      return;
+    }
+
+    if (lock) {
+      return;
+    }
+
+    lock = true;
+
+    function reload() {
+      if (lockReload) {
+        return;
+      }
+
+      lockReload = true;
+
+      checkNetWork()
+        .then(function() {
+          window.location.reload();
+        })
+        .catch(function() {
+          lockReload = false;
+        })
+    }
+
+    element.innerHTML = '<div id="tips" style="position: fixed; width: 100%; height: 100%; left: 0; top: 0; display: flex; justify-content: center; align-items: center; flex-direction: column;background: transparent; font-size: 0.8rem; color: #8F91A8">网络异常，试试刷新<div id="network-error-btn" style="background: linear-gradient(68deg, #615CED 0%, #3E2FA7 180%);height: 2rem; border-radius: 2rem; line-height: 2rem; text-align: center; color: #FFFFFF; font-size: 0.7rem; margin-top: 2rem; padding: 0px 2.2rem;">刷新</div></div>'
+    document.body.appendChild(element);
+    document.querySelector('#ice-container').style.display = 'none';
+    document.body.style.background = 'transparent';
+    
+    element.querySelector('#network-error-btn').addEventListener('click', reload);
+  };
+
+  function checkNetWork() {
+    return new Promise(function(resolve, reject) {
+      fetch('https://gw.alicdn.com/imgextra/i2/O1CN017YzZdE1le96yrYRsl_!!6000000004843-55-tps-36-63.svg?t=' + Date.now(), {
+        method: 'HEAD',
+        cache: 'no-cache'
+      })
+      .then(function(res) {
+        if (res.ok) {
+          resolve(true);
+        }
+        else {
+          reject('addResourceLoadHandler network error');
+        }
+      })
+      .catch(function() {
+        reject('addResourceLoadHandler network error');
+      });
+    });
+  }
+
+  window.addEventListener('error', function(e) {
+    if (!(e instanceof ErrorEvent)) {
+      var target = e.target;
+      var isRequire = target.hasAttribute('resource-require');
+      if (isRequire) {
+        if (inTYAPP && compareVersion(APP_VERSION, '3.11.0') >= 0 && window.WindVane) {
+          window.WindVane.call('ty', 'showErrorPage', {
+              title: "未知错误",
+              content: "千问前方拥堵中，晚点再来试试看",
+              buttonContent: "重试",
+          });
+        }
+        else {
+          waitForBody(function() {
+            addTips();
+          });
+        }
+      }
+    }
+  }, true);
+
+  </script><meta name="ice-meta-count" content="0"/><title>千问，AI超级个人助理</title><link rel="preload" type="text/css" href="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/css/main.css" as="style"/><link rel="stylesheet" type="text/css" href="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/css/main.css" resource-require="true"/><link rel="preload" type="text/css" href="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/css/p_download-guide-index.css" as="style"/><link rel="stylesheet" type="text/css" href="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/css/p_download-guide-index.css" resource-require="true"/><script type="text/javascript">
+            !(function (n) {
+              function f() {
+                var e = n.document.documentElement,
+                  w = e.getBoundingClientRect().width,
+                  x = (40 * w) / 750;
+                e.style.fontSize = x >= 25 ? '25px' : x <= 15 ? '15px' : x + 'px';
+              }
+              
+                f();
+                n.addEventListener('resize', f)
+            })(window);
+          </script><script crossorigin="anonymous" id="tongyi-icons-1" src="//at.alicdn.com/t/a/font_4383528_pmopdaw10re.js"></script><script crossorigin="anonymous" id="tongyi-icons-2" src="//at.alicdn.com/t/a/font_4817369_y7vkr51htlt.js"></script><script crossorigin="anonymous" id="tongyi-icons-3" src="//at.alicdn.com/t/a/font_5065338_fygk145woat.js"></script><script type="text/javascript">
+    
+    function getSafeArea() {
+      return new Promise(function(resolve, reject){
+        var defaultData = {
+          topSafeArea: '1rem',
+          bottomSafeArea: '0px'
+        };
+        
+        if (!window.WindVane) resolve(defaultData);
+        window.WindVane.call(
+          'QianWenPlugin',
+          'queryDeviceParams',
+          {},
+          function(e){
+            var data = e.result || e;
+            if (data.topSafeArea) {
+              data.topSafeArea = data.topSafeArea + 'px';
+            }
+            if (data.bottomSafeArea) {
+              data.bottomSafeArea = data.bottomSafeArea + 'px';
+            }
+            resolve(data);
+          },
+          function(e){
+            resolve(defaultData);
+          },
+        );
+      })
+    };
+  
+    if (window.PerformanceObserver && !window.PerformanceObserver.supportedEntryTypes) {
+      window.PerformanceObserver.supportedEntryTypes = ['paint'];
+    }
+
+    if (window.location.href.indexOf('presetBgColor=') !== -1) {
+      waitForBody(function() {
+        var bodyStyle = document.body.getAttribute('style') || '';
+        document.body.setAttribute('style', 'background: transparent !important;' + bodyStyle);
+      });
+
+      var documentStyle = document.documentElement.getAttribute('style') || '';
+      document.documentElement.setAttribute('style', 'background: transparent !important;' + documentStyle);
+    }
+
+    if (window.location.href.indexOf('inFullScreen=1') !== -1 && compareVersion(APP_VERSION, '2.1.0') >= 0) {
+      if (inTYAPP) {
+        if (/android/i.test(navigator && navigator.userAgent)) {
+          getSafeArea().then(
+            function(res) {
+              if (res.topSafeArea) {
+                document.documentElement.style.setProperty('--safe-top', res.topSafeArea);
+              }
+              if (res.bottomSafeArea) {
+                document.documentElement.style.setProperty('--safe-bottom', res.bottomSafeArea);
+              }
+            },
+            function(e) {
+            }
+          );
+        }
+        else {
+          if (window.pha) {
+            var environment = window.pha.environment;
+            document.documentElement.style.setProperty('--safe-top', environment.safeAreaInsetTop + 'px');
+            document.documentElement.style.setProperty('--safe-bottom', environment.safeAreaInsetBottom + 'px');
+          }
+        }
+      }
+    }
+  </script></head><body><div id="ice-container"></div><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker/3.3.4/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-autolog/3.0.11/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-jserror/3.0.3/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-api/3.1.3/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-resourceError/3.0.4/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-perf/3.1.0/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-blank/3.0.1/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-event/3.0.0/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-pv/3.0.6/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-eventTiming/3.0.0/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-longtask/3.0.1/index.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aes/tracker-plugin-animFluency/3.0.0/index.js"></script><script type="text/javascript">
+    performance.mark('render-start');
+    window.aes = new window.AES({pid: 'HstAjZ', requiredFields: ["uid"]});
+
+    if (window.AESPluginResourceError) {
+      window.aes.use(AESPluginResourceError);
+    }
+
+    if (window.AESPluginAutolog) {
+      window.aes.use(AESPluginAutolog);
+    }
+    
+    if (window.AESPluginPerf) {
+      window.aes.use(AESPluginPerf, {
+        plugin_perf_enableUserTimingObserve: true,
+        plugin_perf_enableResourceTiming: true,
+        plugin_perf_resourceTimingThreshhold: 10000,
+        plugin_perf_resourceTimingSampling: 0.1,
+      });
+    }
+
+    if (window.AESPluginBlank) {
+      window.aes.use(AESPluginBlank, {
+        plugin_blank_target: '#ice-container',
+        plugin_blank_when: ['error', 'timeout', 'leave'],
+        plugin_blank_tester: function(target) {
+          if (target) {
+            if (target.children.length === 0) return false;
+            return true;
+          } else {
+            return false;
+          }
+        }
+      });
+    }
+    
+    if (window.AESPluginPV) {
+      window.aes.use(AESPluginPV);
+    }
+
+    if (window.AESPluginEventTiming) {
+      window.aes.use(AESPluginEventTiming);
+    }
+
+    if (window.AESPluginLongTask) {
+      window.aes.use(AESPluginLongTask);
+    }
+
+    if (window.AESPluginAnimFluency) {
+      window.aes.use(AESPluginAnimFluency);
+    }
+
+    window.aesSendError = function() {};
+    if (window.AESPluginJSError) {
+      window.aesSendError = aes.use(AESPluginJSError, {
+        disable_unhandled_rejection: true,
+      }).sendError;
+      aesSendError();
+    }
+    
+    window.aesSendApi = function() {};
+    if (window.AESPluginAPI) {
+      window.aesSendApi = aes.use(AESPluginAPI, {
+        sendResponseOnSuccess: true,
+      }).sendApi;
+    }
+
+    window.aesSendEvent = function() {};
+    if (window.AESPluginEvent) {
+      window.aesSendEvent = aes.use(AESPluginEvent);
+    }
+
+    window.addEventListener('error', function(e) {
+      if (!(e instanceof ErrorEvent)) {
+        var target = e.target;
+        var src = target.src || target.href;
+        if(!src || src.indexOf('.mmstat.com') !== -1 || /aes-d+.cn-wulanchabu.log.aliyuncs.com/.test(src)){
+          return;
+        }
+        var a = document.createElement('a');
+        a.href = src;
+
+        try {
+          aesSendEvent('resource_error', {
+            et: 'OTHER',
+            c1: a.host,
+            c2: src,
+          });
+        }
+        catch(e) {
+          console.error(e);
+        }
+      }
+    }, true)
+
+    window.addEventListener('unhandledrejection', function(e) {
+      var info = e.reason;
+  
+      if (info instanceof Error) {
+        aesSendError(info);
+      } else if (info) {
+        var traceId = info.traceId;
+        var errorCode = info.errorCode;
+        var data = info.data;
+        
+        delete info.traceId;
+        delete info.errorCode;
+        delete info.data;
+  
+        try {
+          info = typeof info === 'string' ? info : JSON.stringify(info);
+        } catch (e) {
+          info = 'JSON.stringify error';
+        }
+  
+        aesSendError({
+          type: 'rejection_error',
+          message: info,
+        });
+  
+        if (traceId || errorCode || data) {
+          aesSendEvent('rejection_error', {
+            et: 'OTHER',
+            c1: errorCode,
+            c2: traceId,
+            c3: data ? JSON.stringify(data) : '',
+          });
+        }
+      } else {
+        aesSendError({
+          type: 'rejection_error',
+          message: info,
+        });
+      }
+    });
+  </script><script type="text/javascript">
+            window.APLUS_CONFIG = {
+              pid: 'tongyiqianwenapp'
+            };
+          </script><script crossorigin="anonymous" resource-require="true" src="//o.alicdn.com/liveme-console/lib/windvane/3.0.7/windvane.js"></script><script>if (navigator.userAgent.toLowerCase().indexOf('arkweb') !== -1) {
+  window.WindVane.call = function(namespace, api, params, onSuccess, onError) {
+    window['ty']['call']({ api, params }).then(function(e) {onSuccess(e ? e.data || e : {})}).catch(onError)
+  }
+}</script><script crossorigin="anonymous" resource-require="true" src="//o.alicdn.com/liveme-console/lib/react/18.2.0/umd/react.production.min.js"></script><script crossorigin="anonymous" resource-require="true" src="//o.alicdn.com/liveme-console/lib/react-dom/18.2.0/umd/react-dom.production.min.js"></script><script src="https://g.alicdn.com/code/npm/@ali/tongyi-icons/1.0.6/umd/tongyi-icons.min.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/lottie/5.12.2/lottie.min.js"></script><script crossorigin="anonymous" src="//o.alicdn.com/liveme-console/lib/aliyun-html2canvas/1.4.2/index.js"></script><script crossorigin="anonymous" resource-require="true">!(function () {var a = window.__ICE_APP_CONTEXT__ || {};var b = {"appData":null,"loaderData":{"layout":{"pageConfig":{}},"download-guide":{"pageConfig":{"title":"千问，AI超级个人助理","spm":{"spmB":"28681293","pageName":"Qwen-App-Page-Share"}}}},"routePath":"/download-guide","matchedIds":["layout","download-guide"],"documentOnly":true,"renderMode":"CSR"};for (var k in a) {b[k] = a[k]}window.__ICE_APP_CONTEXT__=b;})();</script><script crossorigin="anonymous" src="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/js/p_layout.js" resource-require="true"></script><script crossorigin="anonymous" src="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/js/p_download-guide-index.js" resource-require="true"></script><script crossorigin="anonymous" src="https://g.alicdn.com/tongyi/tongyi-hybrid/1.0.146/js/main.js" resource-require="true"></script></body></html>
