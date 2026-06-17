@@ -208,7 +208,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .intro-brand{max-width:360px;width:50vw;height:auto;filter:none;}
 .intro-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
 .intro-sub{font-size:.88rem;color:var(--text-secondary);letter-spacing:2px;}
-.intro-btn{margin-top:10px;padding:14px 52px;background:var(--gradient);border:none;border-radius:32px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 24px var(--accent-glow);}
+.intro-btn{margin-top:10px;padding:14px 52px;background:var(--gradient);border:none;border-radius:32px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 24px var(--accent-glow);position:relative;z-index:10;}
 .intro-btn:hover{transform:translateY(-2px);box-shadow:0 6px 36px rgba(201,168,76,.35);}
 .intro-hint{margin-top:8px;font-size:.68rem;color:var(--text-secondary);opacity:.5;}
 
@@ -227,7 +227,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
     <img class="intro-brand" src="jiuwan_logo.png" alt="九万AI">
     <div class="intro-divider"></div>
     <p class="intro-sub">AI作品精选 · 300+工具库 · 每日更新</p>
-    <button class="intro-btn" id="introBtn">立 即 使 用</button>
+    <button class="intro-btn" id="introBtn" onclick="document.getElementById('introOverlay').classList.add('fadeout');setTimeout(function(){document.getElementById('introOverlay').style.display='none';},800);">立 即 使 用</button>
     <p class="intro-hint">点击进入九万AI</p>
   </div>
 </div>
