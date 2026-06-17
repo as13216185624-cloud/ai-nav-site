@@ -174,29 +174,14 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
   .search-sources{display:none;}
 }
 
-/* Video card overlay */
-.sc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(0,0,0,.75);border:2px solid rgba(255,255,255,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;z-index:3;pointer-events:none;transition:all .3s;}
-.showcase-card:hover .sc-play{background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px var(--accent-glow);}
-.sc-tag-video{background:rgba(0,229,192,.12)!important;border-color:rgba(0,229,192,.3)!important;color:var(--accent-cyber)!important;}
-.hero-play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:rgba(0,0,0,.7);border:2px solid rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;z-index:2;pointer-events:none;}
 /* Pagination */
 .pagination{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px;padding:16px 0;}
 .page-btn{padding:8px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text-secondary);cursor:pointer;font-size:.82rem;transition:all .2s;}
 .page-btn:hover:not(:disabled){border-color:var(--accent-cyber);color:var(--accent-cyber);}
 .page-btn:disabled{opacity:.3;cursor:default;}
 .page-info{font-size:.82rem;color:var(--text-secondary);}
-/* Video modal */
-.modal-video{width:100%;min-height:320px;display:flex;align-items:center;justify-content:center;background:#000;}
-/* Video controls */
-#videoPlayer{width:100%;max-height:70vh;background:#000;cursor:pointer;border-radius:8px 8px 0 0;}
-.video-controls{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#0a0a0a;border-radius:0 0 8px 8px;}
-.vc-btn{background:none;border:none;color:var(--text);cursor:pointer;font-size:1rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .2s;}
-.vc-btn:hover{background:rgba(201,168,76,.15);color:var(--accent);}
-.vc-progress{flex:1;cursor:pointer;padding:4px 0;}
-.vc-bar{width:100%;height:4px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;}
-.vc-bar-inner{height:100%;width:0%;background:var(--gradient);border-radius:2px;transition:width .1s linear;}
-.vc-time{font-size:.72rem;color:var(--text-secondary);min-width:36px;text-align:center;font-variant-numeric:tabular-nums;}
-@media(max-width:768px){.hero-play-icon{width:44px;height:44px;font-size:1.2rem;}}
+@media(max-width:768px){}
+
 
 /* Intro splash */
 .intro-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;overflow:hidden;}
@@ -273,7 +258,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
       <div class="header-divider"></div>
       <p class="header-sub">AI作品精选 · 300+工具库 · 每日更新</p>
       <div class="header-stats">
-        <span class="hstat">✨ 36件作品</span>
+        <span class="hstat">✨ 24件作品</span>
         <span class="hstat">🧰 83款工具</span>
         <span class="hstat">📰 每日快讯</span>
         <span class="hstat">🇨🇳 国内直连</span>
@@ -309,7 +294,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="modal-overlay" id="detailModal" onclick="closeDetail()">
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeDetail()">✕</button>
-    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;"><div class="modal-video" id="modalVideo" style="display:none;"><video id="videoPlayer" width="900" height="506" poster="" loop playsinline></video><div class="video-controls"><button class="vc-btn" id="vcPlay">▶</button><div class="vc-progress"><div class="vc-bar" id="vcBar"><div class="vc-bar-inner" id="vcBarInner"></div></div></div><span class="vc-time" id="vcTime">0:00</span><button class="vc-btn" id="vcFs">⛶</button></div></div>
+    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;">
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -327,7 +312,6 @@ const showcaseData = [
 {id:2,title:"赤色章刃",author:"武侠概念",tool:"Stable Diffusion XL",type:"image",date:"2026-06-10",prompt:"Martial arts warrior in red and black armor, dramatic action pose, neon lights, cyberpunk ancient China fusion, cinematic lighting, ultra detailed character design, epic composition",tags:["武侠","赛博朋克","国风"],likes:1923,image:"showcase/02-chisezhangren.jpg"},
 {id:3,title:"子时临安",author:"古风场景",tool:"Midjourney V8.1",type:"image",date:"2026-06-11",prompt:"Ancient Chinese city at midnight, lantern lights reflecting on water canals, misty atmosphere, traditional Song dynasty architecture, golden warm lights, ultra wide cinematic shot",tags:["古风","场景","夜景"],likes:3156,image:"showcase/03-zishilinan.jpg"},
 {id:4,title:"楚云传",author:"仙侠概念",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-11",prompt:"Xianxia floating palace above clouds, golden dragons circling, ethereal atmosphere, jade and gold color scheme, cinematic wide composition, 8K, traditional Chinese fantasy art",tags:["仙侠","幻想","场景"],likes:2689,image:"showcase/04-chuyunzhuan.jpg"},
-{id:5,title:"HACKTHON ACTION",author:"环屿AI LAB",tool:"Kling AI + Runway",type:"video",date:"2026-06-12",prompt:"Sci-fi action scene, female character in dark techwear jacket sprinting through neon-lit cyberpunk city, mechanical insects with red glowing eyes in pursuit, heavy rain, cinematic, 4K",tags:["科幻","动作","视频"],likes:4521,image:"showcase/05-hackthon.jpg",videoUrl:"videos/cyberpunk_city.mp4"},
 {id:6,title:"雨夜东京",author:"赛博城市",tool:"Midjourney V8.1",type:"image",date:"2026-06-12",prompt:"Tokyo rainy night, vibrant neon reflections on wet asphalt streets, cyberpunk aesthetic, cinematic lighting, shallow depth of field, photorealistic, 8K, Blade Runner vibes",tags:["赛博朋克","城市","夜景"],likes:3847,image:"showcase/06-yuyedongjing.jpg"},
 {id:7,title:"极光森林",author:"自然幻想",tool:"Stable Diffusion XL",type:"image",date:"2026-06-13",prompt:"Enchanted forest with dancing aurora borealis, giant glowing mushrooms, magical fairy lights, fantasy art, volumetric god rays, ultra detailed digital illustration, ethereal atmosphere",tags:["幻想","自然","治愈"],likes:2156,image:"showcase/07-jiguangsenlin.jpg"},
 {id:8,title:"未来机甲",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-13",prompt:"Futuristic mecha warrior, polished chrome and carbon fiber armor panels, holographic HUD overlay, war-torn battlefield background, ultra realistic, 8K, AAA game concept art quality",tags:["科幻","机甲","概念设计"],likes:5230,image:"showcase/08-weilaijijia.jpg"},
@@ -346,19 +330,7 @@ const showcaseData = [
 {id:21,title:"星空少女",author:"治愈系",tool:"Stable Diffusion XL",type:"image",date:"2026-06-17",prompt:"Anime-style girl floating in starry space, hair flowing like galaxy, surrounded by glowing constellation lines, dreamy ethereal atmosphere, soft pastel colors, 4K",tags:["治愈","星空","人物"],likes:4120,image:"showcase/21-xingkongshaonv.jpg"},
 {id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/22-jiulongchengzhai.jpg"},
 {id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/23-tanggongyeyan.jpg"},
-{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"},
-{id:25,title:"AI电影预告片·觉醒",author:"AI影视工坊",tool:"Runway Gen-4 + ElevenLabs",type:"video",date:"2026-06-17",prompt:"Sci-fi movie trailer generated entirely by AI, humanoid robot awakening in laboratory, dramatic orchestral score, quick cuts, cinematic widescreen, voiceover narration, 2 minutes",tags:["科幻","电影","预告片"],likes:9120,image:"showcase/25-AIdianying.jpg",videoUrl:"videos/robot_ai.mp4"},
-{id:26,title:"国风水墨动画·竹",author:"墨韵AI",tool:"Kling AI + Pika",type:"video",date:"2026-06-17",prompt:"Animated ink wash painting of bamboo grove swaying in wind, ink drops forming birds that fly away, traditional Chinese music, seamless loop, minimalist aesthetic",tags:["国风","动画","水墨"],likes:7560,image:"showcase/26-guofengshuimo.jpg",videoUrl:"videos/ink_painting.mp4"},
-{id:27,title:"赛博都市漫游",author:"数字城市",tool:"Luma AI + Runway",type:"video",date:"2026-06-16",prompt:"First-person drone flythrough of futuristic cyberpunk city at night, neon reflections on skyscrapers, flying vehicles, rain particles, cinematic slow motion, 60fps",tags:["赛博朋克","城市","漫游"],likes:8230,image:"showcase/27-saibodushimanyou.jpg",videoUrl:"videos/city_night_aerial.mp4"},
-{id:28,title:"AI生成MV·星空",author:"音乐可视化",tool:"Suno V4 + Runway Gen-4",type:"video",date:"2026-06-16",prompt:"Full AI-generated music video for original song, cosmic visuals synchronized to beat, nebula explosions, particle effects, emotional storytelling, 3 minutes",tags:["音乐","MV","创意"],likes:6890,image:"showcase/28-AIMVxingkong.jpg",videoUrl:"videos/starry_universe.mp4"},
-{id:29,title:"数字人新闻播报",author:"虚拟主播",tool:"HeyGen + ChatGPT",type:"video",date:"2026-06-16",prompt:"Photorealistic digital human news anchor delivering AI industry headlines, natural gestures and expressions, studio background with holographic data displays, 5 minutes",tags:["数字人","新闻","虚拟主播"],likes:5670,image:"showcase/29-shuzirenxinwen.jpg",videoUrl:"videos/news_broadcast.mp4"},
-{id:30,title:"3D产品展示·概念车",author:"工业设计",tool:"Tripo AI + Blender",type:"video",date:"2026-06-15",prompt:"360-degree product showcase of futuristic concept car, rotating on turntable, reflections on chrome surface, studio lighting, photorealistic render, 30 seconds",tags:["3D","产品","汽车"],likes:4450,image:"showcase/30-3Dchanpinzhanshi.jpg",videoUrl:"videos/3d_product_showcase.mp4"},
-{id:31,title:"AI动画短片·猫的旅行",author:"动画工坊",tool:"Pika 2.0 + Runway",type:"video",date:"2026-06-15",prompt:"Short animated film about a cat's journey through different worlds, hand-drawn animation style, warm color palette, emotional storytelling, original soundtrack, 2 minutes",tags:["动画","故事","治愈"],likes:9340,image:"showcase/31-maodelvxing.jpg",videoUrl:"videos/cat_animation.mp4"},
-{id:32,title:"虚拟时装秀",author:"数字时尚",tool:"Stable Diffusion + Runway",type:"video",date:"2026-06-15",prompt:"AI-generated virtual fashion show, avant-garde designs impossible in reality, fabric that flows like water and fire, runway with holographic effects, cinematic",tags:["时尚","虚拟","创意"],likes:6120,image:"showcase/32-xunishizhuangxiu.jpg",videoUrl:"videos/fashion_show.mp4"},
-{id:33,title:"火星殖民纪录",author:"太空视觉",tool:"Midjourney + Runway Gen-4",type:"video",date:"2026-06-14",prompt:"Documentary-style visualization of Mars colonization, domed habitats, astronauts on red surface, dust storms, cinematic NASA-grade visuals, voiceover narration",tags:["科幻","纪录","太空"],likes:7890,image:"showcase/33-huoxingzhimin.jpg",videoUrl:"videos/mars_space.mp4"},
-{id:34,title:"AI广告创意·香水",author:"品牌营销",tool:"Sora + ElevenLabs",type:"video",date:"2026-06-14",prompt:"Luxury perfume commercial generated by AI, crystal bottle with swirling galaxy inside, slow motion liquid dynamics, golden particles, orchestral score, 30 seconds",tags:["广告","创意","品牌"],likes:5340,image:"showcase/34-AIguanggaoxiangshui.jpg",videoUrl:"videos/perfume_ad.mp4"},
-{id:35,title:"游戏CG预告·暗影",author:"游戏概念",tool:"Midjourney + Runway + UE5",type:"video",date:"2026-06-14",prompt:"Game cinematic trailer for dark fantasy RPG, epic battle scenes, dragon boss fight, magic effects, dynamic camera movements, photorealistic characters, 90 seconds",tags:["游戏","CG","预告"],likes:8560,image:"showcase/35-youxiCGanying.jpg",videoUrl:"videos/dragon_fantasy.mp4"},
-{id:36,title:"AI音乐可视化·脉动",author:"音画实验",tool:"Stable Diffusion + Pika",type:"video",date:"2026-06-17",prompt:"Audio-reactive visualizer, geometric patterns pulsing to electronic music beat, neon color palette, fractal animations, VJ loop style, 4K 60fps",tags:["音乐","视觉","抽象"],likes:4780,image:"showcase/36-AIyinyuekeshihua.jpg",videoUrl:"videos/music_visualization.mp4"}
+{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"}
 ];
 
 // Tools database
@@ -374,26 +346,11 @@ function getPriceBadge(pt){
 }
 
 function showDetail(item){
-  const isVideo=item.type==='video';
-  document.getElementById('modalImg').style.display=isVideo?'none':'block';
-  if(isVideo && item.videoUrl){
-    document.getElementById('modalVideo').style.display='block';
-    const v=document.getElementById('videoPlayer');
-    v.poster=item.image;
-    v.innerHTML='';
-    const src=document.createElement('source');
-    src.src=item.videoUrl;
-    src.type='video/mp4';
-    v.appendChild(src);
-    v.load();
-    startVideoPlayer(item);
-  }else{
-    document.getElementById('modalVideo').style.display='none';
-    document.getElementById('modalImg').src=item.image;
-  }
+  document.getElementById('modalImg').src=item.image;
+  document.getElementById('modalImg').style.display='block';
   document.getElementById('modalBody').innerHTML=`
-    <div class="md-title">${isVideo?'🎬 ':''}${item.title}</div>
-    <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${item.likes.toLocaleString()} · ${isVideo?'🎬 视频':'🖼️ 图片'}</div>
+    <div class="md-title">${item.title}</div>
+    <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${item.likes.toLocaleString()} · 🖼️ 图片</div>
     <div class="md-section"><div class="md-label">提示词 / Prompt</div><div class="md-prompt">${item.prompt}</div></div>
     <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${item.tags.map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
     <div class="md-actions">
@@ -404,51 +361,7 @@ function showDetail(item){
   document.body.style.overflow='hidden';
 }
 
-let videoTimer=null;
-function startVideoPlayer(item){
-  const v=document.getElementById('videoPlayer');
-  const bar=document.getElementById('vcBarInner');
-  const time=document.getElementById('vcTime');
-  const playBtn=document.getElementById('vcPlay');
-  if(videoTimer){clearInterval(videoTimer);videoTimer=null;}
-  v.poster=item.image;
-  v.currentTime=0;
-  v.pause();
-  bar.style.width='0%';
-  time.textContent='0:00';
-  playBtn.textContent='▶';
-  playBtn.onclick=()=>{
-    if(v.paused){v.play();playBtn.textContent='⏸';}
-    else{v.pause();playBtn.textContent='▶';}
-  };
-  v.onclick=()=>playBtn.click();
-  v.ontimeupdate=()=>{
-    if(v.duration&&isFinite(v.duration)){
-      bar.style.width=(v.currentTime/v.duration*100)+'%';
-      const m=Math.floor(v.currentTime/60),s=Math.floor(v.currentTime%60);
-      time.textContent=m+':'+String(s).padStart(2,'0');
-    }
-  };
-  v.onplay=()=>{playBtn.textContent='⏸';videoTimer=setInterval(()=>{if(v.paused)return;bar.style.width=(v.currentTime/v.duration*100)+'%';const m=Math.floor(v.currentTime/60),s=Math.floor(v.currentTime%60);time.textContent=m+':'+String(s).padStart(2,'0');},250);};
-  v.onpause=()=>{playBtn.textContent='▶';if(videoTimer){clearInterval(videoTimer);videoTimer=null;}};
-  v.onended=()=>{playBtn.textContent='▶';bar.style.width='100%';if(videoTimer){clearInterval(videoTimer);videoTimer=null;}};
-  document.getElementById('vcBar').onclick=function(e){
-    if(!v.duration||!isFinite(v.duration))return;
-    const rect=this.getBoundingClientRect();
-    const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-    v.currentTime=pct*v.duration;
-    bar.style.width=(pct*100)+'%';
-  };
-  document.getElementById('vcFs').onclick=()=>{
-    if(document.fullscreenElement){document.exitFullscreen();}
-    else{v.requestFullscreen().catch(()=>{});}
-  };
-}
-
 function closeDetail(){
-  const v=document.getElementById('videoPlayer');
-  if(v){v.pause();v.removeAttribute('src');}
-  if(videoTimer){clearInterval(videoTimer);videoTimer=null;}
   document.getElementById('detailModal').classList.remove('active');
   document.body.style.overflow='';
   document.getElementById('modalImg').style.display='';
@@ -497,10 +410,9 @@ function renderShowcase(){
   const pageData=data.slice((page-1)*perPage,page*perPage);
   const top=data.slice(0,5);
   function card(s,i){
-    const isVideo=s.type==='video';
     return`<div class="showcase-card" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
-      <div class="sc-preview">${isVideo?'<span class="sc-play">▶</span>':''}<img src="${s.image}" alt="${s.title}" loading="lazy"><span class="sc-likes">❤️ ${s.likes.toLocaleString()}</span></div>
-      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-meta"><span>${s.author}</span><span>·</span><span>${s.tool}</span></div><div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}${isVideo?'<span class="sc-tag sc-tag-video">🎬视频</span>':''}</div></div>
+      <div class="sc-preview"><img src="${s.image}" alt="${s.title}" loading="lazy"><span class="sc-likes">❤️ ${s.likes.toLocaleString()}</span></div>
+      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-meta"><span>${s.author}</span><span>·</span><span>${s.tool}</span></div><div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div></div>
     </div>`;
   }
   const paginationHTML=totalPages>1?`<div class="pagination"><button class="page-btn" onclick="window._showcasePage=${page-1};updateContent()" ${page<=1?'disabled':''}>◂ 上一页</button><span class="page-info">${page} / ${totalPages}</span><button class="page-btn" onclick="window._showcasePage=${page+1};updateContent()" ${page>=totalPages?'disabled':''}>下一页 ▸</button></div>`:'';
@@ -510,7 +422,6 @@ function renderShowcase(){
         ${top.map((s,i)=>`
         <div class="hero-slide${i===0?' active':''}" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
           <img src="${s.image}" alt="${s.title}" loading="${i===0?'eager':'lazy'}">
-          ${s.type==='video'?'<span class="hero-play-icon">▶</span>':''}
           <div class="hero-overlay"><div class="hero-title">${s.title}</div><div class="hero-meta"><span>👤 ${s.author}</span><span>🛠️ ${s.tool}</span><span>❤️ ${s.likes.toLocaleString()}</span></div></div>
         </div>`).join('')}
         <button class="hero-nav prev">◂</button><button class="hero-nav next">▸</button>
