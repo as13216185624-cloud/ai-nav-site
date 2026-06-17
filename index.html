@@ -345,9 +345,9 @@ const showcaseData = [
 {id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/22-jiulongchengzhai.jpg"},
 {id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/23-tanggongyeyan.jpg"},
 {id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"},
-{id:25,title:"AI电影预告片·觉醒",author:"AI影视工坊",tool:"Runway Gen-4 + ElevenLabs",type:"video",date:"2026-06-17",prompt:"Sci-fi movie trailer generated entirely by AI, humanoid robot awakening in laboratory, dramatic orchestral score, quick cuts, cinematic widescreen, voiceover narration, 2 minutes",tags:["科幻","电影","预告片"],likes:9120,image:"showcase/25-AIdianying.jpg"},
+{id:25,title:"AI电影预告片·觉醒",author:"AI影视工坊",tool:"Runway Gen-4 + ElevenLabs",type:"video",date:"2026-06-17",prompt:"Sci-fi movie trailer generated entirely by AI, humanoid robot awakening in laboratory, dramatic orchestral score, quick cuts, cinematic widescreen, voiceover narration, 2 minutes",tags:["科幻","电影","预告片"],likes:9120,image:"showcase/25-AIdianying.jpg",toolUrl:"https://runwayml.com"},
 {id:26,title:"国风水墨动画·竹",author:"墨韵AI",tool:"Kling AI + Pika",type:"video",date:"2026-06-17",prompt:"Animated ink wash painting of bamboo grove swaying in wind, ink drops forming birds that fly away, traditional Chinese music, seamless loop, minimalist aesthetic",tags:["国风","动画","水墨"],likes:7560,image:"showcase/26-guofengshuimo.jpg"},
-{id:27,title:"赛博都市漫游",author:"数字城市",tool:"Luma AI + Runway",type:"video",date:"2026-06-16",prompt:"First-person drone flythrough of futuristic cyberpunk city at night, neon reflections on skyscrapers, flying vehicles, rain particles, cinematic slow motion, 60fps",tags:["赛博朋克","城市","漫游"],likes:8230,image:"showcase/27-saibodushimanyou.jpg"},
+{id:27,title:"赛博都市漫游",author:"数字城市",tool:"Luma AI + Runway",type:"video",date:"2026-06-16",prompt:"First-person drone flythrough of futuristic cyberpunk city at night, neon reflections on skyscrapers, flying vehicles, rain particles, cinematic slow motion, 60fps",tags:["赛博朋克","城市","漫游"],likes:8230,image:"showcase/27-saibodushimanyou.jpg",toolUrl:"https://lumalabs.ai"},
 {id:28,title:"AI生成MV·星空",author:"音乐可视化",tool:"Suno V4 + Runway Gen-4",type:"video",date:"2026-06-16",prompt:"Full AI-generated music video for original song, cosmic visuals synchronized to beat, nebula explosions, particle effects, emotional storytelling, 3 minutes",tags:["音乐","MV","创意"],likes:6890,image:"showcase/28-AIMVxingkong.jpg"},
 {id:29,title:"数字人新闻播报",author:"虚拟主播",tool:"HeyGen + ChatGPT",type:"video",date:"2026-06-16",prompt:"Photorealistic digital human news anchor delivering AI industry headlines, natural gestures and expressions, studio background with holographic data displays, 5 minutes",tags:["数字人","新闻","虚拟主播"],likes:5670,image:"showcase/29-shuzirenxinwen.jpg",toolUrl:"https://heygen.com"},
 {id:30,title:"3D产品展示·概念车",author:"工业设计",tool:"Tripo AI + Blender",type:"video",date:"2026-06-15",prompt:"360-degree product showcase of futuristic concept car, rotating on turntable, reflections on chrome surface, studio lighting, photorealistic render, 30 seconds",tags:["3D","产品","汽车"],likes:4450,image:"showcase/30-3Dchanpinzhanshi.jpg"},
@@ -373,9 +373,9 @@ function getPriceBadge(pt){
 
 function showDetail(item){
   const isVideo=item.type==='video';
-  document.getElementById('modalImg').style.display=isVideo?'none':'';
-  document.getElementById('modalImg').src=isVideo?'':item.image;
-  document.getElementById('modalVideo').style.display=isVideo?'flex':'none';
+  document.getElementById('modalImg').style.display='block';
+  document.getElementById('modalImg').src=item.image;
+  document.getElementById('modalVideo').style.display='none';
   document.getElementById('modalBody').innerHTML=`
     <div class="md-title">${isVideo?'🎬 ':''}${item.title}</div>
     <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${item.likes.toLocaleString()} · ${isVideo?'🎬 视频':'🖼️ 图片'}</div>
@@ -388,7 +388,6 @@ function showDetail(item){
     </div>`;
   document.getElementById('detailModal').classList.add('active');
   document.body.style.overflow='hidden';
-  if(isVideo)startVideoPlayer(item);
 }
 
 let videoTimer=null;
