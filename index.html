@@ -498,15 +498,15 @@ function getStars(r){
 function renderCard(t){
     const catIcon={'llm':'message-circle','image':'image','video':'film','audio':'music','code':'code','design':'pen-tool','productivity':'briefcase','avatar':'user','search':'search','edu':'graduation-cap','agent':'bot','3d':'box'}[t.cat]||'sparkles';
     const vpnBadge=t.vpn?'<span class="badge-vpn"><i data-lucide="shield-alert" class="lucide-badge-vpn"></i> 需科学上网</span>':'<span class="badge-cn"><i data-lucide="shield-check" class="lucide-badge-cn"></i> 国内直连</span>';
-    let domain='',logoSrc='';
+    let domain='',ddgSrc='';
     try{domain=new URL(t.link).hostname;}catch(e){}
-    logoSrc=`logos/${t.id}.png`;
+    ddgSrc=domain?`https://icons.duckduckgo.com/ip3/${domain}.ico`:'';
     const previewHTML=`
         <div class="preview-placeholder">
             <div class="preview-placeholder-emoji">${t.icon}</div>
             <span class="preview-placeholder-name">${t.name}</span>
         </div>
-        <img src="${logoSrc}" alt="${t.name}" loading="lazy" style="display:none;" onload="this.style.display='block';this.previousElementSibling.style.display='none';">`;
+        <img src="logos/${t.id}.png" alt="${t.name}" loading="lazy" style="display:none;" onload="this.style.display='block';this.previousElementSibling.style.display='none';" onerror="this.onerror=null;this.src='${ddgSrc}';this.onload=function(){this.style.display='block';this.previousElementSibling.style.display='none';};">`;
     return`
     <div class="tool-card" onclick="window.open('${t.link}','_blank')">
         <div class="tool-preview">${previewHTML}<div class="preview-badges">${vpnBadge}${getPriceBadge(t.pt)}</div></div>
