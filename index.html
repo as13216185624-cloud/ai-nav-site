@@ -187,10 +187,15 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .page-info{font-size:.82rem;color:var(--text-secondary);}
 /* Video modal */
 .modal-video{width:100%;min-height:320px;display:flex;align-items:center;justify-content:center;background:#000;}
-.video-placeholder{text-align:center;padding:60px 20px;}
-.vp-icon{font-size:3rem;margin-bottom:12px;}
-.vp-text{font-size:1.1rem;color:var(--text);margin-bottom:6px;}
-.vp-sub{font-size:.8rem;color:var(--text-secondary);}
+/* Video controls */
+#videoPlayer{width:100%;max-height:70vh;background:#000;cursor:pointer;border-radius:8px 8px 0 0;}
+.video-controls{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#0a0a0a;border-radius:0 0 8px 8px;}
+.vc-btn{background:none;border:none;color:var(--text);cursor:pointer;font-size:1rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .2s;}
+.vc-btn:hover{background:rgba(201,168,76,.15);color:var(--accent);}
+.vc-progress{flex:1;cursor:pointer;padding:4px 0;}
+.vc-bar{width:100%;height:4px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;}
+.vc-bar-inner{height:100%;width:0%;background:var(--gradient);border-radius:2px;transition:width .1s linear;}
+.vc-time{font-size:.72rem;color:var(--text-secondary);min-width:36px;text-align:center;font-variant-numeric:tabular-nums;}
 @media(max-width:768px){.hero-play-icon{width:44px;height:44px;font-size:1.2rem;}}
 
 /* Intro splash */
@@ -303,7 +308,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 <div class="modal-overlay" id="detailModal" onclick="closeDetail()">
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeDetail()">✕</button>
-    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;"><div class="modal-video" id="modalVideo" style="display:none;"><canvas id="videoCanvas" width="900" height="506"></canvas><div class="video-controls"><button class="vc-btn" id="vcPlay">▶</button><div class="vc-progress"><div class="vc-bar" id="vcBar"></div></div><span class="vc-time" id="vcTime">0:00 / 1:30</span><button class="vc-btn" id="vcFs">⛶</button></div></div>
+    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;"><div class="modal-video" id="modalVideo" style="display:none;"><video id="videoPlayer" width="900" height="506" poster="" loop playsinline></video><div class="video-controls"><button class="vc-btn" id="vcPlay">▶</button><div class="vc-progress"><div class="vc-bar" id="vcBar"><div class="vc-bar-inner" id="vcBarInner"></div></div></div><span class="vc-time" id="vcTime">0:00</span><button class="vc-btn" id="vcFs">⛶</button></div></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -329,30 +334,30 @@ const showcaseData = [
 {id:10,title:"蒸汽朋克猫",author:"奇幻生物",tool:"Midjourney V8.1",type:"image",date:"2026-06-14",prompt:"Steampunk cat with polished brass goggles and intricate mechanical clockwork wings, Victorian era industrial background, warm golden hour lighting, detailed fur texture, fantasy illustration",tags:["蒸汽朋克","动物","奇幻"],likes:1987,image:"showcase/10-zhengqipengkemao.jpg"},
 {id:11,title:"深海龙宫",author:"东方幻想",tool:"Midjourney V8.1",type:"image",date:"2026-06-15",prompt:"Underwater Chinese dragon palace, crystal and jade architecture, bioluminescent deep sea corals, ancient Chinese mythology, ethereal volumetric lighting, 8K, fantasy concept art",tags:["东方","幻想","海底"],likes:3456,image:"showcase/11-shenhailonggong.jpg"},
 {id:12,title:"赛博观音",author:"文化融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-15",prompt:"Cyberpunk Guanyin bodhisattva, holographic lotus throne, neon halo ring, futuristic temple sanctuary, chrome and rose gold aesthetic, ultra detailed digital concept art, spiritual meets technological",tags:["赛博朋克","佛教","融合"],likes:8921,image:"showcase/12-saiboguanyin.jpg"},
-{id:13,title:"山海经·穷奇",author:"国风神话",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Ancient Chinese mythical beast Qiongqi from Shan Hai Jing, tiger body with wings, fierce expression, traditional ink wash painting style meets dark fantasy, dramatic composition",tags:["国风","神话","山海经"],likes:5120,image:"showcase/01-wuzhiqi.jpg"},
-{id:14,title:"赛博长安",author:"古今融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Tang Dynasty Chang'an transformed into cyberpunk metropolis, neon signs on ancient architecture, flying cars between pagodas, rain-slicked stone streets reflecting holograms, 8K",tags:["赛博朋克","古风","城市"],likes:3980,image:"showcase/03-zishilinan.jpg"},
-{id:15,title:"银河战舰·启航",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-16",prompt:"Massive interstellar battleship emerging from nebula, thousands of lights, epic scale, cinematic wide shot, photorealistic space render, 8K concept art",tags:["科幻","太空","战舰"],likes:6340,image:"showcase/08-weilaijijia.jpg"},
-{id:16,title:"樱花武士",author:"日式美学",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Samurai warrior standing under falling cherry blossoms, traditional armor with modern cybernetic enhancements, misty bamboo forest, golden hour light, ultra detailed",tags:["日式","武士","赛博"],likes:2890,image:"showcase/02-chisezhangren.jpg"},
-{id:17,title:"龙与地下城",author:"西幻概念",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Epic dragon battle above medieval castle, knight in shining armor, fire and magic, dramatic sky, fantasy book cover quality, ultra detailed illustration",tags:["奇幻","西幻","龙"],likes:4560,image:"showcase/04-chuyunzhuan.jpg"},
-{id:18,title:"机械天使",author:"赛博宗教",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-16",prompt:"Cybernetic angel with chrome wings and holographic halo, standing in ruined cathedral, beams of light through stained glass, divine meets machine aesthetic",tags:["赛博朋克","天使","宗教"],likes:7210,image:"showcase/12-saiboguanyin.jpg"},
-{id:19,title:"水墨江山",author:"国风水墨",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-16",prompt:"Traditional Chinese ink wash landscape painting, misty mountains, solitary fisherman on lake, pine trees on cliffs, red seal stamp, minimalist zen aesthetic",tags:["国风","水墨","山水"],likes:3780,image:"showcase/09-dunhuangfeitian.jpg"},
-{id:20,title:"废土求生",author:"末世科幻",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Post-apocalyptic wasteland survivor in gas mask and leather gear, rusted vehicles, orange toxic sky, Mad Max inspired, cinematic, photorealistic, 8K",tags:["废土","科幻","生存"],likes:5430,image:"showcase/06-yuyedongjing.jpg"},
-{id:21,title:"星空少女",author:"治愈系",tool:"Stable Diffusion XL",type:"image",date:"2026-06-17",prompt:"Anime-style girl floating in starry space, hair flowing like galaxy, surrounded by glowing constellation lines, dreamy ethereal atmosphere, soft pastel colors, 4K",tags:["治愈","星空","人物"],likes:4120,image:"showcase/07-jiguangsenlin.jpg"},
-{id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/06-yuyedongjing.jpg"},
-{id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/09-dunhuangfeitian.jpg"},
-{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/15-yinhezhanjian.jpg"},
-{id:25,title:"AI电影预告片·觉醒",author:"AI影视工坊",tool:"Runway Gen-4 + ElevenLabs",type:"video",date:"2026-06-17",prompt:"Sci-fi movie trailer generated entirely by AI, humanoid robot awakening in laboratory, dramatic orchestral score, quick cuts, cinematic widescreen, voiceover narration, 2 minutes",tags:["科幻","电影","预告片"],likes:9120,image:"showcase/05-hackthon.jpg"},
-{id:26,title:"国风水墨动画·竹",author:"墨韵AI",tool:"Kling AI + Pika",type:"video",date:"2026-06-17",prompt:"Animated ink wash painting of bamboo grove swaying in wind, ink drops forming birds that fly away, traditional Chinese music, seamless loop, minimalist aesthetic",tags:["国风","动画","水墨"],likes:7560,image:"showcase/09-dunhuangfeitian.jpg"},
-{id:27,title:"赛博都市漫游",author:"数字城市",tool:"Luma AI + Runway",type:"video",date:"2026-06-16",prompt:"First-person drone flythrough of futuristic cyberpunk city at night, neon reflections on skyscrapers, flying vehicles, rain particles, cinematic slow motion, 60fps",tags:["赛博朋克","城市","漫游"],likes:8230,image:"showcase/06-yuyedongjing.jpg"},
-{id:28,title:"AI生成MV·星空",author:"音乐可视化",tool:"Suno V4 + Runway Gen-4",type:"video",date:"2026-06-16",prompt:"Full AI-generated music video for original song, cosmic visuals synchronized to beat, nebula explosions, particle effects, emotional storytelling, 3 minutes",tags:["音乐","MV","创意"],likes:6890,image:"showcase/07-jiguangsenlin.jpg"},
-{id:29,title:"数字人新闻播报",author:"虚拟主播",tool:"HeyGen + ChatGPT",type:"video",date:"2026-06-16",prompt:"Photorealistic digital human news anchor delivering AI industry headlines, natural gestures and expressions, studio background with holographic data displays, 5 minutes",tags:["数字人","新闻","虚拟主播"],likes:5670,image:"showcase/01-wuzhiqi.jpg"},
-{id:30,title:"3D产品展示·概念车",author:"工业设计",tool:"Tripo AI + Blender",type:"video",date:"2026-06-15",prompt:"360-degree product showcase of futuristic concept car, rotating on turntable, reflections on chrome surface, studio lighting, photorealistic render, 30 seconds",tags:["3D","产品","汽车"],likes:4450,image:"showcase/08-weilaijijia.jpg"},
-{id:31,title:"AI动画短片·猫的旅行",author:"动画工坊",tool:"Pika 2.0 + Runway",type:"video",date:"2026-06-15",prompt:"Short animated film about a cat's journey through different worlds, hand-drawn animation style, warm color palette, emotional storytelling, original soundtrack, 2 minutes",tags:["动画","故事","治愈"],likes:9340,image:"showcase/10-zhengqipengkemao.jpg"},
-{id:32,title:"虚拟时装秀",author:"数字时尚",tool:"Stable Diffusion + Runway",type:"video",date:"2026-06-15",prompt:"AI-generated virtual fashion show, avant-garde designs impossible in reality, fabric that flows like water and fire, runway with holographic effects, cinematic",tags:["时尚","虚拟","创意"],likes:6120,image:"showcase/11-shenhailonggong.jpg"},
-{id:33,title:"火星殖民纪录",author:"太空视觉",tool:"Midjourney + Runway Gen-4",type:"video",date:"2026-06-14",prompt:"Documentary-style visualization of Mars colonization, domed habitats, astronauts on red surface, dust storms, cinematic NASA-grade visuals, voiceover narration",tags:["科幻","纪录","太空"],likes:7890,image:"showcase/04-chuyunzhuan.jpg"},
-{id:34,title:"AI广告创意·香水",author:"品牌营销",tool:"Sora + ElevenLabs",type:"video",date:"2026-06-14",prompt:"Luxury perfume commercial generated by AI, crystal bottle with swirling galaxy inside, slow motion liquid dynamics, golden particles, orchestral score, 30 seconds",tags:["广告","创意","品牌"],likes:5340,image:"showcase/03-zishilinan.jpg"},
-{id:35,title:"游戏CG预告·暗影",author:"游戏概念",tool:"Midjourney + Runway + UE5",type:"video",date:"2026-06-14",prompt:"Game cinematic trailer for dark fantasy RPG, epic battle scenes, dragon boss fight, magic effects, dynamic camera movements, photorealistic characters, 90 seconds",tags:["游戏","CG","预告"],likes:8560,image:"showcase/02-chisezhangren.jpg"},
-{id:36,title:"AI音乐可视化·脉动",author:"音画实验",tool:"Stable Diffusion + Pika",type:"video",date:"2026-06-17",prompt:"Audio-reactive visualizer, geometric patterns pulsing to electronic music beat, neon color palette, fractal animations, VJ loop style, 4K 60fps",tags:["音乐","视觉","抽象"],likes:4780,image:"showcase/07-jiguangsenlin.jpg"}
+{id:13,title:"山海经·穷奇",author:"国风神话",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Ancient Chinese mythical beast Qiongqi from Shan Hai Jing, tiger body with wings, fierce expression, traditional ink wash painting style meets dark fantasy, dramatic composition",tags:["国风","神话","山海经"],likes:5120,image:"showcase/13-shanhaijing-qiongqi.jpg"},
+{id:14,title:"赛博长安",author:"古今融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Tang Dynasty Chang'an transformed into cyberpunk metropolis, neon signs on ancient architecture, flying cars between pagodas, rain-slicked stone streets reflecting holograms, 8K",tags:["赛博朋克","古风","城市"],likes:3980,image:"showcase/14-saibochangan.jpg"},
+{id:15,title:"银河战舰·启航",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-16",prompt:"Massive interstellar battleship emerging from nebula, thousands of lights, epic scale, cinematic wide shot, photorealistic space render, 8K concept art",tags:["科幻","太空","战舰"],likes:6340,image:"showcase/15-yinhezhanjian.jpg"},
+{id:16,title:"樱花武士",author:"日式美学",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Samurai warrior standing under falling cherry blossoms, traditional armor with modern cybernetic enhancements, misty bamboo forest, golden hour light, ultra detailed",tags:["日式","武士","赛博"],likes:2890,image:"showcase/16-yinghuawushi.jpg"},
+{id:17,title:"龙与地下城",author:"西幻概念",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Epic dragon battle above medieval castle, knight in shining armor, fire and magic, dramatic sky, fantasy book cover quality, ultra detailed illustration",tags:["奇幻","西幻","龙"],likes:4560,image:"showcase/17-longyudixiacheng.jpg"},
+{id:18,title:"机械天使",author:"赛博宗教",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-16",prompt:"Cybernetic angel with chrome wings and holographic halo, standing in ruined cathedral, beams of light through stained glass, divine meets machine aesthetic",tags:["赛博朋克","天使","宗教"],likes:7210,image:"showcase/18-jixietianshi.jpg"},
+{id:19,title:"水墨江山",author:"国风水墨",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-16",prompt:"Traditional Chinese ink wash landscape painting, misty mountains, solitary fisherman on lake, pine trees on cliffs, red seal stamp, minimalist zen aesthetic",tags:["国风","水墨","山水"],likes:3780,image:"showcase/19-shuimojiangshan.jpg"},
+{id:20,title:"废土求生",author:"末世科幻",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Post-apocalyptic wasteland survivor in gas mask and leather gear, rusted vehicles, orange toxic sky, Mad Max inspired, cinematic, photorealistic, 8K",tags:["废土","科幻","生存"],likes:5430,image:"showcase/20-feituqiusheng.jpg"},
+{id:21,title:"星空少女",author:"治愈系",tool:"Stable Diffusion XL",type:"image",date:"2026-06-17",prompt:"Anime-style girl floating in starry space, hair flowing like galaxy, surrounded by glowing constellation lines, dreamy ethereal atmosphere, soft pastel colors, 4K",tags:["治愈","星空","人物"],likes:4120,image:"showcase/21-xingkongshaonv.jpg"},
+{id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/22-jiulongchengzhai.jpg"},
+{id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/23-tanggongyeyan.jpg"},
+{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"},
+{id:25,title:"AI电影预告片·觉醒",author:"AI影视工坊",tool:"Runway Gen-4 + ElevenLabs",type:"video",date:"2026-06-17",prompt:"Sci-fi movie trailer generated entirely by AI, humanoid robot awakening in laboratory, dramatic orchestral score, quick cuts, cinematic widescreen, voiceover narration, 2 minutes",tags:["科幻","电影","预告片"],likes:9120,image:"showcase/25-AIdianying.jpg"},
+{id:26,title:"国风水墨动画·竹",author:"墨韵AI",tool:"Kling AI + Pika",type:"video",date:"2026-06-17",prompt:"Animated ink wash painting of bamboo grove swaying in wind, ink drops forming birds that fly away, traditional Chinese music, seamless loop, minimalist aesthetic",tags:["国风","动画","水墨"],likes:7560,image:"showcase/26-guofengshuimo.jpg"},
+{id:27,title:"赛博都市漫游",author:"数字城市",tool:"Luma AI + Runway",type:"video",date:"2026-06-16",prompt:"First-person drone flythrough of futuristic cyberpunk city at night, neon reflections on skyscrapers, flying vehicles, rain particles, cinematic slow motion, 60fps",tags:["赛博朋克","城市","漫游"],likes:8230,image:"showcase/27-saibodushimanyou.jpg"},
+{id:28,title:"AI生成MV·星空",author:"音乐可视化",tool:"Suno V4 + Runway Gen-4",type:"video",date:"2026-06-16",prompt:"Full AI-generated music video for original song, cosmic visuals synchronized to beat, nebula explosions, particle effects, emotional storytelling, 3 minutes",tags:["音乐","MV","创意"],likes:6890,image:"showcase/28-AIMVxingkong.jpg"},
+{id:29,title:"数字人新闻播报",author:"虚拟主播",tool:"HeyGen + ChatGPT",type:"video",date:"2026-06-16",prompt:"Photorealistic digital human news anchor delivering AI industry headlines, natural gestures and expressions, studio background with holographic data displays, 5 minutes",tags:["数字人","新闻","虚拟主播"],likes:5670,image:"showcase/29-shuzirenxinwen.jpg",toolUrl:"https://heygen.com"},
+{id:30,title:"3D产品展示·概念车",author:"工业设计",tool:"Tripo AI + Blender",type:"video",date:"2026-06-15",prompt:"360-degree product showcase of futuristic concept car, rotating on turntable, reflections on chrome surface, studio lighting, photorealistic render, 30 seconds",tags:["3D","产品","汽车"],likes:4450,image:"showcase/30-3Dchanpinzhanshi.jpg"},
+{id:31,title:"AI动画短片·猫的旅行",author:"动画工坊",tool:"Pika 2.0 + Runway",type:"video",date:"2026-06-15",prompt:"Short animated film about a cat's journey through different worlds, hand-drawn animation style, warm color palette, emotional storytelling, original soundtrack, 2 minutes",tags:["动画","故事","治愈"],likes:9340,image:"showcase/31-maodelvxing.jpg"},
+{id:32,title:"虚拟时装秀",author:"数字时尚",tool:"Stable Diffusion + Runway",type:"video",date:"2026-06-15",prompt:"AI-generated virtual fashion show, avant-garde designs impossible in reality, fabric that flows like water and fire, runway with holographic effects, cinematic",tags:["时尚","虚拟","创意"],likes:6120,image:"showcase/32-xunishizhuangxiu.jpg"},
+{id:33,title:"火星殖民纪录",author:"太空视觉",tool:"Midjourney + Runway Gen-4",type:"video",date:"2026-06-14",prompt:"Documentary-style visualization of Mars colonization, domed habitats, astronauts on red surface, dust storms, cinematic NASA-grade visuals, voiceover narration",tags:["科幻","纪录","太空"],likes:7890,image:"showcase/33-huoxingzhimin.jpg"},
+{id:34,title:"AI广告创意·香水",author:"品牌营销",tool:"Sora + ElevenLabs",type:"video",date:"2026-06-14",prompt:"Luxury perfume commercial generated by AI, crystal bottle with swirling galaxy inside, slow motion liquid dynamics, golden particles, orchestral score, 30 seconds",tags:["广告","创意","品牌"],likes:5340,image:"showcase/34-AIguanggaoxiangshui.jpg"},
+{id:35,title:"游戏CG预告·暗影",author:"游戏概念",tool:"Midjourney + Runway + UE5",type:"video",date:"2026-06-14",prompt:"Game cinematic trailer for dark fantasy RPG, epic battle scenes, dragon boss fight, magic effects, dynamic camera movements, photorealistic characters, 90 seconds",tags:["游戏","CG","预告"],likes:8560,image:"showcase/35-youxiCGanying.jpg"},
+{id:36,title:"AI音乐可视化·脉动",author:"音画实验",tool:"Stable Diffusion + Pika",type:"video",date:"2026-06-17",prompt:"Audio-reactive visualizer, geometric patterns pulsing to electronic music beat, neon color palette, fractal animations, VJ loop style, 4K 60fps",tags:["音乐","视觉","抽象"],likes:4780,image:"showcase/36-AIyinyuekeshihua.jpg"}
 ];
 
 // Tools database
@@ -379,6 +384,7 @@ function showDetail(item){
     <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${item.tags.map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
     <div class="md-actions">
       <button class="md-btn primary" onclick="copyPrompt('${item.prompt.replace(/'/g,"\\'")}')">📋 复制提示词</button>
+      ${item.toolUrl?`<a class="md-btn primary" href="${item.toolUrl}" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#00e5c0,#00b8a0);">🔗 去${item.tool}看原片</a>`:''}
       <button class="md-btn secondary" onclick="closeDetail()">关闭</button>
     </div>`;
   document.getElementById('detailModal').classList.add('active');
@@ -386,90 +392,51 @@ function showDetail(item){
   if(isVideo)startVideoPlayer(item);
 }
 
-let videoAnimId=null,videoPlaying=false,videoProgress=0,videoDuration=90;
+let videoTimer=null;
 function startVideoPlayer(item){
-  const canvas=document.getElementById('videoCanvas');
-  const ctx=canvas.getContext('2d');
-  const bar=document.getElementById('vcBar');
+  const v=document.getElementById('videoPlayer');
+  const bar=document.getElementById('vcBarInner');
   const time=document.getElementById('vcTime');
   const playBtn=document.getElementById('vcPlay');
-  const W=canvas.width,H=canvas.height;
-  let t=0;
-  videoPlaying=true;videoProgress=0;
+  if(videoTimer){clearInterval(videoTimer);videoTimer=null;}
+  v.poster=item.image;
+  v.currentTime=0;
+  v.pause();
   bar.style.width='0%';
-  time.textContent='0:00 / 1:30';
-  playBtn.textContent='⏸';
-  const bg=new Image();
-  bg.crossOrigin='anonymous';
-  bg.onload=()=>{
-    function draw(){
-      if(!videoPlaying){videoAnimId=requestAnimationFrame(draw);return;}
-      t+=0.016;
-      videoProgress=Math.min(t/videoDuration,1);
-      bar.style.width=(videoProgress*100)+'%';
-      const s=Math.floor(t);
-      const m=Math.floor(s/60),sec=s%60;
-      time.textContent=m+':'+String(sec).padStart(2,'0')+' / 1:30';
-      ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
-      ctx.globalAlpha=0.85;
-      ctx.drawImage(bg,0,0,W,H);
-      ctx.globalAlpha=1;
-      ctx.fillStyle='rgba(0,0,0,.06)';
-      for(let y=0;y<H;y+=3)ctx.fillRect(0,y,W,1);
-      const colors=['#c9a84c','#00e5c0','#e8c547','rgba(0,229,192,.7)','rgba(201,168,76,.5)'];
-      for(let i=0;i<40;i++){
-        const x=(Math.sin(t*2+i*1.7)*0.5+0.5)*W;
-        const y=((t*40+i*23)%(H+40))-20;
-        const r=1+Math.random()*3;
-        ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-        ctx.fillStyle=colors[Math.floor(Math.random()*colors.length)];
-        ctx.fill();
-      }
-      for(let i=0;i<5;i++){
-        const ox=(Math.cos(t*0.8+i*2.1)*0.3+0.5)*W;
-        const oy=(Math.sin(t*1.1+i*1.8)*0.3+0.5)*H;
-        const grd=ctx.createRadialGradient(ox,oy,0,ox,oy,60);
-        grd.addColorStop(0,'rgba(201,168,76,.25)');
-        grd.addColorStop(.5,'rgba(0,229,192,.1)');
-        grd.addColorStop(1,'rgba(0,0,0,0)');
-        ctx.fillStyle=grd;ctx.beginPath();ctx.arc(ox,oy,60,0,Math.PI*2);ctx.fill();
-      }
-      ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(0,H-36,W,36);
-      ctx.fillStyle='#fff';ctx.font='bold 15px sans-serif';ctx.fillText('🎬 '+item.title,16,H-12);
-      if(!videoPlaying){
-        ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,W,H);
-        ctx.fillStyle='#fff';ctx.font='48px sans-serif';ctx.textAlign='center';
-        ctx.fillText('▶',W/2,H/2+16);ctx.textAlign='start';
-      }
-      if(t>=videoDuration){videoPlaying=false;playBtn.textContent='▶';bar.style.width='100%';}
-      videoAnimId=requestAnimationFrame(draw);
-    }
-    draw();
-  };
-  bg.onerror=()=>{};
-  bg.src=item.image;
+  time.textContent='0:00';
+  playBtn.textContent='▶';
   playBtn.onclick=()=>{
-    videoPlaying=!videoPlaying;
-    playBtn.textContent=videoPlaying?'⏸':'▶';
-    if(videoProgress>=1){videoProgress=0;t=0;bar.style.width='0%';videoPlaying=true;playBtn.textContent='⏸';}
+    if(v.paused){v.play();playBtn.textContent='⏸';}
+    else{v.pause();playBtn.textContent='▶';}
   };
-  canvas.onclick=()=>playBtn.click();
-  document.getElementById('vcBar').parentElement.onclick=function(e){
+  v.onclick=()=>playBtn.click();
+  v.ontimeupdate=()=>{
+    if(v.duration&&isFinite(v.duration)){
+      bar.style.width=(v.currentTime/v.duration*100)+'%';
+      const m=Math.floor(v.currentTime/60),s=Math.floor(v.currentTime%60);
+      time.textContent=m+':'+String(s).padStart(2,'0');
+    }
+  };
+  v.onplay=()=>{playBtn.textContent='⏸';videoTimer=setInterval(()=>{if(v.paused)return;bar.style.width=(v.currentTime/v.duration*100)+'%';const m=Math.floor(v.currentTime/60),s=Math.floor(v.currentTime%60);time.textContent=m+':'+String(s).padStart(2,'0');},250);};
+  v.onpause=()=>{playBtn.textContent='▶';if(videoTimer){clearInterval(videoTimer);videoTimer=null;}};
+  v.onended=()=>{playBtn.textContent='▶';bar.style.width='100%';if(videoTimer){clearInterval(videoTimer);videoTimer=null;}};
+  document.getElementById('vcBar').onclick=function(e){
+    if(!v.duration||!isFinite(v.duration))return;
     const rect=this.getBoundingClientRect();
-    videoProgress=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-    t=videoProgress*videoDuration;
-    bar.style.width=(videoProgress*100)+'%';
+    const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+    v.currentTime=pct*v.duration;
+    bar.style.width=(pct*100)+'%';
   };
   document.getElementById('vcFs').onclick=()=>{
-    const v=document.getElementById('modalVideo');
     if(document.fullscreenElement){document.exitFullscreen();}
     else{v.requestFullscreen().catch(()=>{});}
   };
 }
 
 function closeDetail(){
-  if(videoAnimId){cancelAnimationFrame(videoAnimId);videoAnimId=null;}
-  videoPlaying=false;videoProgress=0;
+  const v=document.getElementById('videoPlayer');
+  if(v){v.pause();v.removeAttribute('src');}
+  if(videoTimer){clearInterval(videoTimer);videoTimer=null;}
   document.getElementById('detailModal').classList.remove('active');
   document.body.style.overflow='';
   document.getElementById('modalImg').style.display='';
