@@ -193,9 +193,39 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .vp-sub{font-size:.8rem;color:var(--text-secondary);}
 @media(max-width:768px){.hero-play-icon{width:44px;height:44px;font-size:1.2rem;}}
 
+/* Intro splash */
+.intro-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;overflow:hidden;}
+.intro-overlay.fadeout{opacity:0;pointer-events:none;transition:opacity .8s ease-out;}
+.intro-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18;z-index:0;}
+.intro-calligraphy{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.12;z-index:1;mix-blend-mode:overlay;}
+.intro-content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.intro-logo{width:90px;height:90px;border-radius:20px;filter:drop-shadow(0 0 24px var(--accent-glow));}
+.intro-brand{max-width:360px;width:50vw;height:auto;filter:none;}
+.intro-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.intro-sub{font-size:.88rem;color:var(--text-secondary);letter-spacing:2px;}
+.intro-btn{margin-top:10px;padding:14px 52px;background:var(--gradient);border:none;border-radius:32px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 24px var(--accent-glow);}
+.intro-btn:hover{transform:translateY(-2px);box-shadow:0 6px 36px rgba(201,168,76,.35);}
+.intro-hint{margin-top:8px;font-size:.68rem;color:var(--text-secondary);opacity:.5;}
+
 </style>
 </head>
 <body>
+
+<!-- Intro splash -->
+<div class="intro-overlay" id="introOverlay">
+  <video class="intro-bg-video" autoplay muted loop playsinline>
+    <source src="intro-bg.mp4" type="video/mp4">
+  </video>
+  <img class="intro-calligraphy" src="calligraphy_bg.jpg" alt="">
+  <div class="intro-content">
+    <img class="intro-logo" src="logo.png" alt="九万AI">
+    <img class="intro-brand" src="jiuwan_logo.png" alt="九万AI">
+    <div class="intro-divider"></div>
+    <p class="intro-sub">AI作品精选 · 300+工具库 · 每日更新</p>
+    <button class="intro-btn" id="introBtn">立 即 使 用</button>
+    <p class="intro-hint">点击进入九万AI</p>
+  </div>
+</div>
 
 <!-- Sidebar -->
 <aside class="sidebar">
@@ -279,6 +309,12 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 
 <script>
+// ==================== INTRO ====================
+document.getElementById('introBtn').addEventListener('click',()=>{
+  document.getElementById('introOverlay').classList.add('fadeout');
+  setTimeout(()=>{document.getElementById('introOverlay').style.display='none';},800);
+});
+
 // ==================== DATA ====================
 const showcaseData = [
 {id:1,title:"无支祁",author:"暗黑神话系列",tool:"Midjourney V8.1",type:"image",date:"2026-06-10",prompt:"Chinese mythological monkey king with golden crown embedded with emeralds, dark background, dramatic lighting, ultra detailed, 8K, cinematic, traditional Chinese mythology meets dark fantasy art",tags:["国风","暗黑","神话"],likes:2847,image:"showcase/01-wuzhiqi.jpg"},
@@ -540,14 +576,16 @@ function renderToolCard(t){
 }
 
 function renderNews(){
+  setTimeout(loadNews,50);
   return`<div class="section-header"><h2 class="section-title">📰 AI新闻</h2></div>
-  <div id="newsContent" style="text-align:center;padding:40px;color:var(--text-secondary);">加载中...</div>
-  <script>
-    fetch('news.json').then(r=>r.json()).then(news=>{
-      const html='<div class="showcase-grid">'+news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(n=>'<div class="showcase-card" onclick="showNewsDetail(\\''+n.title.replace(/'/g,"\\\\'")+'\\',\\''+(n.source_url||'').replace(/'/g,"\\\\'")+'\\',\\''+(n.summary||n.content||'').replace(/'/g,"\\\\'").substring(0,200)+'\\')"><div class="sc-preview" style="height:120px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📰</div><div class="sc-body"><div class="sc-title" style="font-size:.85rem;">'+n.title+'</div><div class="sc-meta">'+n.date+'</div></div></div>').join('')+'</div>';
-      document.getElementById('newsContent').innerHTML=html;
-    }).catch(()=>{document.getElementById('newsContent').innerHTML='<p>暂无新闻数据</p>';});
-  <\\/script>`;
+  <div id="newsContent" style="text-align:center;padding:40px;color:var(--text-secondary);">加载中...</div>`;
+}
+
+function loadNews(){
+  fetch('news.json').then(r=>r.json()).then(news=>{
+    const html='<div class="showcase-grid">'+news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map(n=>'<div class="showcase-card" onclick="showNewsDetail(\\''+n.title.replace(/'/g,"\\\\'")+'\\',\\''+(n.source_url||'').replace(/'/g,"\\\\'")+'\\',\\''+(n.summary||n.content||'').replace(/'/g,"\\\\'").substring(0,200)+'\\')"><div class="sc-preview" style="height:120px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📰</div><div class="sc-body"><div class="sc-title" style="font-size:.85rem;">'+n.title+'</div><div class="sc-meta">'+n.date+'</div></div></div>').join('')+'</div>';
+    document.getElementById('newsContent').innerHTML=html;
+  }).catch(()=>{document.getElementById('newsContent').innerHTML='<p>暂无新闻数据</p>';});
 }
 
 function showNewsDetail(title,url,summary){
