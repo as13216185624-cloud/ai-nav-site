@@ -207,9 +207,11 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .intro-logo{width:90px;height:90px;border-radius:20px;filter:drop-shadow(0 0 24px var(--accent-glow));}
 .intro-brand{max-width:360px;width:50vw;height:auto;filter:none;}
 .intro-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
-.intro-sub{font-size:.88rem;color:var(--text-secondary);letter-spacing:2px;}
-.intro-btn{margin-top:10px;padding:14px 52px;background:var(--gradient);border:none;border-radius:32px;color:#000;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .3s;box-shadow:0 4px 24px var(--accent-glow);position:relative;z-index:10;}
-.intro-btn:hover{transform:translateY(-2px);box-shadow:0 6px 36px rgba(201,168,76,.35);}
+.intro-sub{font-size:.88rem;color:rgba(230,221,208,.35);letter-spacing:2px;}
+.intro-btn{margin-top:10px;padding:14px 52px;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);border:none;border-radius:32px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:10;}
+.intro-btn::after{content:'';position:absolute;inset:-3px;border-radius:34px;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);z-index:-1;opacity:0;transition:opacity .35s;filter:blur(16px);}
+.intro-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 0 40px rgba(118,75,162,.5),0 0 80px rgba(240,147,251,.25);}
+.intro-btn:hover::after{opacity:.7;}
 .intro-hint{margin-top:8px;font-size:.68rem;color:var(--text-secondary);opacity:.5;}
 
 </style>
