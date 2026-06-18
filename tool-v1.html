@@ -198,6 +198,16 @@
   .preview-container img {
     max-width: 100%; max-height: 420px; object-fit: contain; border-radius: 8px;
   }
+  .preview-container.transparent-bg {
+    background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: #fff;
+    border-radius: 12px;
+  }
   .preview-label {
     position: absolute; top: 28px; left: 28px;
     font-size: 11px; background: rgba(0,0,0,.6); color: #fff;
@@ -429,6 +439,7 @@
         <button class="btn btn-primary btn-lg" id="btnRemoveBg" disabled onclick="removeBackground()">
           ✨ 开始抠图
         </button>
+        <button class="btn btn-glass" id="btnDownloadPNG" disabled onclick="downloadTransparentPNG()">🖼️ 下载透明PNG</button>
         <button class="btn btn-glass" onclick="resetAll()">↺ 重置</button>
       </div>
     </div>
@@ -549,6 +560,7 @@ const loadingOverlay = document.getElementById('loadingOverlay');
 const loadingText = document.getElementById('loadingText');
 const btnRemoveBg = document.getElementById('btnRemoveBg');
 const btnDownload = document.getElementById('btnDownload');
+const btnDownloadPNG = document.getElementById('btnDownloadPNG');
 
 // ============ DRAG & DROP ============
 uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
@@ -572,9 +584,10 @@ function processFile(file) {
       state.originalImage = img;
       previewImg.src = e.target.result;
       previewLabel.textContent = '原图';
+      previewContainer.classList.remove('transparent-bg');
       uploadZone.style.display = 'none';
       previewContainer.style.display = 'block';
-      btnRemoveBg.disabled = false; btnDownload.disabled = true;
+      btnRemoveBg.disabled = false; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
       updateSteps(1);
     };
     img.src = e.target.result;
@@ -598,8 +611,8 @@ async function removeBackground() {
     img.onload = () => {
       state.removedBgImage = img;
       previewImg.src = url; previewLabel.textContent = '抠图结果（透明底）';
-      hideLoading(); btnDownload.disabled = false; updateSteps(2);
-      renderComposite();
+      previewContainer.classList.add('transparent-bg');
+      hideLoading(); btnDownload.disabled = false; btnDownloadPNG.disabled = false; updateSteps(2);
     };
     img.src = url;
   } catch (err) {
@@ -654,11 +667,21 @@ function renderComposite() {
   ctx.drawImage(img, dx, dy, dw, dh);
   previewImg.src = canvas.toDataURL('image/png');
   previewLabel.textContent = `成品预览 · ${w}×${h}`;
+  previewContainer.classList.remove('transparent-bg');
   updateSteps(3);
   state._compositeCanvas = canvas;
 }
 
 // ============ DOWNLOAD ============
+function downloadTransparentPNG() {
+  if (!state.removedBgBlob) { showToast('请先完成抠图', 'error'); return; }
+  const url = URL.createObjectURL(state.removedBgBlob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `jiuwanai-rembg-${new Date().toISOString().slice(0,10)}.png`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✅ 透明PNG已下载！', 'success');
+}
+
 function downloadResult() {
   if (!state._compositeCanvas) { if (state.removedBgImage) renderComposite(); else { showToast('请先完成抠图', 'error'); return; } }
   state._compositeCanvas.toBlob(blob => {
@@ -713,8 +736,8 @@ function updateSteps(n) {
 function resetAll() {
   state.originalFile = null; state.originalImage = null;
   state.removedBgBlob = null; state.removedBgImage = null; state._compositeCanvas = null;
-  previewContainer.style.display = 'none'; uploadZone.style.display = 'flex';
-  btnRemoveBg.disabled = true; btnDownload.disabled = true;
+  previewContainer.style.display = 'none'; previewContainer.classList.remove('transparent-bg'); uploadZone.style.display = 'flex';
+  btnRemoveBg.disabled = true; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
   updateSteps(0);
 }
 
