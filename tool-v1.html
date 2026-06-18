@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九万AI · 电商作图 — 免费抠图换场景，3分钟出全套主图</title>
+<style>
+  /* ========== Reset & Base ========== */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0f;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.06);
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.08);
+    --text: #e8e8ed;
+    --text-dim: #8888a0;
+    --accent: #818cf8;
+    --accent-glow: rgba(129,140,248,0.3);
+    --accent2: #f472b6;
+    --success: #34d399;
+    --danger: #f87171;
+    --gradient-1: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+    --gradient-2: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #a78bfa 100%);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ========== Animated Background ========== */
+  .bg-orbs {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .bg-orbs .orb {
+    position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12;
+    animation: orbFloat 20s infinite ease-in-out;
+  }
+  .bg-orbs .orb:nth-child(1) {
+    width: 500px; height: 500px; background: var(--accent);
+    top: -150px; right: -80px; animation-delay: 0s;
+  }
+  .bg-orbs .orb:nth-child(2) {
+    width: 400px; height: 400px; background: var(--accent2);
+    bottom: -100px; left: -80px; animation-delay: -7s; animation-duration: 24s;
+  }
+  .bg-orbs .orb:nth-child(3) {
+    width: 300px; height: 300px; background: #38bdf8;
+    top: 50%; left: 60%; animation-delay: -14s; animation-duration: 28s;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(40px, -30px) scale(1.1); }
+    50% { transform: translate(-20px, 40px) scale(0.95); }
+    75% { transform: translate(-40px, -20px) scale(1.05); }
+  }
+
+  .noise {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1; opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ========== Layout ========== */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+  /* ========== Navbar - Glass ========== */
+  .navbar {
+    position: sticky; top: 16px; z-index: 100;
+    width: calc(100% - 48px); max-width: 1240px; margin: 16px auto 0;
+    background: rgba(10,10,18,0.7); backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg); padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
+    background: var(--gradient-1); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    text-decoration: none;
+  }
+  .nav-badge {
+    font-size: 12px; padding: 4px 14px; border-radius: 100px;
+    background: rgba(52,211,153,0.12); color: var(--success);
+    border: 1px solid rgba(52,211,153,0.2); font-weight: 500;
+  }
+
+  /* ========== Page Header ========== */
+  .page-header {
+    text-align: center; padding: 40px 0 32px;
+  }
+  .page-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 100px; padding: 6px 18px; font-size: 13px; color: var(--text-dim);
+    margin-bottom: 20px; backdrop-filter: blur(10px);
+  }
+  .page-badge .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.5);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .page-header h1 {
+    font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -1px;
+    line-height: 1.2; margin-bottom: 8px;
+  }
+  .page-header h1 .gradient-text {
+    background: var(--gradient-1); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .page-header .subtitle { font-size: 15px; color: var(--text-dim); }
+
+  /* ========== Steps Indicator ========== */
+  .steps-bar {
+    display: flex; justify-content: center; gap: 0; margin-bottom: 28px;
+  }
+  .step-item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+    font-size: 13px; color: var(--text-dim); transition: var(--transition);
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; transition: var(--transition);
+  }
+  .step-item.active { color: var(--text); }
+  .step-item.active .step-num {
+    background: var(--gradient-1); border-color: transparent; color: #fff;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+  .step-item.done { color: var(--success); }
+  .step-item.done .step-num {
+    background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.3); color: var(--success);
+  }
+  .step-arrow { color: var(--glass-border); font-size: 14px; align-self: center; }
+
+  /* ========== Main Grid ========== */
+  .main-grid {
+    display: grid; grid-template-columns: 1fr 360px; gap: 20px; padding-bottom: 40px;
+  }
+
+  /* ========== Canvas Area ========== */
+  .canvas-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg); backdrop-filter: blur(20px);
+    overflow: hidden; transition: var(--transition);
+  }
+  .canvas-body {
+    position: relative; min-height: 440px; display: flex; align-items: center; justify-content: center;
+    background: repeating-conic-gradient(rgba(255,255,255,0.02) 0% 25%, transparent 0% 50%) 50% / 24px 24px;
+    overflow: hidden;
+  }
+
+  /* Upload Zone */
+  .upload-zone {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 60px 40px; cursor: pointer;
+    border: 2px dashed var(--glass-border); border-radius: var(--radius);
+    margin: 28px; transition: all .25s; text-align: center; background: rgba(255,255,255,0.01);
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--accent); background: rgba(129,140,248,0.05);
+  }
+  .upload-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--gradient-1); display: flex; align-items: center; justify-content: center;
+    font-size: 28px; box-shadow: 0 0 40px var(--accent-glow);
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .upload-zone h3 { font-size: 16px; font-weight: 700; color: var(--text); }
+  .upload-zone p { font-size: 13px; color: var(--text-dim); }
+  .upload-hint { font-size: 11px; color: #6b7280; margin-top: -4px; }
+
+  /* Preview */
+  .preview-container {
+    position: relative; max-width: 100%; max-height: 440px; padding: 20px;
+  }
+  .preview-container img {
+    max-width: 100%; max-height: 420px; object-fit: contain; border-radius: 8px;
+  }
+  .preview-label {
+    position: absolute; top: 28px; left: 28px;
+    font-size: 11px; background: rgba(0,0,0,.6); color: #fff;
+    padding: 5px 12px; border-radius: 12px; backdrop-filter: blur(8px);
+  }
+  .re-upload {
+    position: absolute; top: 28px; right: 28px; z-index: 5;
+  }
+  .btn-sm {
+    font-size: 12px; padding: 6px 16px; border-radius: 100px;
+    background: rgba(0,0,0,.5); color: #fff; border: none; cursor: pointer;
+    backdrop-filter: blur(8px); font-family: var(--font); font-weight: 500;
+    transition: var(--transition);
+  }
+  .btn-sm:hover { background: rgba(0,0,0,.7); }
+
+  /* Loading Overlay */
+  .loading-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,10,18,.8); backdrop-filter: blur(4px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; z-index: 10;
+  }
+  .spinner {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 3px solid var(--glass-border); border-top-color: var(--accent);
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 14px; color: var(--text-dim); }
+
+  /* ========== Side Panel ========== */
+  .side-panel { display: flex; flex-direction: column; gap: 16px; }
+
+  .panel-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--radius); padding: 18px 20px;
+    backdrop-filter: blur(10px); transition: var(--transition);
+  }
+  .panel-card h3 {
+    font-size: 14px; font-weight: 700; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px;
+  }
+
+  /* Scene Grid */
+  .scene-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .scene-item {
+    aspect-ratio: 1; border-radius: 8px; cursor: pointer;
+    border: 2px solid transparent; transition: all .2s;
+    position: relative; overflow: hidden;
+  }
+  .scene-item:hover { transform: scale(1.08); border-color: rgba(255,255,255,0.2); }
+  .scene-item.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .scene-item .scene-name {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    font-size: 10px; text-align: center; padding: 3px 0;
+    background: rgba(0,0,0,.45); color: #fff; font-weight: 500;
+  }
+  .scene-white { background: #f8f9fa; border-color: rgba(255,255,255,0.1); }
+  .scene-gray { background: #6b7280; }
+  .scene-wood { background: linear-gradient(135deg, #b8956a, #9a7b54); }
+  .scene-marble { background: linear-gradient(135deg, #d5d0cb, #b8b3ae); }
+  .scene-pink { background: linear-gradient(135deg, #f9a8d4, #f472b6); }
+  .scene-blue { background: linear-gradient(135deg, #93c5fd, #60a5fa); }
+  .scene-warm { background: linear-gradient(135deg, #fcd34d, #f59e0b); }
+  .scene-dark { background: linear-gradient(135deg, #374151, #1f2937); }
+
+  /* Size Grid */
+  .size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .size-item {
+    padding: 10px 6px; border: 1px solid var(--glass-border); border-radius: 8px;
+    cursor: pointer; text-align: center; font-size: 12px; transition: all .2s;
+    background: rgba(255,255,255,0.02);
+  }
+  .size-item:hover { border-color: rgba(255,255,255,0.2); background: var(--surface-hover); }
+  .size-item.selected {
+    border-color: var(--accent); background: rgba(129,140,248,0.1); color: #fff; font-weight: 600;
+  }
+  .size-item .size-name { font-weight: 500; font-size: 13px; }
+  .size-item .size-dim { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+
+  /* Effect Toggles */
+  .effect-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0;
+  }
+  .effect-row + .effect-row { border-top: 1px solid var(--glass-border); }
+  .effect-label { font-size: 13px; font-weight: 500; }
+  .effect-desc { font-size: 11px; color: var(--text-dim); }
+
+  .toggle {
+    width: 44px; height: 24px; background: #374151; border-radius: 12px;
+    cursor: pointer; position: relative; transition: background .25s; flex-shrink: 0;
+  }
+  .toggle.on { background: var(--accent); }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; background: #fff; border-radius: 50%;
+    transition: transform .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  }
+  .toggle.on::after { transform: translateX(20px); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 24px; border-radius: 100px; font-size: 14px;
+    font-weight: 600; cursor: pointer; border: none; transition: var(--transition);
+    font-family: var(--font); text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--gradient-1); color: #fff;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 36px var(--accent-glow); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-glass {
+    background: var(--glass); color: var(--text);
+    border: 1px solid var(--glass-border); backdrop-filter: blur(10px);
+  }
+  .btn-glass:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.15); }
+  .btn-success {
+    background: rgba(52,211,153,0.15); color: var(--success);
+    border: 1px solid rgba(52,211,153,0.25);
+  }
+  .btn-success:hover:not(:disabled) {
+    background: rgba(52,211,153,0.25); transform: translateY(-1px);
+  }
+  .btn-success:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-block { width: 100%; }
+  .btn-lg { padding: 14px 28px; font-size: 15px; }
+
+  /* Action Bar */
+  .action-bar {
+    display: flex; gap: 10px; padding: 16px 20px;
+    border-top: 1px solid var(--glass-border);
+  }
+  .action-bar .btn { flex: 1; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    padding: 12px 28px; border-radius: 100px; font-size: 14px; z-index: 1000;
+    animation: toastIn .3s ease; font-weight: 500;
+    backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
+  }
+  @keyframes toastIn {
+    from { opacity:0; transform:translateX(-50%) translateY(12px); }
+    to { opacity:1; transform:translateX(-50%) translateY(0); }
+  }
+  .toast.success { background: rgba(52,211,153,0.2); color: var(--success); border-color: rgba(52,211,153,0.3); }
+  .toast.error { background: rgba(248,113,113,0.2); color: var(--danger); border-color: rgba(248,113,113,0.3); }
+
+  #fileInput { display: none; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .steps-bar { flex-wrap: wrap; justify-content: center; }
+    .step-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+<div class="noise"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="/" class="nav-logo">九万AI</a>
+  <span class="nav-badge">🆓 完全免费</span>
+</nav>
+
+<div class="container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-badge">
+      <span class="dot"></span> 电商卖家专属 · 零成本作图工具
+    </div>
+    <h1>上传商品图，<span class="gradient-text">3分钟出全套主图</span></h1>
+    <p class="subtitle">AI抠图 · 场景模板 · 多平台尺寸 · 阴影倒影 · 免费无水印</p>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps-bar" id="stepsBar">
+    <div class="step-item active" id="step1"><span class="step-num">1</span> 上传</div>
+    <span class="step-arrow">→</span>
+    <div class="step-item" id="step2"><span class="step-num">2</span> 抠图</div>
+    <span class="step-arrow">→</span>
+    <div class="step-item" id="step3"><span class="step-num">3</span> 美化</div>
+    <span class="step-arrow">→</span>
+    <div class="step-item" id="step4"><span class="step-num">4</span> 导出</div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+    <!-- Left: Canvas -->
+    <div class="canvas-card">
+      <div class="canvas-body" id="canvasBody">
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon">📁</div>
+          <h3>拖拽或点击上传商品图</h3>
+          <p>支持 JPG / PNG / WebP，最大 20MB</p>
+          <span class="upload-hint">建议使用白底或纯色背景的商品实拍图</span>
+        </div>
+
+        <div class="preview-container" id="previewContainer" style="display:none">
+          <img id="previewImg" alt="预览" />
+          <span class="preview-label" id="previewLabel">原图</span>
+          <div class="re-upload">
+            <button class="btn-sm" onclick="document.getElementById('fileInput').click()">↻ 换图</button>
+          </div>
+        </div>
+
+        <div class="loading-overlay" id="loadingOverlay" style="display:none">
+          <div class="spinner"></div>
+          <span class="loading-text" id="loadingText">AI 正在处理中...</span>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary btn-lg" id="btnRemoveBg" disabled onclick="removeBackground()">
+          ✨ 开始抠图
+        </button>
+        <button class="btn btn-glass" onclick="resetAll()">↺ 重置</button>
+      </div>
+    </div>
+
+    <!-- Right: Side Panel -->
+    <div class="side-panel">
+      <!-- Scene Templates -->
+      <div class="panel-card">
+        <h3>🎨 场景模板</h3>
+        <div class="scene-grid" id="sceneGrid">
+          <div class="scene-item scene-white selected" data-scene="white" onclick="selectScene(this,'white')">
+            <span class="scene-name">纯白</span>
+          </div>
+          <div class="scene-item scene-gray" data-scene="gray" onclick="selectScene(this,'gray')">
+            <span class="scene-name">浅灰</span>
+          </div>
+          <div class="scene-item scene-wood" data-scene="wood" onclick="selectScene(this,'wood')">
+            <span class="scene-name">木纹</span>
+          </div>
+          <div class="scene-item scene-marble" data-scene="marble" onclick="selectScene(this,'marble')">
+            <span class="scene-name">大理石</span>
+          </div>
+          <div class="scene-item scene-pink" data-scene="pink" onclick="selectScene(this,'pink')">
+            <span class="scene-name">粉色</span>
+          </div>
+          <div class="scene-item scene-blue" data-scene="blue" onclick="selectScene(this,'blue')">
+            <span class="scene-name">蓝色</span>
+          </div>
+          <div class="scene-item scene-warm" data-scene="warm" onclick="selectScene(this,'warm')">
+            <span class="scene-name">暖光</span>
+          </div>
+          <div class="scene-item scene-dark" data-scene="dark" onclick="selectScene(this,'dark')">
+            <span class="scene-name">深色</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Presets -->
+      <div class="panel-card">
+        <h3>📐 平台尺寸</h3>
+        <div class="size-grid" id="sizeGrid">
+          <div class="size-item selected" data-w="800" data-h="800" onclick="selectSize(this)">
+            <div class="size-name">淘宝</div><div class="size-dim">800×800</div>
+          </div>
+          <div class="size-item" data-w="750" data-h="1000" onclick="selectSize(this)">
+            <div class="size-name">拼多多</div><div class="size-dim">750×1000</div>
+          </div>
+          <div class="size-item" data-w="800" data-h="800" onclick="selectSize(this)">
+            <div class="size-name">京东</div><div class="size-dim">800×800</div>
+          </div>
+          <div class="size-item" data-w="1080" data-h="1440" onclick="selectSize(this)">
+            <div class="size-name">抖音/小红书</div><div class="size-dim">3:4</div>
+          </div>
+          <div class="size-item" data-w="1200" data-h="1200" onclick="selectSize(this)">
+            <div class="size-name">通用方形</div><div class="size-dim">1:1</div>
+          </div>
+          <div class="size-item" data-w="1600" data-h="900" onclick="selectSize(this)">
+            <div class="size-name">横版封面</div><div class="size-dim">16:9</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Effects -->
+      <div class="panel-card">
+        <h3>✨ 效果增强</h3>
+        <div class="effect-row">
+          <div>
+            <div class="effect-label">底部阴影</div>
+            <div class="effect-desc">商品更有立体感</div>
+          </div>
+          <div class="toggle on" id="toggleShadow" onclick="toggleEffect('shadow')"></div>
+        </div>
+        <div class="effect-row">
+          <div>
+            <div class="effect-label">镜面倒影</div>
+            <div class="effect-desc">高级展示效果</div>
+          </div>
+          <div class="toggle" id="toggleReflection" onclick="toggleEffect('reflection')"></div>
+        </div>
+      </div>
+
+      <!-- Download -->
+      <button class="btn btn-success btn-block btn-lg" id="btnDownload" disabled onclick="downloadResult()">
+        ⬇ 下载成品图
+      </button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
+
+<script>
+// ============ STATE ============
+const state = {
+  originalFile: null,
+  originalImage: null,
+  removedBgBlob: null,
+  removedBgImage: null,
+  currentScene: 'white',
+  currentSize: { w: 800, h: 800 },
+  shadowEnabled: true,
+  reflectionEnabled: false,
+  apiBase: 'http://api.jiuwanai.com',
+};
+
+const sceneColors = {
+  white: '#f8f9fa', gray: '#6b7280', wood: '#b8956a',
+  marble: '#d5d0cb', pink: '#f9a8d4', blue: '#93c5fd',
+  warm: '#fcd34d', dark: '#1f2937',
+};
+
+// ============ DOM REFS ============
+const uploadZone = document.getElementById('uploadZone');
+const previewContainer = document.getElementById('previewContainer');
+const previewImg = document.getElementById('previewImg');
+const previewLabel = document.getElementById('previewLabel');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const loadingText = document.getElementById('loadingText');
+const btnRemoveBg = document.getElementById('btnRemoveBg');
+const btnDownload = document.getElementById('btnDownload');
+
+// ============ DRAG & DROP ============
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0]; if (f) processFile(f);
+});
+
+function handleFileSelect(e) { const f = e.target.files[0]; if (f) processFile(f); }
+
+function processFile(file) {
+  if (!file.type.match(/image\/(jpeg|png|webp)/)) { showToast('请上传 JPG / PNG / WebP 格式', 'error'); return; }
+  if (file.size > 20 * 1024 * 1024) { showToast('图片大小不能超过 20MB', 'error'); return; }
+
+  state.originalFile = file; state.removedBgBlob = null; state.removedBgImage = null;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      state.originalImage = img;
+      previewImg.src = e.target.result;
+      previewLabel.textContent = '原图';
+      uploadZone.style.display = 'none';
+      previewContainer.style.display = 'block';
+      btnRemoveBg.disabled = false; btnDownload.disabled = true;
+      updateSteps(1);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============ REMOVE BACKGROUND ============
+async function removeBackground() {
+  if (!state.originalFile) return;
+  showLoading('AI 正在抠图中...'); btnRemoveBg.disabled = true;
+
+  try {
+    const fd = new FormData(); fd.append('file', state.originalFile);
+    const resp = await fetch(`${state.apiBase}/api/removebg`, { method: 'POST', body: fd });
+    if (!resp.ok) throw new Error(`Server ${resp.status}`);
+
+    const blob = await resp.blob(); state.removedBgBlob = blob;
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      state.removedBgImage = img;
+      previewImg.src = url; previewLabel.textContent = '抠图结果（透明底）';
+      hideLoading(); btnDownload.disabled = false; updateSteps(2);
+      renderComposite();
+    };
+    img.src = url;
+  } catch (err) {
+    hideLoading(); btnRemoveBg.disabled = false;
+    console.error(err); showToast('抠图失败，请检查网络后重试', 'error');
+  }
+}
+
+// ============ COMPOSITE RENDER ============
+function renderComposite() {
+  if (!state.removedBgImage) return;
+  const { w, h } = state.currentSize;
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = sceneColors[state.currentScene];
+  ctx.fillRect(0, 0, w, h);
+
+  // Placement
+  const img = state.removedBgImage;
+  const pad = Math.min(w, h) * 0.1;
+  let dw = img.width, dh = img.height;
+  const s = Math.min((w - pad*2) / dw, (h - pad*2) / dh, 1);
+  dw *= s; dh *= s;
+  const dx = (w - dw) / 2, dy = (h - dh) / 2;
+
+  // Shadow
+  if (state.shadowEnabled) {
+    const sy = dy + dh - dh * 0.06;
+    const grad = ctx.createRadialGradient(w/2, sy, dw*0.1, w/2, sy + dh*0.1, dw*0.55);
+    grad.addColorStop(0, 'rgba(0,0,0,0.3)'); grad.addColorStop(0.5, 'rgba(0,0,0,0.08)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(dx - dw*0.08, sy - dh*0.04, dw*1.16, dh*0.2);
+  }
+
+  // Reflection
+  if (state.reflectionEnabled) {
+    ctx.save();
+    const ry = dy + dh + dh*0.02, rh = dh * 0.3;
+    ctx.translate(0, ry + rh); ctx.scale(1, -1);
+    ctx.globalAlpha = 0.25; ctx.drawImage(img, dx, 0, dw, rh);
+    ctx.globalAlpha = 1;
+    const rg = ctx.createLinearGradient(0, 0, 0, rh);
+    rg.addColorStop(0, 'rgba(255,255,255,0.3)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = rg; ctx.fillRect(dx, 0, dw, rh);
+    ctx.restore();
+  }
+
+  // Subject
+  ctx.drawImage(img, dx, dy, dw, dh);
+  previewImg.src = canvas.toDataURL('image/png');
+  previewLabel.textContent = `成品预览 · ${w}×${h}`;
+  updateSteps(3);
+  state._compositeCanvas = canvas;
+}
+
+// ============ DOWNLOAD ============
+function downloadResult() {
+  if (!state._compositeCanvas) { if (state.removedBgImage) renderComposite(); else { showToast('请先完成抠图', 'error'); return; } }
+  state._compositeCanvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `jiuwanai-${state.currentSize.w}x${state.currentSize.h}-${new Date().toISOString().slice(0,10)}.png`;
+    a.click(); URL.revokeObjectURL(url);
+    updateSteps(4); showToast('✅ 下载成功！', 'success');
+  }, 'image/png');
+}
+
+// ============ SCENE ============
+function selectScene(el, scene) {
+  document.querySelectorAll('.scene-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected'); state.currentScene = scene;
+  if (state.removedBgImage) renderComposite();
+}
+
+// ============ SIZE ============
+function selectSize(el) {
+  document.querySelectorAll('.size-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+  state.currentSize = { w: parseInt(el.dataset.w), h: parseInt(el.dataset.h) };
+  if (state.removedBgImage) renderComposite();
+}
+
+// ============ EFFECTS ============
+function toggleEffect(type) {
+  if (type === 'shadow') {
+    state.shadowEnabled = !state.shadowEnabled;
+    document.getElementById('toggleShadow').classList.toggle('on', state.shadowEnabled);
+  } else {
+    state.reflectionEnabled = !state.reflectionEnabled;
+    document.getElementById('toggleReflection').classList.toggle('on', state.reflectionEnabled);
+  }
+  if (state.removedBgImage) renderComposite();
+}
+
+// ============ UTILS ============
+function showLoading(t) { loadingText.textContent = t; loadingOverlay.style.display = 'flex'; }
+function hideLoading() { loadingOverlay.style.display = 'none'; }
+
+function updateSteps(n) {
+  for (let i=1; i<=4; i++) {
+    const el = document.getElementById(`step${i}`);
+    el.classList.remove('active','done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+}
+
+function resetAll() {
+  state.originalFile = null; state.originalImage = null;
+  state.removedBgBlob = null; state.removedBgImage = null; state._compositeCanvas = null;
+  previewContainer.style.display = 'none'; uploadZone.style.display = 'flex';
+  btnRemoveBg.disabled = true; btnDownload.disabled = true;
+  updateSteps(0);
+}
+
+function showToast(msg, type) {
+  const t = document.createElement('div');
+  t.className = `toast ${type||''}`; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+updateSteps(0);
+</script>
+</body>
+</html>
