@@ -281,6 +281,9 @@
   .scene-blue { background: linear-gradient(135deg, #93c5fd, #60a5fa); }
   .scene-warm { background: linear-gradient(135deg, #fcd34d, #f59e0b); }
   .scene-dark { background: linear-gradient(135deg, #374151, #1f2937); }
+  .scene-green { background: linear-gradient(135deg, #86efac, #22c55e); }
+  .scene-kitchen { background: linear-gradient(135deg, #fef3c7, #d97706); }
+  .scene-desk { background: linear-gradient(135deg, #e0e7ff, #818cf8); }
 
   /* Size Grid */
   .size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -443,6 +446,7 @@
         <button class="btn btn-primary btn-lg" id="btnRemoveBg" disabled onclick="removeBackground()">
           ✨ 开始抠图
         </button>
+        <button class="btn btn-glass" id="btnGenerateScene" disabled onclick="generateAIScene()">🤖 AI场景生成</button>
         <button class="btn btn-glass" id="btnDownloadPNG" disabled onclick="downloadTransparentPNG()">🖼️ 下载透明PNG</button>
         <button class="btn btn-glass" onclick="resetAll()">↺ 重置</button>
       </div>
@@ -450,35 +454,45 @@
 
     <!-- Right: Side Panel -->
     <div class="side-panel">
-      <!-- Scene Templates -->
+      <!-- AI Scene Generation -->
       <div class="panel-card">
-        <h3>🎨 场景模板</h3>
+        <h3>🤖 AI 智能场景</h3>
         <div class="scene-grid" id="sceneGrid">
-          <div class="scene-item scene-white selected" data-scene="white" onclick="selectScene(this,'white')">
-            <span class="scene-name">纯白</span>
-          </div>
-          <div class="scene-item scene-gray" data-scene="gray" onclick="selectScene(this,'gray')">
-            <span class="scene-name">浅灰</span>
-          </div>
-          <div class="scene-item scene-wood" data-scene="wood" onclick="selectScene(this,'wood')">
-            <span class="scene-name">木纹</span>
-          </div>
-          <div class="scene-item scene-marble" data-scene="marble" onclick="selectScene(this,'marble')">
+          <div class="scene-item scene-marble selected" data-scene="marble" onclick="selectScene(this,'marble')">
             <span class="scene-name">大理石</span>
           </div>
-          <div class="scene-item scene-pink" data-scene="pink" onclick="selectScene(this,'pink')">
-            <span class="scene-name">粉色</span>
+          <div class="scene-item scene-wood" data-scene="wood" onclick="selectScene(this,'wood')">
+            <span class="scene-name">木纹桌面</span>
           </div>
-          <div class="scene-item scene-blue" data-scene="blue" onclick="selectScene(this,'blue')">
-            <span class="scene-name">蓝色</span>
+          <div class="scene-item scene-white" data-scene="minimal" onclick="selectScene(this,'minimal')">
+            <span class="scene-name">简约白</span>
+          </div>
+          <div class="scene-item scene-green" data-scene="nature" onclick="selectScene(this,'nature')">
+            <span class="scene-name">自然绿植</span>
+          </div>
+          <div class="scene-item scene-pink" data-scene="pink" onclick="selectScene(this,'pink')">
+            <span class="scene-name">粉色浪漫</span>
+          </div>
+          <div class="scene-item scene-blue" data-scene="studio" onclick="selectScene(this,'studio')">
+            <span class="scene-name">影棚专业</span>
           </div>
           <div class="scene-item scene-warm" data-scene="warm" onclick="selectScene(this,'warm')">
-            <span class="scene-name">暖光</span>
+            <span class="scene-name">温馨暖光</span>
           </div>
           <div class="scene-item scene-dark" data-scene="dark" onclick="selectScene(this,'dark')">
-            <span class="scene-name">深色</span>
+            <span class="scene-name">暗调高级</span>
+          </div>
+          <div class="scene-item scene-kitchen" data-scene="kitchen" onclick="selectScene(this,'kitchen')">
+            <span class="scene-name">厨房场景</span>
+          </div>
+          <div class="scene-item scene-desk" data-scene="desk" onclick="selectScene(this,'desk')">
+            <span class="scene-name">桌面场景</span>
           </div>
         </div>
+        <p style="font-size:11px;color:var(--text-dim);margin-top:10px;line-height:1.5;">
+          💡 抠图完成后，选场景点「AI场景生成」<br>
+          通义万相 AI 将智能融合光影与场景
+        </p>
       </div>
 
       <!-- Size Presets -->
@@ -542,7 +556,7 @@ const state = {
   originalImage: null,
   removedBgBlob: null,
   removedBgImage: null,
-  currentScene: 'white',
+  currentScene: 'marble',
   currentSize: { w: 800, h: 800 },
   shadowEnabled: true,
   reflectionEnabled: false,
@@ -553,6 +567,8 @@ const sceneColors = {
   white: '#f8f9fa', gray: '#6b7280', wood: '#b8956a',
   marble: '#d5d0cb', pink: '#f9a8d4', blue: '#93c5fd',
   warm: '#fcd34d', dark: '#1f2937',
+  minimal: '#f8f9fa', nature: '#86efac', studio: '#6b7280',
+  kitchen: '#fef3c7', desk: '#e0e7ff',
 };
 
 // ============ DOM REFS ============
@@ -563,6 +579,7 @@ const previewLabel = document.getElementById('previewLabel');
 const loadingOverlay = document.getElementById('loadingOverlay');
 const loadingText = document.getElementById('loadingText');
 const btnRemoveBg = document.getElementById('btnRemoveBg');
+const btnGenerateScene = document.getElementById('btnGenerateScene');
 const btnDownload = document.getElementById('btnDownload');
 const btnDownloadPNG = document.getElementById('btnDownloadPNG');
 
@@ -591,7 +608,7 @@ function processFile(file) {
       previewContainer.classList.remove('transparent-bg');
       uploadZone.style.display = 'none';
       previewContainer.style.display = 'block';
-      btnRemoveBg.disabled = false; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
+      btnRemoveBg.disabled = false; btnGenerateScene.disabled = true; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
       updateSteps(1);
     };
     img.src = e.target.result;
@@ -616,12 +633,60 @@ async function removeBackground() {
       state.removedBgImage = img;
       previewImg.src = url; previewLabel.textContent = '抠图结果（透明底）';
       previewContainer.classList.add('transparent-bg');
-      hideLoading(); btnDownload.disabled = false; btnDownloadPNG.disabled = false; updateSteps(2);
+      hideLoading(); btnDownload.disabled = false; btnDownloadPNG.disabled = false; btnGenerateScene.disabled = false; updateSteps(2);
     };
     img.src = url;
   } catch (err) {
     hideLoading(); btnRemoveBg.disabled = false;
     console.error(err); showToast('抠图失败，请检查网络后重试', 'error');
+  }
+}
+
+// ============ AI SCENE GENERATION ============
+async function generateAIScene() {
+  if (!state.removedBgBlob) { showToast('请先完成抠图', 'error'); return; }
+  
+  showLoading('AI 正在生成场景图，约10-15秒...');
+  btnGenerateScene.disabled = true; btnRemoveBg.disabled = true;
+  
+  try {
+    const fd = new FormData();
+    fd.append('file', state.removedBgBlob, 'product.png');
+    fd.append('scene', state.currentScene);
+    
+    const resp = await fetch(`${state.apiBase}/api/generate-scene`, { method: 'POST', body: fd });
+    if (!resp.ok) {
+      const errText = await resp.text();
+      throw new Error(errText || `Server ${resp.status}`);
+    }
+    
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      previewImg.src = url;
+      previewLabel.textContent = `AI 场景图 · ${state.currentScene}`;
+      previewContainer.classList.remove('transparent-bg');
+      hideLoading();
+      btnGenerateScene.disabled = false; btnRemoveBg.disabled = false;
+      btnDownload.disabled = true; btnDownloadPNG.disabled = true;
+      updateSteps(3);
+      
+      // Save for download
+      state._compositeCanvas = document.createElement('canvas');
+      state._compositeCanvas.width = img.width;
+      state._compositeCanvas.height = img.height;
+      const ctx = state._compositeCanvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      btnDownload.disabled = false;
+      showToast('✅ AI 场景生成完成！', 'success');
+    };
+    img.src = url;
+  } catch (err) {
+    hideLoading();
+    btnGenerateScene.disabled = false; btnRemoveBg.disabled = false;
+    console.error(err);
+    showToast('场景生成失败: ' + (err.message || '网络错误'), 'error');
   }
 }
 
@@ -741,7 +806,7 @@ function resetAll() {
   state.originalFile = null; state.originalImage = null;
   state.removedBgBlob = null; state.removedBgImage = null; state._compositeCanvas = null;
   previewContainer.style.display = 'none'; previewContainer.classList.remove('transparent-bg'); uploadZone.style.display = 'flex';
-  btnRemoveBg.disabled = true; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
+  btnRemoveBg.disabled = true; btnGenerateScene.disabled = true; btnDownload.disabled = true; btnDownloadPNG.disabled = true;
   updateSteps(0);
 }
 
