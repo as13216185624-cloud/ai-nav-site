@@ -182,6 +182,31 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .page-info{font-size:.82rem;color:var(--text-secondary);}
 @media(max-width:768px){}
 
+/* ====== AI评分 & 视频卡片 ====== */
+.sc-score{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;z-index:2;}
+.sc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:rgba(0,0,0,.75);border:2px solid rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;z-index:3;pointer-events:none;transition:all .3s;}
+.showcase-card:hover .sc-play{background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px var(--accent-glow);}
+.sc-tag-video{background:rgba(0,229,192,.12)!important;border-color:rgba(0,229,192,.25)!important;color:var(--accent-cyber)!important;}
+.sc-source{color:var(--accent-cyber);font-size:.65rem;}
+.hero-play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(0,0,0,.7);border:2px solid rgba(255,255,255,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;z-index:2;pointer-events:none;}
+
+/* AI评分详情 */
+.ai-score-row{display:flex;align-items:center;gap:20px;padding:12px 16px;background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,165,0,.04));border:1px solid rgba(255,215,0,.15);border-radius:10px;margin-top:8px;flex-wrap:wrap;}
+.ai-score-big{font-size:2.2rem;font-weight:800;color:#FFD700;line-height:1;}
+.ai-score-unit{font-size:.8rem;font-weight:400;color:#aaa;margin-left:2px;}
+.ai-score-detail{display:flex;flex-wrap:wrap;gap:10px;font-size:.75rem;color:var(--text-secondary);}
+.ai-score-detail span{padding:3px 10px;background:var(--tag-bg);border-radius:12px;border:1px solid var(--border);}
+.ai-score-review{font-size:.8rem;color:var(--accent-cyber);margin-top:8px;padding:6px 12px;background:rgba(0,229,192,.06);border-radius:6px;display:inline-block;}
+
+/* 视频弹窗 */
+.modal-video{width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;background:#000;}
+.video-placeholder{text-align:center;padding:60px 20px;}
+.vp-icon{font-size:3rem;margin-bottom:12px;}
+.vp-text{font-size:1.1rem;color:var(--text);margin-bottom:6px;}
+.vp-sub{font-size:.8rem;color:var(--text-secondary);}
+
+/* 页脚更新时间 */
+.footer-update{font-size:.65rem;color:var(--text-secondary);opacity:.5;margin-top:4px;}
 
 /* Intro splash */
 .intro-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;overflow:hidden;}
@@ -287,7 +312,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
     </div>
   </div>
   <main class="main-content" id="mainContent"></main>
-  <footer class="footer"><p>九万AI © 2026 · 精选AI作品 · 300+工具库 · 每日更新</p></footer>
+  <footer class="footer"><p>九万AI © 2026 · 精选AI作品 · 300+工具库 · 每日更新</p><p class="footer-update" id="footerUpdate"></p></footer>
 </div>
 
 <!-- Detail modal -->
@@ -295,6 +320,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeDetail()">✕</button>
     <img class="modal-img" id="modalImg" src="" alt="" style="display:block;">
+    <div class="modal-video" id="modalVideo" style="display:none;"></div>
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
@@ -307,7 +333,22 @@ document.getElementById('introBtn').addEventListener('click',()=>{
 });
 
 // ==================== DATA ====================
-const showcaseData = [
+let showcaseData = [];
+
+// 从 showcase.json 动态加载作品数据
+async function loadShowcase(){
+  try{
+    const resp = await fetch('showcase.json?'+Date.now());
+    const data = await resp.json();
+    showcaseData = data;
+    console.log('[九万AI] 加载 '+data.length+' 件作品');
+  }catch(e){
+    console.warn('[九万AI] showcase.json 加载失败，使用缓存', e);
+  }
+}
+
+// 旧数据备份（showcase.json 加载失败时的回退）
+const _backupShowcase = [
 {id:1,title:"无支祁",author:"暗黑神话系列",tool:"Midjourney V8.1",type:"image",date:"2026-06-10",prompt:"Chinese mythological monkey king with golden crown embedded with emeralds, dark background, dramatic lighting, ultra detailed, 8K, cinematic, traditional Chinese mythology meets dark fantasy art",tags:["国风","暗黑","神话"],likes:2847,image:"showcase/01-wuzhiqi.jpg"},
 {id:2,title:"赤色章刃",author:"武侠概念",tool:"Stable Diffusion XL",type:"image",date:"2026-06-10",prompt:"Martial arts warrior in red and black armor, dramatic action pose, neon lights, cyberpunk ancient China fusion, cinematic lighting, ultra detailed character design, epic composition",tags:["武侠","赛博朋克","国风"],likes:1923,image:"showcase/02-chisezhangren.jpg"},
 {id:3,title:"子时临安",author:"古风场景",tool:"Midjourney V8.1",type:"image",date:"2026-06-11",prompt:"Ancient Chinese city at midnight, lantern lights reflecting on water canals, misty atmosphere, traditional Song dynasty architecture, golden warm lights, ultra wide cinematic shot",tags:["古风","场景","夜景"],likes:3156,image:"showcase/03-zishilinan.jpg"},
@@ -346,15 +387,51 @@ function getPriceBadge(pt){
 }
 
 function showDetail(item){
-  document.getElementById('modalImg').src=item.image;
-  document.getElementById('modalImg').style.display='block';
+  const isVideo = item.type==='video';
+  const hasVideoUrl = item.video_url && item.video_url.startsWith('http');
+  const score = item.ai_score;
+
+  // 处理图片/视频展示区
+  const imgEl = document.getElementById('modalImg');
+  const vidEl = document.getElementById('modalVideo');
+  if(isVideo && hasVideoUrl){
+    imgEl.style.display='none';
+    vidEl.style.display='flex';
+    vidEl.innerHTML = `<iframe src="${item.video_url}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:360px;border-radius:0;"></iframe>`;
+  }else if(isVideo){
+    imgEl.style.display='none';
+    vidEl.style.display='flex';
+    vidEl.innerHTML = `<div class="video-placeholder"><span class="vp-icon">🎬</span><p class="vp-text">视频作品预览</p><p class="vp-sub">${item.title}</p></div>`;
+  }else{
+    imgEl.src=item.image;
+    imgEl.style.display='block';
+    vidEl.style.display='none';
+    vidEl.innerHTML='';
+  }
+
+  // AI评分区域
+  let scoreHTML = '';
+  if(score){
+    scoreHTML = `<div class="md-section"><div class="md-label">🤖 AI综合评分</div>
+      <div class="ai-score-row">
+        <div class="ai-score-big">${score.overall}<span class="ai-score-unit">/10</span></div>
+        <div class="ai-score-detail">
+          <span>创意 ${score.creativity}</span><span>技术 ${score.technical}</span><span>美学 ${score.aesthetic}</span><span>新颖 ${score.novelty}</span>
+        </div>
+      </div>
+      ${score.review?`<div class="ai-score-review">💬 ${score.review}</div>`:''}
+    </div>`;
+  }
+
   document.getElementById('modalBody').innerHTML=`
-    <div class="md-title">${item.title}</div>
-    <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${item.likes.toLocaleString()} · 🖼️ 图片</div>
-    <div class="md-section"><div class="md-label">提示词 / Prompt</div><div class="md-prompt">${item.prompt}</div></div>
-    <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${item.tags.map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
+    <div class="md-title">${isVideo?'🎬 ':''}${item.title}</div>
+    <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${(item.likes||0).toLocaleString()} · ${isVideo?'🎬 视频':'🖼️ 图片'}${item.source?' · 📡 '+item.source:''}</div>
+    ${scoreHTML}
+    <div class="md-section"><div class="md-label">提示词 / Prompt</div><div class="md-prompt">${item.prompt||'无'}</div></div>
+    <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${(item.tags||[]).map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
     <div class="md-actions">
-      <button class="md-btn primary" onclick="copyPrompt('${item.prompt.replace(/'/g,"\\'")}')">📋 复制提示词</button>
+      ${item.prompt?`<button class="md-btn primary" onclick="copyPrompt('${(item.prompt||'').replace(/'/g,"\\'").replace(/\n/g,'\\n')}')">📋 复制提示词</button>`:''}
+      ${item.source_url?`<a href="${item.source_url}" target="_blank" class="md-btn secondary">🔗 查看来源</a>`:''}
       <button class="md-btn secondary" onclick="closeDetail()">关闭</button>
     </div>`;
   document.getElementById('detailModal').classList.add('active');
@@ -400,9 +477,9 @@ function renderShowcase(){
   let page=window._showcasePage||1;
   const perPage=12;
   let data=[...showcaseData];
-  if(sortMode==='newest')data.sort((a,b)=>b.date.localeCompare(a.date));
-  else if(sortMode==='hottest')data.sort((a,b)=>b.likes-a.likes);
-  else data.sort((a,b)=>b.likes-a.likes);
+  if(sortMode==='newest')data.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  else if(sortMode==='hottest')data.sort((a,b)=>(b.likes||0)-(a.likes||0));
+  else data.sort((a,b)=>(b.ai_score?.overall||b.likes||0)-(a.ai_score?.overall||a.likes||0));
   const totalPages=Math.ceil(data.length/perPage);
   if(page>totalPages)page=totalPages;
   if(page<1)page=1;
@@ -410,9 +487,12 @@ function renderShowcase(){
   const pageData=data.slice((page-1)*perPage,page*perPage);
   const top=data.slice(0,5);
   function card(s,i){
+    const isVideo=s.type==='video';
+    const score=s.ai_score?.overall;
+    const scoreBadge=score?`<span class="sc-score">⭐${score}</span>`:'';
     return`<div class="showcase-card" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
-      <div class="sc-preview"><img src="${s.image}" alt="${s.title}" loading="lazy"><span class="sc-likes">❤️ ${s.likes.toLocaleString()}</span></div>
-      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-meta"><span>${s.author}</span><span>·</span><span>${s.tool}</span></div><div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div></div>
+      <div class="sc-preview">${isVideo?'<span class="sc-play">▶</span>':''}<img src="${s.image}" alt="${s.title}" loading="lazy">${scoreBadge}<span class="sc-likes">❤️ ${(s.likes||0).toLocaleString()}</span></div>
+      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-meta"><span>${s.author}</span><span>·</span><span>${s.tool}</span>${s.source?`<span>·</span><span class="sc-source">${s.source}</span>`:''}</div><div class="sc-tags">${(s.tags||[]).map(t=>`<span class="sc-tag">${t}</span>`).join('')}${isVideo?'<span class="sc-tag sc-tag-video">🎬视频</span>':''}</div></div>
     </div>`;
   }
   const paginationHTML=totalPages>1?`<div class="pagination"><button class="page-btn" onclick="window._showcasePage=${page-1};updateContent()" ${page<=1?'disabled':''}>◂ 上一页</button><span class="page-info">${page} / ${totalPages}</span><button class="page-btn" onclick="window._showcasePage=${page+1};updateContent()" ${page>=totalPages?'disabled':''}>下一页 ▸</button></div>`:'';
@@ -422,13 +502,14 @@ function renderShowcase(){
         ${top.map((s,i)=>`
         <div class="hero-slide${i===0?' active':''}" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
           <img src="${s.image}" alt="${s.title}" loading="${i===0?'eager':'lazy'}">
-          <div class="hero-overlay"><div class="hero-title">${s.title}</div><div class="hero-meta"><span>👤 ${s.author}</span><span>🛠️ ${s.tool}</span><span>❤️ ${s.likes.toLocaleString()}</span></div></div>
+          ${s.type==='video'?'<span class="hero-play-icon">▶</span>':''}
+          <div class="hero-overlay"><div class="hero-title">${s.title}</div><div class="hero-meta"><span>👤 ${s.author}</span><span>🛠️ ${s.tool}</span><span>❤️ ${(s.likes||0).toLocaleString()}</span>${s.ai_score?.overall?`<span>⭐ ${s.ai_score.overall}/10</span>`:''}</div></div>
         </div>`).join('')}
         <button class="hero-nav prev">◂</button><button class="hero-nav next">▸</button>
         <div class="hero-dots">${top.map((_,i)=>`<span class="hero-dot${i===0?' active':''}"></span>`).join('')}</div>
       </div>
     </div>
-    <div class="section-header"><h2 class="section-title">✨ 精选AI作品 <span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;">(${showcaseData.length}件)</span></h2><div class="section-tabs"><span class="section-tab${sortMode==='recommend'?' active':''}" data-sort="recommend">推荐</span><span class="section-tab${sortMode==='newest'?' active':''}" data-sort="newest">最新</span><span class="section-tab${sortMode==='hottest'?' active':''}" data-sort="hottest">最热</span></div></div>
+    <div class="section-header"><h2 class="section-title">✨ 精选AI作品 <span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;">(${data.length}件)</span></h2><div class="section-tabs"><span class="section-tab${sortMode==='recommend'?' active':''}" data-sort="recommend">推荐</span><span class="section-tab${sortMode==='newest'?' active':''}" data-sort="newest">最新</span><span class="section-tab${sortMode==='hottest'?' active':''}" data-sort="hottest">最热</span></div></div>
     <div class="showcase-grid">${pageData.map(card).join('')}</div>
     ${paginationHTML}`;
 }
@@ -510,6 +591,12 @@ function updateContent(){
   if(currentPage==='showcase'){mc.innerHTML=renderShowcase();setTimeout(startHeroSlider,100);}
   else if(currentPage==='tools')mc.innerHTML=renderTools();
   else if(currentPage==='news')mc.innerHTML=renderNews();
+  // 更新页脚时间
+  const ft = document.getElementById('footerUpdate');
+  if(ft && showcaseData.length>0){
+    const dates = showcaseData.map(s=>s.date).filter(Boolean).sort().reverse();
+    if(dates.length) ft.textContent = '🔄 最近更新: '+dates[0]+' · 共 '+showcaseData.length+' 件作品';
+  }
 }
 
 // Event listeners
@@ -521,7 +608,15 @@ document.querySelectorAll('.section-tab').forEach(t=>{t.addEventListener('click'
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
 
 // Init
-updateContent();
+(async function init(){
+  await loadShowcase();
+  // 如果 showcase.json 加载失败，用备份数据
+  if(showcaseData.length===0){
+    showcaseData = _backupShowcase;
+    console.log('[九万AI] 使用本地备份数据 ('+showcaseData.length+'件)');
+  }
+  updateContent();
+})();
 </script>
 </body>
 </html>
