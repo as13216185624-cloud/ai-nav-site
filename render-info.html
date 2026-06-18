@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>极速渲染 · 九万AI</title>
+<style>
+:root{--bg:#020617;--surface:rgba(15,23,42,.55);--card:rgba(15,23,42,.7);--cyan:#00E5FF;--purple:#7c3aed;--green:#10b981;--text:#e2e8f0;--dim:#64748b;--glass:rgba(255,255,255,.03);--glass-bd:rgba(255,255,255,.06)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(2,6,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-bd);position:sticky;top:0;z-index:100}
+.top-bar a{color:var(--dim);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;transition:color .3s}
+.top-bar a:hover{color:var(--cyan)}
+.top-bar .logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero{text-align:center;padding:80px 24px 60px;max-width:800px;margin:0 auto}
+.hero-icon{font-size:64px;margin-bottom:20px;display:inline-block;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero h1{font-size:clamp(32px,5vw,48px);font-weight:900;letter-spacing:-1px;margin-bottom:12px;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:16px;color:var(--dim);max-width:560px;margin:0 auto;line-height:1.7}
+.content{max-width:900px;margin:0 auto;padding:0 24px 80px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+@media(max-width:700px){.feature-grid{grid-template-columns:1fr}}
+.feat-card{background:var(--card);border:1px solid var(--glass-bd);border-radius:16px;padding:28px;text-align:center;transition:all .35s}
+.feat-card:hover{border-color:rgba(16,185,129,.2);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.feat-icon{font-size:32px;margin-bottom:14px}
+.feat-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.feat-card p{font-size:13px;color:var(--dim);line-height:1.6}
+.specs{background:var(--card);border:1px solid var(--glass-bd);border-radius:20px;padding:32px;margin-bottom:32px}
+.specs h2{font-size:20px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.specs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:500px){.specs-grid{grid-template-columns:1fr}}
+.spec-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:rgba(255,255,255,.02);border-radius:10px}
+.spec-label{font-size:13px;color:var(--dim)}
+.spec-val{font-size:13px;font-weight:700;color:var(--green)}
+.badge-strip{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:32px 0}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:100px;font-size:13px;font-weight:600;border:1px solid}
+.badge-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.2);color:var(--green)}
+.badge-cyan{background:rgba(0,229,255,.08);border-color:rgba(0,229,255,.2);color:var(--cyan)}
+.badge-purple{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.2);color:var(--purple)}
+.cta{text-align:center;padding:40px 0}
+.cta h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.cta p{color:var(--dim);font-size:14px;margin-bottom:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s;font-family:inherit;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--cyan));color:#000;box-shadow:0 0 30px rgba(16,185,129,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(16,185,129,.4)}
+.footer{text-align:center;padding:24px;font-size:12px;color:var(--dim);border-top:1px solid var(--glass-bd)}
+.footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html">← 返回首页</a>
+  <span class="logo">⚡ 极速渲染</span>
+  <div></div>
+</div>
+
+<div class="hero">
+  <div class="hero-icon">⚡</div>
+  <h1>自建服务器 · 本地推理</h1>
+  <p>所有 AI 能力运行在自有物理服务器上，不依赖任何第三方 API，数据用完即删，隐私零泄露。</p>
+</div>
+
+<div class="content">
+  <div class="feature-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🚀</div>
+      <h3>零排队</h3>
+      <p>自建 GPU 服务器独享算力，不会因为第三方 API 限流而等待</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <h3>隐私优先</h3>
+      <p>图片仅在服务器内存中处理，完成后立即删除，不留任何痕迹</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <h3>&lt; 5 秒出图</h3>
+      <p>从上传到拿到透明底 PNG，全流程不到 5 秒，比在线工具快 3-5 倍</p>
+    </div>
+  </div>
+
+  <div class="specs">
+    <h2>🖥️ 服务器配置</h2>
+    <div class="specs-grid">
+      <div class="spec-item"><span class="spec-label">处理器</span><span class="spec-val">2 核 CPU</span></div>
+      <div class="spec-item"><span class="spec-label">内存</span><span class="spec-val">4 GB</span></div>
+      <div class="spec-item"><span class="spec-label">抠图模型</span><span class="spec-val">rembg u2net + isnet</span></div>
+      <div class="spec-item"><span class="spec-label">推理方式</span><span class="spec-val">CPU 本地推理</span></div>
+      <div class="spec-item"><span class="spec-label">并发能力</span><span class="spec-val">双模型同时加载</span></div>
+      <div class="spec-item"><span class="spec-label">服务托管</span><span class="spec-val">systemd + Nginx</span></div>
+      <div class="spec-item"><span class="spec-label">数据存储</span><span class="spec-val">用完即删，不落盘</span></div>
+      <div class="spec-item"><span class="spec-label">月费成本</span><span class="spec-val">≈ 70 元</span></div>
+    </div>
+  </div>
+
+  <div class="badge-strip">
+    <span class="badge badge-green">🔓 开源模型</span>
+    <span class="badge badge-cyan">🇨🇳 国内服务器</span>
+    <span class="badge badge-purple">🛡️ 零第三方依赖</span>
+    <span class="badge badge-green">♾️ 不限调用次数</span>
+    <span class="badge badge-cyan">📦 自建自控</span>
+    <span class="badge badge-purple">🔑 无需 API Key</span>
+  </div>
+
+  <div class="cta">
+    <h3>和第三方 API 说再见</h3>
+    <p>不用 pay-as-you-go，不用月付订阅，不用担心服务商涨价或下线。<br>所有 AI 能力 100% 跑在自己的服务器上。</p>
+    <a href="tool-v1.html" class="btn btn-primary">⚡ 立即体验</a>
+  </div>
+</div>
+
+<footer class="footer">© 2026 <a href="index.html">九万AI</a> · 极速渲染 · 自建服务器本地推理</footer>
+</body>
+</html>

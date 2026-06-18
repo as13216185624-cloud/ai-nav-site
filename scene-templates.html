@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>场景模板 · 九万AI</title>
+<style>
+:root{--bg:#020617;--surface:rgba(15,23,42,.55);--card:rgba(15,23,42,.7);--cyan:#00E5FF;--purple:#7c3aed;--pink:#ec4899;--text:#e2e8f0;--dim:#64748b;--glass:rgba(255,255,255,.03);--glass-bd:rgba(255,255,255,.06)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh;overflow-x:hidden}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(2,6,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-bd);position:sticky;top:0;z-index:100}
+.top-bar a{color:var(--dim);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;transition:color .3s}
+.top-bar a:hover{color:var(--cyan)}
+.top-bar .logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.main{padding:32px;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:32px}
+@media(max-width:900px){.main{grid-template-columns:1fr}}
+.upload-zone{grid-column:1}
+.panel{grid-column:2}
+.upload-box{aspect-ratio:1;max-height:520px;background:var(--card);border:2px dashed var(--glass-bd);border-radius:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .35s;overflow:hidden;position:relative}
+.upload-box:hover{border-color:rgba(0,229,255,.3);box-shadow:0 0 40px rgba(0,229,255,.08)}
+.upload-box.has-image{border-style:solid;border-color:var(--glass-bd)}
+.upload-box canvas,.upload-box img{max-width:100%;max-height:100%;object-fit:contain}
+.upload-hint{text-align:center;color:var(--dim)}
+.upload-hint .icon{font-size:48px;margin-bottom:12px}
+.upload-hint p{font-size:14px;margin-top:4px}
+.scene-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.scene-btn{padding:14px 12px;border-radius:14px;border:2px solid var(--glass-bd);background:var(--card);cursor:pointer;text-align:center;transition:all .3s;position:relative;overflow:hidden;font-family:inherit}
+.scene-btn:hover,.scene-btn.active{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.15)}
+.scene-btn.active{border-color:var(--cyan);background:rgba(0,229,255,.08)}
+.scene-preview{width:100%;height:64px;border-radius:8px;margin-bottom:8px}
+.scene-name{font-size:13px;font-weight:600;color:var(--text)}
+.scene-desc{font-size:11px;color:var(--dim);margin-top:2px}
+.sp-white{background:linear-gradient(135deg,#fff,#f8f9fa)}
+.sp-wood{background:linear-gradient(135deg,#c4a882,#b8956a,#a6845e);background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.03)3px,rgba(0,0,0,.03)4px),linear-gradient(135deg,#c4a882,#b8956a,#a6845e)}
+.sp-marble{background:linear-gradient(135deg,#e8e4e0,#d5cfc8,#c8c0b8);background-image:radial-gradient(ellipse at 20% 30%,rgba(255,255,255,.4)0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(180,170,160,.3)0%,transparent 50%),linear-gradient(135deg,#e8e4e0,#d5cfc8)}
+.sp-gradient{background:linear-gradient(135deg,#667eea,#764ba2,#f093fb,#f5576c,#4facfe,#00f2fe)}
+.sp-studio{background:radial-gradient(ellipse at center,#fafafa 0%,#e8e8e8 40%,#c0c0c0 100%)}
+.sp-outdoor{background:linear-gradient(180deg,#87CEEB 0%,#98D8C8 40%,#7CB342 70%,#558B2F 100%);background-image:radial-gradient(circle at 70% 20%,rgba(255,255,255,.3)0%,transparent 30%),linear-gradient(180deg,#87CEEB,#98D8C8 40%,#7CB342 70%,#558B2F)}
+.sp-concrete{background:linear-gradient(135deg,#b0b0b0,#9a9a9a,#888);background-image:radial-gradient(circle at 30% 25%,rgba(255,255,255,.1)0%,transparent 3px),radial-gradient(circle at 70% 55%,rgba(0,0,0,.05)0%,transparent 2px),linear-gradient(135deg,#b0b0b0,#9a9a9a)}
+.sp-warm{background:linear-gradient(135deg,#fdf2e9,#fadbd8,#f5b7b1,#f9e79f)}
+.panel h3{font-size:17px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.panel>p{font-size:12px;color:var(--dim);margin-bottom:20px}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s;font-family:inherit;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),#3b82f6);color:#000;box-shadow:0 0 30px rgba(0,229,255,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,229,255,.4)}
+.btn-glass{background:var(--glass);color:var(--text);border:1px solid var(--glass-bd);backdrop-filter:blur(10px)}
+.btn-glass:hover{background:rgba(255,255,255,.08)}
+.upload-custom{width:100%;margin-top:12px}
+.upload-custom label{display:block;padding:12px;border-radius:12px;border:1px dashed var(--glass-bd);text-align:center;cursor:pointer;color:var(--dim);font-size:13px;transition:all .3s}
+.upload-custom label:hover{border-color:var(--purple);color:var(--purple)}
+.upload-custom input{display:none}
+.footer{text-align:center;padding:24px;font-size:12px;color:var(--dim);border-top:1px solid var(--glass-bd);margin-top:40px}
+.footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html">← 返回首页</a>
+  <span class="logo">🎨 场景模板</span>
+  <div></div>
+</div>
+<div class="main">
+  <div class="upload-zone">
+    <div class="upload-box" id="uploadBox">
+      <div class="upload-hint" id="uploadHint">
+        <div class="icon">📤</div>
+        <p><strong>点击上传商品图片</strong></p>
+        <p style="font-size:12px;margin-top:6px">支持 JPG / PNG / WebP，建议 800×800 以上</p>
+      </div>
+      <canvas id="previewCanvas" style="display:none"></canvas>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
+    <input type="file" id="bgInput" accept="image/*" style="display:none">
+  </div>
+  <div class="panel">
+    <h3>🎨 选择场景</h3>
+    <p>点击下方场景实时预览效果</p>
+    <div class="scene-grid" id="sceneGrid">
+      <button class="scene-btn active" data-scene="white">
+        <div class="scene-preview sp-white"></div>
+        <div class="scene-name">纯白背景</div>
+        <div class="scene-desc">经典电商白底</div>
+      </button>
+      <button class="scene-btn" data-scene="wood">
+        <div class="scene-preview sp-wood"></div>
+        <div class="scene-name">木纹质感</div>
+        <div class="scene-desc">温暖自然风格</div>
+      </button>
+      <button class="scene-btn" data-scene="marble">
+        <div class="scene-preview sp-marble"></div>
+        <div class="scene-name">大理石纹</div>
+        <div class="scene-desc">高级轻奢感</div>
+      </button>
+      <button class="scene-btn" data-scene="gradient">
+        <div class="scene-preview sp-gradient"></div>
+        <div class="scene-name">炫彩渐变</div>
+        <div class="scene-desc">潮流撞色</div>
+      </button>
+      <button class="scene-btn" data-scene="studio">
+        <div class="scene-preview sp-studio"></div>
+        <div class="scene-name">影棚光效</div>
+        <div class="scene-desc">专业摄影棚感</div>
+      </button>
+      <button class="scene-btn" data-scene="outdoor">
+        <div class="scene-preview sp-outdoor"></div>
+        <div class="scene-name">自然户外</div>
+        <div class="scene-desc">清新户外场景</div>
+      </button>
+      <button class="scene-btn" data-scene="concrete">
+        <div class="scene-preview sp-concrete"></div>
+        <div class="scene-name">水泥工业</div>
+        <div class="scene-desc">极简工业风</div>
+      </button>
+      <button class="scene-btn" data-scene="warm">
+        <div class="scene-preview sp-warm"></div>
+        <div class="scene-name">暖调柔光</div>
+        <div class="scene-desc">温馨柔和</div>
+      </button>
+    </div>
+    <div class="upload-custom">
+      <label for="bgInput">📁 上传自定义背景图片</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" id="downloadBtn" disabled>📥 下载成品图</button>
+      <button class="btn btn-glass" id="resetBtn">🔄 重置</button>
+    </div>
+  </div>
+</div>
+<footer class="footer">© 2026 <a href="index.html">九万AI</a> · 场景模板 · 纯前端实时渲染，不上传服务器</footer>
+
+<script>
+const uploadBox=document.getElementById('uploadBox'),uploadHint=document.getElementById('uploadHint');
+const previewCanvas=document.getElementById('previewCanvas'),fileInput=document.getElementById('fileInput'),bgInput=document.getElementById('bgInput');
+const downloadBtn=document.getElementById('downloadBtn');
+let productImg=null,customBgImg=null,currentScene='white';
+
+uploadBox.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{productImg=img;uploadHint.style.display='none';previewCanvas.style.display='block';renderScene();downloadBtn.disabled=false};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+bgInput.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{customBgImg=img;renderScene()};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('sceneGrid').addEventListener('click',e=>{
+  const btn=e.target.closest('.scene-btn');if(!btn)return;
+  document.querySelectorAll('.scene-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentScene=btn.dataset.scene;
+  renderScene();
+});
+
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  productImg=null;customBgImg=null;currentScene='white';
+  uploadHint.style.display='';previewCanvas.style.display='none';
+  downloadBtn.disabled=true;
+  document.querySelector('.scene-btn[data-scene="white"]').classList.add('active');
+  fileInput.value='';bgInput.value='';
+});
+
+downloadBtn.addEventListener('click',()=>{
+  const link=document.createElement('a');
+  link.download='场景模板_九万AI.png';
+  link.href=previewCanvas.toDataURL('image/png');
+  link.click();
+});
+
+function renderScene(){
+  if(!productImg)return;
+  const size=Math.min(uploadBox.clientWidth,uploadBox.clientHeight,520);
+  const canvas=previewCanvas;
+  canvas.width=size;canvas.height=size;
+  uploadBox.style.aspectRatio='1';
+  canvas.style.width=size+'px';canvas.style.height=size+'px';
+  const ctx=canvas.getContext('2d');
+
+  // 先画背景
+  const bgSize=size*1.2;
+  const bgX=(size-bgSize)/2,bgY=(size-bgSize)/2;
+  if(customBgImg){
+    ctx.drawImage(customBgImg,0,0,size,size);
+  }else{
+    drawSceneBg(ctx,size,currentScene);
+  }
+
+  // 画产品图（居中，等比缩放）
+  const padding=size*0.08;
+  const maxW=size-padding*2,maxH=size-padding*2;
+  let pw=productImg.width,ph=productImg.height;
+  const ratio=Math.min(maxW/pw,maxH/ph);
+  pw*=ratio;ph*=ratio;
+  const px=(size-pw)/2,py=(size-ph)/2;
+
+  // 底部柔和阴影
+  ctx.save();
+  ctx.shadowColor='rgba(0,0,0,0.25)';
+  ctx.shadowBlur=size*0.04;
+  ctx.shadowOffsetX=0;
+  ctx.shadowOffsetY=size*0.02;
+  ctx.drawImage(productImg,px,py,pw,ph);
+  ctx.restore();
+}
+
+function drawSceneBg(ctx,size,scene){
+  switch(scene){
+    case 'white':
+      const wg=ctx.createLinearGradient(0,0,size,size);
+      wg.addColorStop(0,'#ffffff');wg.addColorStop(0.5,'#fafafa');wg.addColorStop(1,'#f0f0f0');
+      ctx.fillStyle=wg;ctx.fillRect(0,0,size,size);
+      break;
+    case 'wood':
+      ctx.fillStyle='#c4a882';ctx.fillRect(0,0,size,size);
+      for(let y=0;y<size;y+=4){ctx.fillStyle=`rgba(0,0,0,${0.02+Math.sin(y*0.1)*0.02})`;ctx.fillRect(0,y,size,2)}
+      for(let x=0;x<size;x+=80){ctx.fillStyle='rgba(139,90,43,0.06)';ctx.fillRect(x,0,1,size)}
+      break;
+    case 'marble':
+      ctx.fillStyle='#e8e4e0';ctx.fillRect(0,0,size,size);
+      for(let i=0;i<12;i++){
+        const cx=Math.random()*size,cy=Math.random()*size,r=size*(0.08+Math.random()*0.2);
+        const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+        g.addColorStop(0,'rgba(180,170,160,0.25)');g.addColorStop(1,'transparent');
+        ctx.fillStyle=g;ctx.fillRect(0,0,size,size);
+      }
+      break;
+    case 'gradient':
+      const gg=ctx.createLinearGradient(0,0,size,size);
+      gg.addColorStop(0,'#667eea');gg.addColorStop(0.25,'#764ba2');gg.addColorStop(0.5,'#f093fb');gg.addColorStop(0.75,'#f5576c');gg.addColorStop(1,'#4facfe');
+      ctx.fillStyle=gg;ctx.fillRect(0,0,size,size);
+      break;
+    case 'studio':
+      const sg=ctx.createRadialGradient(size/2,size/3,0,size/2,size/2,size);
+      sg.addColorStop(0,'#fafafa');sg.addColorStop(0.4,'#e8e8e8');sg.addColorStop(1,'#b0b0b0');
+      ctx.fillStyle=sg;ctx.fillRect(0,0,size,size);
+      break;
+    case 'outdoor':
+      const og=ctx.createLinearGradient(0,0,0,size);
+      og.addColorStop(0,'#87CEEB');og.addColorStop(0.35,'#98D8C8');og.addColorStop(0.65,'#7CB342');og.addColorStop(1,'#558B2F');
+      ctx.fillStyle=og;ctx.fillRect(0,0,size,size);
+      const sg2=ctx.createRadialGradient(size*0.7,size*0.18,0,size*0.7,size*0.18,size*0.4);
+      sg2.addColorStop(0,'rgba(255,255,255,0.3)');sg2.addColorStop(1,'transparent');
+      ctx.fillStyle=sg2;ctx.fillRect(0,0,size,size);
+      break;
+    case 'concrete':
+      ctx.fillStyle='#b0b0b0';ctx.fillRect(0,0,size,size);
+      for(let i=0;i<40;i++){
+        ctx.fillStyle=`rgba(${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},${Math.random()>0.5?255:0},0.03)`;
+        ctx.fillRect(Math.random()*size,Math.random()*size,Math.random()*3+1,Math.random()*3+1);
+      }
+      break;
+    case 'warm':
+      const wmg=ctx.createLinearGradient(0,0,size,size);
+      wmg.addColorStop(0,'#fdf2e9');wmg.addColorStop(0.5,'#fadbd8');wmg.addColorStop(1,'#f9e79f');
+      ctx.fillStyle=wmg;ctx.fillRect(0,0,size,size);
+      break;
+  }
+}
+</script>
+</body>
+</html>

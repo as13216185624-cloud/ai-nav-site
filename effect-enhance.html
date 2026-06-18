@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>效果增强 · 九万AI</title>
+<style>
+:root{--bg:#020617;--surface:rgba(15,23,42,.55);--card:rgba(15,23,42,.7);--cyan:#00E5FF;--purple:#7c3aed;--blue:#3b82f6;--text:#e2e8f0;--dim:#64748b;--glass:rgba(255,255,255,.03);--glass-bd:rgba(255,255,255,.06);--green:#10b981}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(2,6,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-bd);position:sticky;top:0;z-index:100}
+.top-bar a{color:var(--dim);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;transition:color .3s}
+.top-bar a:hover{color:var(--cyan)}
+.top-bar .logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.main{max-width:1400px;margin:0 auto;padding:32px;display:grid;grid-template-columns:1fr 360px;gap:32px}
+@media(max-width:900px){.main{grid-template-columns:1fr}}
+.upload-zone{grid-column:1}
+.panel{grid-column:2}
+.preview-area{width:100%;aspect-ratio:1;max-height:520px;border-radius:20px;overflow:hidden;background:var(--card);border:2px dashed var(--glass-bd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .35s;position:relative}
+.preview-area:hover{border-color:rgba(59,130,246,.3);box-shadow:0 0 40px rgba(59,130,246,.08)}
+.preview-area.has-image{border-style:solid;background:repeating-conic-gradient(rgba(255,255,255,.03)0% 25%,transparent 0% 50%) 50%/20px 20px}
+.preview-area canvas{max-width:90%;max-height:90%;object-fit:contain}
+.upload-hint{text-align:center;color:var(--dim);position:absolute;pointer-events:none}
+.upload-hint .icon{font-size:48px;margin-bottom:12px}
+.upload-hint p{font-size:14px;margin-top:4px}
+.controls-section{margin-top:16px}
+.control-group{margin-bottom:20px}
+.control-group label{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:8px}
+.control-group label .val{color:var(--blue);font-size:12px}
+.slider{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.1);outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 0 12px rgba(59,130,246,.4);transition:box-shadow .3s}
+.slider::-webkit-slider-thumb:hover{box-shadow:0 0 20px rgba(59,130,246,.6)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--glass);border-radius:12px;border:1px solid var(--glass-bd);margin-bottom:10px;cursor:pointer;transition:all .3s}
+.toggle-row:hover{border-color:rgba(255,255,255,.12)}
+.toggle-row .label{font-size:13px;font-weight:600}
+.toggle-row .desc{font-size:11px;color:var(--dim)}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0}
+.toggle-switch input{display:none}
+.toggle-switch .slider-round{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:13px;transition:.3s;cursor:pointer}
+.toggle-switch .slider-round::before{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.3s}
+.toggle-switch input:checked+.slider-round{background:var(--blue);box-shadow:0 0 12px rgba(59,130,246,.4)}
+.toggle-switch input:checked+.slider-round::before{transform:translateX(22px)}
+.preset-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.preset-btn{padding:10px;border-radius:10px;border:1px solid var(--glass-bd);background:var(--glass);color:var(--text);cursor:pointer;font-size:12px;font-weight:600;transition:all .3s;font-family:inherit;text-align:center}
+.preset-btn:hover,.preset-btn.active{border-color:var(--blue);background:rgba(59,130,246,.1)}
+.preset-btn.active{border-color:var(--blue);box-shadow:0 0 10px rgba(59,130,246,.15)}
+.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#000;box-shadow:0 0 30px rgba(59,130,246,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(59,130,246,.4)}
+.btn-primary:disabled{opacity:.4;cursor:default;transform:none}
+.btn-glass{background:var(--glass);color:var(--text);border:1px solid var(--glass-bd)}
+.btn-glass:hover{background:rgba(255,255,255,.08)}
+.bg-options{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.bg-dot{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .3s}
+.bg-dot:hover,.bg-dot.active{border-color:var(--blue);box-shadow:0 0 12px rgba(59,130,246,.3)}
+.bg-dot.white{background:#fff}
+.bg-dot.gray{background:#888}
+.bg-dot.black{background:#1a1a1a}
+.bg-dot.transparent{background:repeating-conic-gradient(#555 0% 25%,#333 0% 50%) 50%/8px 8px}
+.footer{text-align:center;padding:24px;font-size:12px;color:var(--dim);border-top:1px solid var(--glass-bd);margin-top:40px}
+.footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <a href="index.html">← 返回首页</a>
+  <span class="logo">✨ 效果增强</span>
+  <div></div>
+</div>
+<div class="main">
+  <div class="upload-zone">
+    <div class="preview-area" id="previewArea">
+      <div class="upload-hint" id="uploadHint">
+        <div class="icon">🖼️</div>
+        <p><strong>点击上传商品图片</strong></p>
+        <p style="font-size:12px;margin-top:6px">建议使用已抠图的透明底 PNG，效果最佳</p>
+      </div>
+      <canvas id="previewCanvas" style="display:none"></canvas>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
+    <div class="controls-section">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">🎨 效果预设</h3>
+      <div class="preset-grid" id="presets">
+        <button class="preset-btn active" data-preset="default">默认阴影</button>
+        <button class="preset-btn" data-preset="soft">柔和悬浮</button>
+        <button class="preset-btn" data-preset="dramatic">戏剧强影</button>
+        <button class="preset-btn" data-preset="reflection">镜面倒影</button>
+        <button class="preset-btn" data-preset="floating">漂浮展示</button>
+        <button class="preset-btn" data-preset="glossy">高光质感</button>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>✨ 效果调节</h3>
+    <p>实时预览，所见即所得</p>
+
+    <div class="toggle-row" id="shadowToggle">
+      <div><div class="label">🌑 底部阴影</div><div class="desc">增强立体感和空间感</div></div>
+      <label class="toggle-switch"><input type="checkbox" id="shadowEnabled" checked><span class="slider-round"></span></label>
+    </div>
+
+    <div class="control-group" id="shadowGroup">
+      <label>阴影深度 <span class="val" id="shadowVal">40%</span></label>
+      <input type="range" class="slider" id="shadowOpacity" min="5" max="80" value="40">
+    </div>
+    <div class="control-group" id="shadowBlurGroup">
+      <label>阴影柔和度 <span class="val" id="blurVal">24px</span></label>
+      <input type="range" class="slider" id="shadowBlur" min="4" max="60" value="24">
+    </div>
+    <div class="control-group" id="shadowOffsetGroup">
+      <label>阴影偏移 <span class="val" id="offsetVal">12px</span></label>
+      <input type="range" class="slider" id="shadowOffset" min="2" max="40" value="12">
+    </div>
+
+    <div class="toggle-row" id="reflectionToggle">
+      <div><div class="label">🪞 镜面倒影</div><div class="desc">专业级商品展示效果</div></div>
+      <label class="toggle-switch"><input type="checkbox" id="reflectionEnabled"><span class="slider-round"></span></label>
+    </div>
+
+    <div class="control-group" id="reflectionGroup" style="display:none">
+      <label>倒影高度 <span class="val" id="reflVal">35%</span></label>
+      <input type="range" class="slider" id="reflectionHeight" min="10" max="70" value="35">
+    </div>
+    <div class="control-group" id="reflectionOpacityGroup" style="display:none">
+      <label>倒影透明度 <span class="val" id="reflOpacityVal">50%</span></label>
+      <input type="range" class="slider" id="reflectionOpacity" min="10" max="80" value="50">
+    </div>
+    <div class="control-group" id="reflectionGapGroup" style="display:none">
+      <label>倒影间距 <span class="val" id="reflGapVal">4px</span></label>
+      <input type="range" class="slider" id="reflectionGap" min="0" max="20" value="4">
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;margin:20px 0 8px">🎨 输出背景色</h3>
+    <div class="bg-options" id="bgColors">
+      <div class="bg-dot white active" data-bg="#ffffff"></div>
+      <div class="bg-dot gray" data-bg="#e5e5e5"></div>
+      <div class="bg-dot black" data-bg="#1a1a1a"></div>
+      <div class="bg-dot transparent" data-bg="transparent"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="downloadBtn" disabled>📥 下载成品图</button>
+      <button class="btn btn-glass" id="resetBtn">🔄 重置</button>
+    </div>
+  </div>
+</div>
+<footer class="footer">© 2026 <a href="index.html">九万AI</a> · 效果增强 · 纯前端实时渲染，不上传服务器</footer>
+
+<script>
+const previewArea=document.getElementById('previewArea'),uploadHint=document.getElementById('uploadHint');
+const previewCanvas=document.getElementById('previewCanvas'),fileInput=document.getElementById('fileInput');
+const downloadBtn=document.getElementById('downloadBtn');
+let productImg=null,bgColor='#ffffff';
+
+// Controls
+const shadowEnabled=document.getElementById('shadowEnabled'),reflectionEnabled=document.getElementById('reflectionEnabled');
+const shadowOpacity=document.getElementById('shadowOpacity'),shadowBlur=document.getElementById('shadowBlur'),shadowOffset=document.getElementById('shadowOffset');
+const reflectionHeight=document.getElementById('reflectionHeight'),reflectionOpacity=document.getElementById('reflectionOpacity'),reflectionGap=document.getElementById('reflectionGap');
+
+function getValues(){
+  return{
+    shadow:shadowEnabled.checked,
+    shadowOp:parseInt(shadowOpacity.value)/100,
+    shadowBl:parseInt(shadowBlur.value),
+    shadowOff:parseInt(shadowOffset.value),
+    reflection:reflectionEnabled.checked,
+    reflH:parseInt(reflectionHeight.value)/100,
+    reflOp:parseInt(reflectionOpacity.value)/100,
+    reflGap:parseInt(reflectionGap.value),
+    bg:bgColor
+  };
+}
+
+function updateDisplay(){
+  document.getElementById('shadowVal').textContent=shadowOpacity.value+'%';
+  document.getElementById('blurVal').textContent=shadowBlur.value+'px';
+  document.getElementById('offsetVal').textContent=shadowOffset.value+'px';
+  document.getElementById('reflVal').textContent=reflectionHeight.value+'%';
+  document.getElementById('reflOpacityVal').textContent=reflectionOpacity.value+'%';
+  document.getElementById('reflGapVal').textContent=reflectionGap.value+'px';
+  document.getElementById('shadowGroup').style.display=shadowEnabled.checked?'':'none';
+  document.getElementById('shadowBlurGroup').style.display=shadowEnabled.checked?'':'none';
+  document.getElementById('shadowOffsetGroup').style.display=shadowEnabled.checked?'':'none';
+  document.getElementById('reflectionGroup').style.display=reflectionEnabled.checked?'':'none';
+  document.getElementById('reflectionOpacityGroup').style.display=reflectionEnabled.checked?'':'none';
+  document.getElementById('reflectionGapGroup').style.display=reflectionEnabled.checked?'':'none';
+}
+
+[shadowEnabled,reflectionEnabled].forEach(el=>el.addEventListener('change',()=>{updateDisplay();render()}));
+[shadowOpacity,shadowBlur,shadowOffset,reflectionHeight,reflectionOpacity,reflectionGap].forEach(el=>el.addEventListener('input',()=>{updateDisplay();render()}));
+updateDisplay();
+
+// Upload
+previewArea.addEventListener('click',()=>fileInput.click());
+fileInput.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{productImg=img;uploadHint.style.display='none';previewCanvas.style.display='block';previewArea.classList.add('has-image');downloadBtn.disabled=false;render()};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// BG color
+document.getElementById('bgColors').addEventListener('click',e=>{
+  const dot=e.target.closest('.bg-dot');if(!dot)return;
+  document.querySelectorAll('#bgColors .bg-dot').forEach(d=>d.classList.remove('active'));
+  dot.classList.add('active');
+  bgColor=dot.dataset.bg;
+  render();
+});
+
+// Presets
+const presets={
+  default:{shadow:true,shadowOp:0.4,shadowBl:24,shadowOff:12,reflection:false,reflH:0.35,reflOp:0.5,reflGap:4},
+  soft:{shadow:true,shadowOp:0.2,shadowBl:40,shadowOff:8,reflection:false,reflH:0.3,reflOp:0.4,reflGap:6},
+  dramatic:{shadow:true,shadowOp:0.7,shadowBl:10,shadowOff:20,reflection:false,reflH:0.4,reflOp:0.6,reflGap:2},
+  reflection:{shadow:true,shadowOp:0.25,shadowBl:20,shadowOff:6,reflection:true,reflH:0.4,reflOp:0.45,reflGap:4},
+  floating:{shadow:true,shadowOp:0.15,shadowBl:50,shadowOff:30,reflection:false,reflH:0.25,reflOp:0.3,reflGap:10},
+  glossy:{shadow:true,shadowOp:0.35,shadowBl:16,shadowOff:8,reflection:true,reflH:0.5,reflOp:0.55,reflGap:2}
+};
+
+document.getElementById('presets').addEventListener('click',e=>{
+  const btn=e.target.closest('.preset-btn');if(!btn)return;
+  document.querySelectorAll('#presets .preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const p=presets[btn.dataset.preset];
+  shadowEnabled.checked=p.shadow;reflectionEnabled.checked=p.reflection;
+  shadowOpacity.value=p.shadowOp*100;shadowBlur.value=p.shadowBl;shadowOffset.value=p.shadowOff;
+  reflectionHeight.value=p.reflH*100;reflectionOpacity.value=p.reflOp*100;reflectionGap.value=p.reflGap;
+  updateDisplay();render();
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  productImg=null;bgColor='#ffffff';uploadHint.style.display='';previewCanvas.style.display='none';
+  previewArea.classList.remove('has-image');downloadBtn.disabled=true;
+  shadowEnabled.checked=true;reflectionEnabled.checked=false;
+  shadowOpacity.value=40;shadowBlur.value=24;shadowOffset.value=12;
+  reflectionHeight.value=35;reflectionOpacity.value=50;reflectionGap.value=4;
+  updateDisplay();
+  document.querySelectorAll('#presets .preset-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-preset="default"]').classList.add('active');
+  document.querySelectorAll('#bgColors .bg-dot').forEach(d=>d.classList.remove('active'));
+  document.querySelector('#bgColors .bg-dot.white').classList.add('active');
+  fileInput.value='';
+});
+
+// Download
+downloadBtn.addEventListener('click',()=>{
+  const link=document.createElement('a');
+  link.download='效果增强_九万AI.png';
+  link.href=previewCanvas.toDataURL('image/png');
+  link.click();
+});
+
+function render(){
+  if(!productImg)return;
+  const v=getValues();
+  const area=previewArea;
+  const maxSize=Math.min(area.clientWidth,area.clientHeight,520);
+  const padding=maxSize*0.1;
+  const availableW=maxSize-padding*2,availableH=maxSize-padding*2;
+
+  // Calculate product render size
+  const extraH=v.reflection?v.reflH*availableH+v.reflGap:0;
+  const contentH=availableH-extraH-v.shadowOff-(v.shadow?Math.max(v.shadowBl,v.shadowOff):0);
+  let pw=productImg.width,ph=productImg.height;
+  const ratio=Math.min(availableW/pw,contentH/ph);
+  pw*=ratio;ph*=ratio;
+
+  // Canvas size
+  const canvasW=maxSize;
+  const canvasH=ph+extraH+(v.shadow?Math.max(v.shadowBl,v.shadowOff)*2:20)+padding*2;
+  previewCanvas.width=canvasW;previewCanvas.height=canvasH;
+  previewCanvas.style.width='100%';
+  previewCanvas.style.height='auto';
+  previewCanvas.style.maxWidth=canvasW+'px';
+
+  const ctx=previewCanvas.getContext('2d');
+
+  // Background
+  if(v.bg==='transparent'){
+    ctx.clearRect(0,0,canvasW,canvasH);
+  }else{
+    ctx.fillStyle=v.bg;
+    ctx.fillRect(0,0,canvasW,canvasH);
+  }
+
+  const px=(canvasW-pw)/2;
+  const py=padding;
+
+  // Shadow
+  if(v.shadow){
+    const shadowC=document.createElement('canvas');
+    shadowC.width=canvasW;shadowC.height=canvasH;
+    const sctx=shadowC.getContext('2d');
+    sctx.drawImage(productImg,px,py+v.shadowOff,pw,ph);
+    sctx.globalCompositeOperation='source-in';
+    sctx.fillStyle=`rgba(0,0,0,${v.shadowOp})`;
+    sctx.fillRect(0,0,canvasW,canvasH);
+
+    ctx.save();
+    ctx.filter=`blur(${v.shadowBl}px)`;
+    ctx.globalAlpha=v.shadowOp*0.9;
+    ctx.drawImage(shadowC,0,0);
+    ctx.restore();
+  }
+
+  // Reflection
+  if(v.reflection){
+    const refH=ph*v.reflH;
+    const refY=py+ph+v.reflGap;
+    ctx.save();
+    ctx.translate(0,refY*2+refH);
+    ctx.scale(1,-1);
+    ctx.globalAlpha=v.reflOp;
+    ctx.drawImage(productImg,px,refY,productImg.width,productImg.height,px,refY,pw,refH);
+    ctx.restore();
+
+    // Fade gradient on reflection
+    const grad=ctx.createLinearGradient(0,refY,0,refY+refH);
+    grad.addColorStop(0,`rgba(${hexToRgb(v.bg==='transparent'?'#ffffff':v.bg)},0)`);
+    grad.addColorStop(0.15,`rgba(${hexToRgb(v.bg==='transparent'?'#ffffff':v.bg)},0.1)`);
+    grad.addColorStop(0.6,`rgba(${hexToRgb(v.bg==='transparent'?'#ffffff':v.bg)},0.5)`);
+    grad.addColorStop(1,`rgba(${hexToRgb(v.bg==='transparent'?'#ffffff':v.bg)},0.85)`);
+    ctx.fillStyle=grad;
+    ctx.fillRect(px,refY,pw,refH);
+  }
+
+  // Product image
+  ctx.drawImage(productImg,px,py,pw,ph);
+}
+
+function hexToRgb(hex){
+  const m=hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  return m?`${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}`:'255,255,255';
+}
+
+// Resize handler
+window.addEventListener('resize',()=>{if(productImg)render()});
+</script>
+</body>
+</html>
