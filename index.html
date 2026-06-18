@@ -6,616 +6,840 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="shortcut icon" href="favicon.ico">
-<title>九万AI - AI作品精选 · 工具导航</title>
+<title>九万AI · 电商AI作图工具站</title>
 <style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#060606;--card-bg:#0e0d0b;--card-hover:#161412;--sidebar-bg:#090909;
---text:#e6ddd0;--text-secondary:#8a8070;--accent:#c9a84c;--accent-cyber:#00e5c0;
---accent-glow:rgba(201,168,76,.18);--cyber-glow:rgba(0,229,192,.15);--border:#1f1b14;
---tag-bg:#12100c;--gradient:linear-gradient(135deg,#c9a84c,#e8c547);
---cyber-gradient:linear-gradient(135deg,#00e5c0,#00b8a0);
---free:#00b894;--paid:#c9a84c;--vpn:#e85d5d;--cn:#00b894;
+  --bg:#020617;
+  --surface:rgba(15,23,42,.55);
+  --card:rgba(15,23,42,.7);
+  --cyan:#00E5FF;
+  --blue:#3b82f6;
+  --purple:#7c3aed;
+  --pink:#ec4899;
+  --green:#10b981;
+  --text:#e2e8f0;
+  --dim:#64748b;
+  --glass:rgba(255,255,255,.03);
+  --glass-bd:rgba(255,255,255,.06);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei','Noto Serif SC',serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;}
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(0,229,192,.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased;
+}
 
-/* Sidebar */
-.sidebar{width:220px;min-width:220px;height:100vh;position:fixed;left:0;top:0;background:var(--sidebar-bg);border-right:1px solid var(--border);z-index:100;overflow-y:auto;display:flex;flex-direction:column;}
-.sidebar-logo{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
-.sidebar-logo img{width:36px;height:36px;border-radius:8px;}
-.sidebar-logo span{font-size:1.1rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;}
-.sidebar-nav{flex:1;padding:12px 0;}
-.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:10px 20px;color:var(--text-secondary);text-decoration:none;font-size:.84rem;transition:all .2s;border-left:3px solid transparent;}
-.sidebar-nav a:hover{color:var(--text);background:rgba(201,168,76,.06);}
-.sidebar-nav a.active{color:var(--accent);background:rgba(201,168,76,.1);border-left-color:var(--accent);}
-.sidebar-nav a .nav-icon{font-size:1.1rem;width:20px;text-align:center;flex-shrink:0;}
-.sidebar-nav a .nav-count{font-size:.68rem;color:var(--text-secondary);margin-left:auto;}
-.sidebar-nav .nav-section{font-size:.68rem;color:var(--text-secondary);padding:16px 20px 6px;text-transform:uppercase;letter-spacing:2px;opacity:.5;}
+/* ===== 持续运动光晕 ===== */
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(120px)}
+.orb:nth-child(1){width:700px;height:700px;background:var(--cyan);top:-250px;left:-150px;opacity:.12;animation:orbFloat 12s ease-in-out infinite}
+.orb:nth-child(2){width:550px;height:550px;background:var(--purple);top:30%;right:-180px;opacity:.1;animation:orbFloat 15s ease-in-out -4s infinite}
+.orb:nth-child(3){width:450px;height:450px;background:var(--pink);bottom:-200px;left:20%;opacity:.08;animation:orbFloat 14s ease-in-out -8s infinite}
+.orb:nth-child(4){width:600px;height:600px;background:var(--blue);top:60%;right:30%;opacity:.07;animation:orbFloat 18s ease-in-out -6s infinite}
+.orb:nth-child(5){width:350px;height:350px;background:var(--green);top:15%;left:55%;opacity:.06;animation:orbFloat 16s ease-in-out -10s infinite}
+@keyframes orbFloat{
+  0%,100%{transform:translate(0,0) scale(1)}
+  20%{transform:translate(80px,-60px) scale(1.2)}
+  40%{transform:translate(-40px,70px) scale(.85)}
+  60%{transform:translate(-70px,-40px) scale(1.1)}
+  80%{transform:translate(50px,30px) scale(.9)}
+}
 
-/* Main */
-.main-wrap{flex:1;margin-left:220px;position:relative;z-index:1;min-height:100vh;}
+/* ===== 粒子背景 ===== */
+.bg-particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-particles canvas{position:absolute;top:0;left:0;width:100%;height:100%}
 
-/* Site Header */
-.site-header{background:linear-gradient(180deg,#000 0%,var(--bg) 100%);padding:28px 24px 20px;text-align:center;border-bottom:1px solid var(--border);position:relative;z-index:1;}
-.header-inner{max-width:1200px;margin:0 auto;}
-.header-logo-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:6px;flex-wrap:wrap;}
-.header-logo-badge{width:56px;height:56px;border-radius:12px;filter:drop-shadow(0 0 12px var(--accent-glow));}
-.header-title-logo{max-width:380px;width:55%;height:auto;filter:none;}
-.header-divider{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:10px auto 10px;}
-.header-sub{font-size:.82rem;color:var(--text-secondary);margin-bottom:12px;}
-.header-stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
-.hstat{font-size:.75rem;color:var(--text-secondary);background:var(--card-bg);border:1px solid var(--border);padding:4px 14px;border-radius:16px;}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
 
-/* Search bar */
-.search-bar-wrap{max-width:1200px;margin:0 auto;padding:16px 24px;position:sticky;top:0;z-index:98;background:rgba(6,6,6,.94);backdrop-filter:blur(20px);}
-.search-row{display:flex;gap:12px;align-items:center;margin-bottom:10px;}
-.search-box{flex:1;position:relative;}
-.search-box input{width:100%;padding:12px 16px 12px 44px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:.9rem;outline:none;transition:all .2s;}
-.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
-.search-box .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.1rem;}
-.search-sources{display:flex;gap:6px;}
-.search-source{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.75rem;transition:all .2s;white-space:nowrap;}
-.search-source:hover,.search-source.active{border-color:var(--accent-cyber);color:var(--accent-cyber);}
-.feature-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:0;}
-.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;text-decoration:none;}
-.feature-card:hover{border-color:rgba(201,168,76,.3);background:var(--card-hover);}
-.feature-card .fc-icon{font-size:1.5rem;flex-shrink:0;}
-.feature-card .fc-info{min-width:0;}
-.feature-card .fc-title{font-size:.82rem;font-weight:700;color:var(--text);}
-.feature-card .fc-sub{font-size:.68rem;color:var(--text-secondary);}
+/* ===== Nav ===== */
+.nav{
+  position:sticky;top:16px;z-index:100;
+  margin:16px auto 0;max-width:1280px;
+  background:rgba(2,6,23,.78);backdrop-filter:blur(40px)saturate(180%);
+  -webkit-backdrop-filter:blur(40px)saturate(180%);
+  border:1px solid var(--glass-bd);border-radius:100px;
+  padding:12px 32px;display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:40px;height:40px;position:relative;display:flex;align-items:center;justify-content:center}
+.logo-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid transparent;
+  background:conic-gradient(from 0deg,var(--cyan),var(--purple),var(--pink),transparent,var(--cyan)) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:logoRingSpin 5s linear infinite;opacity:.8;
+}
+.logo-dot{
+  position:absolute;width:5px;height:5px;background:var(--cyan);border-radius:50%;
+  top:-3px;left:50%;margin-left:-2.5px;
+  box-shadow:0 0 8px var(--cyan),0 0 16px var(--cyan),0 0 24px rgba(0,229,255,.6);
+  animation:logoDotOrbit 3s linear infinite;transform-origin:20px 23px;
+}
+.logo-ring-inner{
+  position:absolute;width:22px;height:22px;border-radius:50%;
+  border:1px solid transparent;
+  background:conic-gradient(from 180deg,var(--purple),var(--pink),transparent,var(--purple)) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:logoRingSpin 3.5s linear infinite reverse;opacity:.7;
+}
+.logo-cross{position:absolute;width:12px;height:12px}
+.logo-cross::before,.logo-cross::after{content:'';position:absolute;background:var(--cyan)}
+.logo-cross::before{width:100%;height:1px;top:50%;transform:translateY(-.5px);box-shadow:0 0 4px var(--cyan)}
+.logo-cross::after{width:1px;height:100%;left:50%;transform:translateX(-.5px);box-shadow:0 0 4px var(--cyan)}
+.logo-core{
+  position:relative;z-index:3;width:5px;height:5px;
+  background:#fff;border-radius:50%;
+  box-shadow:0 0 6px #fff,0 0 12px var(--cyan),0 0 20px var(--cyan);
+  animation:logoCorePulse 2s ease-in-out infinite;
+}
+.nav-logo-wrap:hover .logo-ring{opacity:1}
+.nav-logo-wrap:hover .logo-ring-inner{opacity:.9}
+@keyframes logoRingSpin{to{transform:rotate(360deg)}}
+@keyframes logoDotOrbit{to{transform:rotate(360deg)}}
+@keyframes logoCorePulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 6px #fff,0 0 12px var(--cyan),0 0 20px var(--cyan)}
+  50%{transform:scale(1.5);box-shadow:0 0 8px #fff,0 0 16px var(--cyan),0 0 28px var(--cyan)}
+}
+.nav-logo{
+  font-size:20px;font-weight:800;letter-spacing:-.5px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan)}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
-/* Main content */
-.main-content{max-width:1200px;margin:0 auto;padding:20px 24px;}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.section-title{font-size:1.2rem;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:8px;}
-.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);margin-left:12px;}
-.section-tabs{display:flex;gap:6px;}
-.section-tab{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-secondary);cursor:pointer;font-size:.78rem;transition:all .2s;}
-.section-tab:hover,.section-tab.active{border-color:var(--accent-cyber);color:var(--accent-cyber);}
-.section-tab.active{background:rgba(0,229,192,.1);}
+/* ===== Hero ===== */
+.hero{padding:100px 0 80px;text-align:center;position:relative}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 18px;border-radius:100px;font-size:12px;color:var(--cyan);
+  background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);
+  margin-bottom:28px;letter-spacing:1px;text-transform:uppercase;
+}
+.hero h1{
+  font-size:clamp(38px,6.5vw,68px);font-weight:900;letter-spacing:-2px;
+  line-height:1.1;margin-bottom:20px;
+}
+.hero h1 .glitch{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--cyan)0%,var(--purple)50%,var(--pink)100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:glitchText 4s infinite;
+}
+@keyframes glitchText{0%,92%,100%{transform:translate(0)}93%{transform:translate(-3px,1px)}95%{transform:translate(3px,-1px)}}
+.hero p{font-size:17px;color:var(--dim);max-width:540px;margin:0 auto 44px;line-height:1.7}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:100px;
+  font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .35s;
+  font-family:inherit;text-decoration:none;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000;
+  box-shadow:0 0 50px rgba(0,229,255,.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 70px rgba(0,229,255,.5)}
+.btn-glass{
+  background:var(--glass);color:var(--text);
+  border:1px solid var(--glass-bd);backdrop-filter:blur(10px);
+}
+.btn-glass:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
 
-/* Hero showcase */
-.hero-showcase{position:relative;border-radius:14px;overflow:hidden;margin-bottom:32px;background:#000;border:1px solid var(--border);}
-.hero-slider{position:relative;height:420px;}
-.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .6s;display:flex;align-items:center;justify-content:center;background:#000;}
-.hero-slide.active{opacity:1;}
-.hero-slide img{width:100%;height:100%;object-fit:cover;}
-.hero-slide .hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:40px 32px 28px;background:linear-gradient(transparent,rgba(0,0,0,.9));}
-.hero-slide .hero-title{font-size:1.8rem;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.8);}
-.hero-slide .hero-meta{display:flex;gap:16px;align-items:center;margin-top:6px;font-size:.82rem;color:rgba(255,255,255,.75);}
-.hero-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;z-index:3;transition:all .2s;display:flex;align-items:center;justify-content:center;}
-.hero-nav:hover{background:rgba(201,168,76,.5);}
-.hero-nav.prev{left:12px;}
-.hero-nav.next{right:12px;}
-.hero-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3;}
-.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;}
-.hero-dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent);}
+/* ===== Stats ===== */
+.stats-bar{
+  display:flex;justify-content:center;gap:56px;padding:44px 0;
+  border-top:1px solid var(--glass-bd);border-bottom:1px solid var(--glass-bd);
+  margin-bottom:56px;flex-wrap:wrap;
+}
+.stat{text-align:center}
+.stat-num{
+  font-size:38px;font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-label{font-size:12px;color:var(--dim);margin-top:6px;text-transform:uppercase;letter-spacing:1px}
 
-/* Showcase grid */
-.showcase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:40px;}
-.showcase-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;}
-.showcase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s;z-index:1;}
-.showcase-card:hover{border-color:rgba(201,168,76,.3);background:var(--card-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.5);}
-.showcase-card:hover::before{opacity:1;}
-.showcase-card .sc-preview{width:100%;height:200px;overflow:hidden;position:relative;background:#040404;}
-.showcase-card .sc-preview img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
-.showcase-card:hover .sc-preview img{transform:scale(1.06);}
-.showcase-card .sc-body{padding:14px 16px;}
-.showcase-card .sc-title{font-size:.92rem;font-weight:700;color:var(--text);}
-.showcase-card .sc-meta{font-size:.72rem;color:var(--text-secondary);margin-top:4px;display:flex;align-items:center;gap:8px;}
-.showcase-card .sc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;}
-.showcase-card .sc-tag{font-size:.62rem;padding:2px 8px;background:var(--tag-bg);border:1px solid var(--border);border-radius:4px;color:var(--text-secondary);}
-.showcase-card .sc-likes{display:flex;align-items:center;gap:3px;font-size:.7rem;color:var(--text-secondary);position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);padding:3px 8px;border-radius:10px;z-index:2;}
+/* ===== Section ===== */
+.section{margin-bottom:80px}
+.section-header{text-align:center;margin-bottom:44px}
+.section-header h2{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
+.section-header h2 .accent{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-header p{font-size:14px;color:var(--dim)}
+.section-tabs{display:flex;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap}
+.section-tab{
+  padding:6px 16px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--glass-bd);
+  background:var(--glass);color:var(--dim);transition:all .3s;
+}
+.section-tab:hover,.section-tab.active{border-color:rgba(0,229,255,.3);color:var(--cyan);background:rgba(0,229,255,.08)}
 
-/* Tool section */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
-.tool-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .3s;position:relative;}
-.tool-card:hover{border-color:rgba(201,168,76,.3);background:var(--card-hover);transform:translateY(-1px);}
-.tool-card .tc-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.tool-card .tc-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(0,229,192,.1));display:flex;align-items:center;justify-content:center;font-size:.9rem;border:1px solid rgba(201,168,76,.15);flex-shrink:0;}
-.tool-card .tc-name{font-size:.9rem;font-weight:700;color:var(--text);}
-.tool-card .tc-vendor{font-size:.7rem;color:var(--text-secondary);}
-.tool-card .tc-desc{font-size:.75rem;color:var(--text-secondary);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.tool-card .tc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
-.tool-card .tc-tag{font-size:.62rem;padding:2px 7px;background:var(--tag-bg);border-radius:3px;color:var(--text-secondary);border:1px solid var(--border);}
-.tool-card .tc-footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--border);}
-.tool-card .tc-rating{font-size:.72rem;color:var(--text-secondary);}
-.tool-card .tc-link{padding:4px 10px;background:var(--card-bg);color:var(--accent);border:1px solid rgba(201,168,76,.25);border-radius:5px;text-decoration:none;font-size:.72rem;transition:all .2s;}
-.tool-card .tc-link:hover{background:var(--accent);color:#000;}
-.tool-card .tc-badges{display:flex;gap:4px;position:absolute;top:10px;right:10px;}
-.badge-vpn{background:rgba(232,93,93,.85);color:#fff;font-size:.6rem;padding:2px 6px;border-radius:3px;font-weight:600;}
-.badge-cn{background:rgba(0,184,148,.85);color:#000;font-size:.6rem;padding:2px 6px;border-radius:3px;font-weight:600;}
-.badge-free{background:rgba(0,184,148,.85);color:#000;font-size:.6rem;padding:2px 6px;border-radius:3px;font-weight:600;}
-.badge-paid{background:rgba(201,168,76,.85);color:#000;font-size:.6rem;padding:2px 6px;border-radius:3px;font-weight:600;}
-.badge-freemium{background:rgba(0,229,192,.85);color:#000;font-size:.6rem;padding:2px 6px;border-radius:3px;font-weight:600;}
+/* ===== Bento 核心能力 ===== */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.bento-card{
+  background:var(--surface);border:1px solid var(--glass-bd);
+  border-radius:20px;padding:32px;position:relative;overflow:hidden;
+  backdrop-filter:blur(24px);transition:all .4s;
+}
+.bento-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,.2);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.bento-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.bento-card:hover::before{opacity:1}
+.bento-card.span-2{grid-column:span 2}
+.bento-card.span-row-2{grid-row:span 2}
+.bento-icon{
+  width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:24px;margin-bottom:18px;
+}
+.bento-card h3{font-size:17px;font-weight:700;margin-bottom:10px;letter-spacing:-.3px}
+.bento-card p{font-size:13px;color:var(--dim);line-height:1.65}
+.icon-cyan{background:rgba(0,229,255,.12);color:var(--cyan)}
+.icon-blue{background:rgba(59,130,246,.12);color:var(--blue)}
+.icon-purple{background:rgba(124,58,237,.12);color:var(--purple)}
+.icon-pink{background:rgba(236,72,153,.12);color:var(--pink)}
+.icon-green{background:rgba(16,185,129,.12);color:var(--green)}
 
-/* Detail modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:1000;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.active{display:flex;}
-.modal-box{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;max-width:900px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
-.modal-close{position:sticky;top:0;right:0;float:right;background:rgba(0,0,0,.6);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.2rem;z-index:10;margin:12px;transition:all .2s;}
-.modal-close:hover{background:rgba(201,168,76,.6);}
-.modal-img{width:100%;max-height:500px;object-fit:contain;background:#000;}
-.modal-body{padding:24px;}
-.modal-body .md-title{font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:4px;}
-.modal-body .md-author{font-size:.82rem;color:var(--accent-cyber);margin-bottom:12px;}
-.modal-body .md-section{margin-bottom:16px;}
-.modal-body .md-label{font-size:.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
-.modal-body .md-prompt{background:#040404;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:.82rem;color:var(--text);line-height:1.6;font-family:monospace;white-space:pre-wrap;word-break:break-all;}
-.modal-body .md-tags{display:flex;gap:6px;flex-wrap:wrap;}
-.modal-body .md-tag{padding:4px 12px;background:var(--tag-bg);border:1px solid var(--border);border-radius:14px;font-size:.75rem;color:var(--accent-cyber);}
-.modal-body .md-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
-.md-btn{padding:10px 20px;border-radius:10px;border:none;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;}
-.md-btn.primary{background:var(--gradient);color:#000;}
-.md-btn.primary:hover{box-shadow:0 0 20px var(--accent-glow);}
-.md-btn.secondary{background:var(--card-bg);color:var(--accent);border:1px solid rgba(201,168,76,.3);}
-.md-btn.secondary:hover{border-color:var(--accent);}
+/* ===== 工具导航网格 ===== */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.tool-card{
+  background:var(--card);border:1px solid var(--glass-bd);
+  border-radius:16px;padding:22px;backdrop-filter:blur(20px);
+  transition:all .35s;cursor:pointer;position:relative;
+}
+.tool-card:hover{transform:translateY(-4px);border-color:rgba(0,229,255,.2);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+.tool-card-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.tool-card-icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;background:rgba(0,229,255,.08);flex-shrink:0;
+}
+.tool-card-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.tool-card-vendor{font-size:11px;color:var(--dim)}
+.tool-card-desc{font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:12px}
+.tool-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tool-tag{font-size:10px;padding:3px 10px;border-radius:100px;background:rgba(255,255,255,.04);color:var(--dim)}
+.tool-card-footer{display:flex;justify-content:space-between;align-items:center}
+.tool-rating{font-size:11px;color:var(--cyan)}
+.tool-badges{display:flex;gap:6px}
+.tool-badge{
+  font-size:10px;padding:2px 8px;border-radius:100px;font-weight:600;
+}
+.badge-free{background:rgba(16,185,129,.15);color:var(--green)}
+.badge-paid{background:rgba(201,168,76,.15);color:#c9a84c}
+.badge-freemium{background:rgba(59,130,246,.15);color:var(--blue)}
+.badge-cn{background:rgba(0,229,255,.1);color:var(--cyan)}
+.badge-vpn{background:rgba(236,72,153,.1);color:var(--pink)}
 
-/* Footer */
-.footer{text-align:center;padding:32px 20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:.75rem;margin-top:40px;}
-.footer a{color:var(--accent);text-decoration:none;}
+/* ===== 作品展示 ===== */
+.showcase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.showcase-card{
+  background:var(--card);border:1px solid var(--glass-bd);
+  border-radius:16px;overflow:hidden;backdrop-filter:blur(20px);
+  transition:all .4s;cursor:pointer;
+}
+.showcase-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,.2);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.showcase-img{
+  width:100%;aspect-ratio:1;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(124,58,237,.06));
+}
+.showcase-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.showcase-card:hover .showcase-img img{transform:scale(1.05)}
+.showcase-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(2,6,23,.85));
+}
+.showcase-img .sc-play{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:2;font-size:40px;color:#fff;text-shadow:0 0 20px rgba(0,0,0,.5);
+}
+.showcase-img .sc-likes{
+  position:absolute;bottom:10px;right:10px;z-index:2;
+  font-size:11px;color:#fff;background:rgba(0,0,0,.5);padding:3px 10px;border-radius:100px;
+}
+.showcase-img .sc-score{
+  position:absolute;top:10px;left:10px;z-index:2;
+  font-size:11px;color:var(--cyan);background:rgba(0,0,0,.6);padding:3px 10px;border-radius:100px;
+}
+.showcase-info{padding:14px 16px}
+.showcase-info h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.showcase-meta{font-size:11px;color:var(--dim);display:flex;flex-wrap:wrap;gap:8px}
+.showcase-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.sc-tag{
+  font-size:10px;padding:2px 8px;border-radius:100px;
+  background:rgba(0,229,255,.08);color:var(--cyan);
+}
 
-/* Scrollbar */
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+/* ===== 资讯区 ===== */
+.news-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.news-column h3{
+  font-size:18px;font-weight:700;margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.news-column h3 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot-cyan{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.dot-purple{background:var(--purple);box-shadow:0 0 10px var(--purple)}
+.news-list{display:flex;flex-direction:column;gap:10px}
+.news-item{
+  background:var(--card);border:1px solid var(--glass-bd);
+  border-radius:12px;padding:16px 18px;backdrop-filter:blur(20px);
+  transition:all .35s;cursor:pointer;text-decoration:none;display:block;
+}
+.news-item:hover{transform:translateX(4px);border-color:rgba(0,229,255,.2)}
+.news-item .news-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px}
+.news-item .news-meta{font-size:11px;color:var(--dim);display:flex;gap:12px}
+.news-item .news-tag{background:rgba(0,229,255,.1);color:var(--cyan);padding:1px 8px;border-radius:100px;font-size:10px}
 
+/* ===== 英雄轮播 ===== */
+.hero-slider{
+  position:relative;border-radius:20px;overflow:hidden;
+  margin-bottom:40px;aspect-ratio:21/9;max-height:420px;
+  background:var(--card);border:1px solid var(--glass-bd);
+}
+.hero-slide{
+  position:absolute;inset:0;opacity:0;transition:opacity .8s;cursor:pointer;
+}
+.hero-slide.active{opacity:1}
+.hero-slide img{width:100%;height:100%;object-fit:cover}
+.hero-slide .hero-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(2,6,23,.95));
+  padding:40px 24px 20px;
+}
+.hero-slide .hero-title{font-size:20px;font-weight:800;margin-bottom:6px}
+.hero-slide .hero-meta{font-size:12px;color:var(--dim)}
+.hero-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.5);border:none;color:#fff;font-size:20px;
+  width:40px;height:40px;border-radius:50%;cursor:pointer;z-index:3;
+  transition:background .3s;
+}
+.hero-nav:hover{background:rgba(0,229,255,.2)}
+.hero-nav.prev{left:12px}
+.hero-nav.next{right:12px}
+.hero-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s}
+.hero-dot.active{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+
+/* ===== 分页 ===== */
+.pagination{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:32px}
+.page-btn{
+  padding:8px 18px;border-radius:100px;font-size:13px;cursor:pointer;
+  background:var(--glass);border:1px solid var(--glass-bd);color:var(--text);
+  transition:all .3s;
+}
+.page-btn:hover:not(:disabled){border-color:rgba(0,229,255,.3);color:var(--cyan)}
+.page-btn:disabled{opacity:.3;cursor:default}
+.page-info{font-size:13px;color:var(--dim)}
+
+/* ===== 详情弹窗 ===== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.85);
+  backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal-box{
+  background:var(--surface);border:1px solid var(--glass-bd);
+  border-radius:20px;max-width:600px;width:90%;max-height:85vh;
+  overflow-y:auto;padding:0;backdrop-filter:blur(30px);
+}
+.modal-box img{width:100%;max-height:400px;object-fit:cover;border-radius:20px 20px 0 0}
+.modal-close{
+  position:absolute;top:16px;right:16px;z-index:10;
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(0,0,0,.6);color:#fff;font-size:18px;cursor:pointer;
+}
+.modal-body{padding:24px}
+.modal-body h3{font-size:20px;font-weight:800;margin-bottom:8px}
+.modal-body .md-author{font-size:13px;color:var(--dim);margin-bottom:16px}
+.modal-body .md-prompt{
+  background:rgba(255,255,255,.03);border:1px solid var(--glass-bd);
+  border-radius:12px;padding:16px;font-size:13px;color:var(--dim);line-height:1.7;
+  margin-bottom:16px;font-family:monospace;
+}
+.modal-body .md-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.modal-body .md-tag{font-size:11px;padding:4px 12px;border-radius:100px;background:rgba(0,229,255,.1);color:var(--cyan)}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap}
+.modal-actions .btn{font-size:13px;padding:10px 20px}
+
+/* ===== 搜索 ===== */
+.search-wrap{max-width:600px;margin:0 auto 20px}
+.search-wrap input{
+  width:100%;padding:14px 20px;background:var(--card);border:1px solid var(--glass-bd);
+  border-radius:100px;color:var(--text);font-size:14px;outline:none;
+  transition:border-color .3s;
+}
+.search-wrap input:focus{border-color:rgba(0,229,255,.4);box-shadow:0 0 20px rgba(0,229,255,.1)}
+
+/* ===== CTA ===== */
+.cta{
+  text-align:center;padding:80px 0;position:relative;
+}
+.cta-ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:450px;height:450px;border-radius:50%;
+  border:1px solid var(--glass-bd);pointer-events:none;
+}
+.cta-ring::before{
+  content:'';position:absolute;inset:-24px;border-radius:50%;
+  border:1px solid rgba(0,229,255,.06);
+  animation:ringPulse 3s ease-in-out infinite;
+}
+@keyframes ringPulse{0%,100%{inset:-24px;opacity:.5}50%{inset:-36px;opacity:1}}
+.cta h2{font-size:34px;font-weight:900;letter-spacing:-1px;margin-bottom:14px;position:relative;z-index:1}
+.cta p{font-size:15px;color:var(--dim);margin-bottom:36px;position:relative;z-index:1}
+
+/* ===== Footer ===== */
+.footer{text-align:center;padding:36px 0;border-top:1px solid var(--glass-bd);font-size:12px;color:var(--dim)}
+
+/* ===== Reveal ===== */
+.reveal{opacity:0;transform:translateY(36px);transition:all .9s cubic-bezier(.17,.88,.34,1.04)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
 @media(max-width:768px){
-  .sidebar{width:60px;min-width:60px;}
-  .sidebar-logo span,.sidebar-nav a span:not(.nav-icon),.sidebar-nav .nav-section,.sidebar-nav .nav-count{display:none;}
-  .sidebar-logo{justify-content:center;padding:12px;}
-  .sidebar-nav a{justify-content:center;padding:12px;}
-  .main-wrap{margin-left:60px;}
-  .feature-cards{grid-template-columns:repeat(2,1fr);}
-  .hero-slider{height:250px;}
-  .showcase-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
-  .tools-grid{grid-template-columns:1fr;}
-  .search-sources{display:none;}
+  .bento{grid-template-columns:1fr}
+  .bento-card.span-2{grid-column:span 1}
+  .bento-card.span-row-2{grid-row:span 1}
+  .news-grid{grid-template-columns:1fr}
+  .showcase-grid{grid-template-columns:repeat(2,1fr)}
+  .tool-grid{grid-template-columns:1fr}
+  .stats-bar{gap:28px}
+  .nav{padding:10px 20px}
+  .nav-links{gap:10px}
+  .hero-slider{aspect-ratio:16/10}
 }
-
-/* Pagination */
-.pagination{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px;padding:16px 0;}
-.page-btn{padding:8px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text-secondary);cursor:pointer;font-size:.82rem;transition:all .2s;}
-.page-btn:hover:not(:disabled){border-color:var(--accent-cyber);color:var(--accent-cyber);}
-.page-btn:disabled{opacity:.3;cursor:default;}
-.page-info{font-size:.82rem;color:var(--text-secondary);}
-@media(max-width:768px){}
-
-/* ====== AI评分 & 视频卡片 ====== */
-.sc-score{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:8px;z-index:2;}
-.sc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:rgba(0,0,0,.75);border:2px solid rgba(255,255,255,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;z-index:3;pointer-events:none;transition:all .3s;}
-.showcase-card:hover .sc-play{background:var(--accent);border-color:var(--accent);box-shadow:0 0 20px var(--accent-glow);}
-.sc-tag-video{background:rgba(0,229,192,.12)!important;border-color:rgba(0,229,192,.25)!important;color:var(--accent-cyber)!important;}
-.sc-source{color:var(--accent-cyber);font-size:.65rem;}
-.hero-play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(0,0,0,.7);border:2px solid rgba(255,255,255,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;z-index:2;pointer-events:none;}
-
-/* AI评分详情 */
-.ai-score-row{display:flex;align-items:center;gap:20px;padding:12px 16px;background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,165,0,.04));border:1px solid rgba(255,215,0,.15);border-radius:10px;margin-top:8px;flex-wrap:wrap;}
-.ai-score-big{font-size:2.2rem;font-weight:800;color:#FFD700;line-height:1;}
-.ai-score-unit{font-size:.8rem;font-weight:400;color:#aaa;margin-left:2px;}
-.ai-score-detail{display:flex;flex-wrap:wrap;gap:10px;font-size:.75rem;color:var(--text-secondary);}
-.ai-score-detail span{padding:3px 10px;background:var(--tag-bg);border-radius:12px;border:1px solid var(--border);}
-.ai-score-review{font-size:.8rem;color:var(--accent-cyber);margin-top:8px;padding:6px 12px;background:rgba(0,229,192,.06);border-radius:6px;display:inline-block;}
-
-/* 视频弹窗 */
-.modal-video{width:100%;min-height:300px;display:flex;align-items:center;justify-content:center;background:#000;}
-.video-placeholder{text-align:center;padding:60px 20px;}
-.vp-icon{font-size:3rem;margin-bottom:12px;}
-.vp-text{font-size:1.1rem;color:var(--text);margin-bottom:6px;}
-.vp-sub{font-size:.8rem;color:var(--text-secondary);}
-
-/* 页脚更新时间 */
-.footer-update{font-size:.65rem;color:var(--text-secondary);opacity:.5;margin-top:4px;}
-
-/* Intro splash */
-.intro-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;overflow:hidden;}
-.intro-overlay.fadeout{opacity:0;pointer-events:none;transition:opacity .8s ease-out;}
-.intro-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18;z-index:0;pointer-events:none;}
-.intro-calligraphy{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.85;z-index:1;pointer-events:none;}
-.intro-content{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;}
-.intro-logo{width:90px;height:90px;border-radius:20px;filter:drop-shadow(0 0 24px var(--accent-glow));}
-.intro-brand{max-width:360px;width:50vw;height:auto;filter:none;}
-.intro-divider{width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
-.intro-sub{font-size:.88rem;color:rgba(230,221,208,.35);letter-spacing:2px;}
-.intro-btn{margin-top:10px;padding:14px 52px;background:linear-gradient(135deg,#FFD700,#00CED1);border:none;border-radius:32px;color:#1a1a2e;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:2px;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:10;}
-.intro-btn::after{content:'';position:absolute;inset:-3px;border-radius:34px;background:linear-gradient(135deg,#FFD700,#FFA500,#FFD700);z-index:-1;opacity:0;transition:opacity .35s;filter:blur(16px);}
-.intro-btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 0 40px rgba(255,215,0,.5),0 0 80px rgba(255,165,0,.3),0 0 120px rgba(255,215,0,.15);}
-.intro-btn:hover::after{opacity:.8;}
-.intro-hint{margin-top:8px;font-size:.68rem;color:var(--text-secondary);opacity:.5;}
-
 </style>
 </head>
 <body>
 
-<!-- Intro splash -->
-<div class="intro-overlay" id="introOverlay">
-  <video class="intro-bg-video" autoplay muted loop playsinline>
-    <source src="intro-bg.mp4" type="video/mp4">
-  </video>
-  <img class="intro-calligraphy" src="calligraphy_transparent.png" alt="">
-  <div class="intro-content">
-    <img class="intro-logo" src="logo.png" alt="九万AI">
-    <div class="intro-divider"></div>
-    <p class="intro-sub">AI作品精选 · 300+工具库 · 每日更新</p>
-    <button class="intro-btn" id="introBtn" onclick="document.getElementById('introOverlay').classList.add('fadeout');setTimeout(function(){document.getElementById('introOverlay').style.display='none';},800);">立 即 使 用</button>
-    <p class="intro-hint">点击进入九万AI</p>
+<!-- 持续运动光晕 -->
+<div class="orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+  <div class="orb"></div><div class="orb"></div>
+</div>
+<!-- 粒子背景 -->
+<div class="bg-particles"><canvas id="particleCanvas"></canvas></div>
+
+<!-- Nav -->
+<nav class="nav reveal">
+  <a class="nav-logo-wrap" href="#">
+    <div class="nav-logo-icon">
+      <div class="logo-ring"></div>
+      <div class="logo-dot"></div>
+      <div class="logo-ring-inner"></div>
+      <div class="logo-cross"></div>
+      <div class="logo-core"></div>
+    </div>
+    <span class="nav-logo">九万AI</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features" class="active">核心能力</a>
+    <a href="#tools">AI工具</a>
+    <a href="#showcase">作品</a>
+    <a href="#news">资讯</a>
+    <span class="nav-dot"></span> ONLINE
   </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero reveal">
+    <div class="hero-badge">⚡ AI-Powered · 电商专属</div>
+    <h1>电商<span class="glitch">AI</span>作图<br>比想象更简单</h1>
+    <p>上传商品图，AI 自动抠图换场景，3 分钟出一套主图。零门槛，纯免费，为电商卖家量身打造。</p>
+    <div class="hero-actions">
+      <a href="tool-v1.html" class="btn btn-primary">✨ 开始免费使用</a>
+      <a href="#features" class="btn btn-glass">探索功能 →</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar reveal">
+    <div class="stat"><div class="stat-num" id="statTools">300+</div><div class="stat-label">AI 工具库</div></div>
+    <div class="stat"><div class="stat-num" id="statWorks">24</div><div class="stat-label">精选作品</div></div>
+    <div class="stat"><div class="stat-num">3分钟</div><div class="stat-label">出全套主图</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">免费无水印</div></div>
+  </div>
+
+  <!-- 核心能力 Bento -->
+  <div class="section" id="features">
+    <div class="section-header reveal">
+      <h2>🛠️ 核心<span class="accent">能力</span></h2>
+      <p>一站式电商作图工作台</p>
+    </div>
+    <div class="bento">
+      <div class="bento-card span-2 span-row-2 reveal">
+        <div class="bento-icon icon-cyan">🎯</div>
+        <h3>AI 智能抠图</h3>
+        <p>上传商品实拍图，AI 自动识别主体，秒出透明底 PNG。支持人物、服饰、家居、美妆等全品类，边缘精准到发丝级别。后端 GPU 推理，&lt; 5 秒出结果。</p>
+      </div>
+      <div class="bento-card reveal">
+        <div class="bento-icon icon-purple">🎨</div>
+        <h3>场景模板</h3>
+        <p>8 套精选电商场景，一键切换纯白/木纹/大理石/渐变，无需找素材。</p>
+      </div>
+      <div class="bento-card reveal">
+        <div class="bento-icon icon-pink">📐</div>
+        <h3>多平台尺寸</h3>
+        <p>淘宝、拼多多、京东、抖音、小红书，一键适配全平台主图尺寸。</p>
+      </div>
+      <div class="bento-card reveal">
+        <div class="bento-icon icon-blue">✨</div>
+        <h3>效果增强</h3>
+        <p>底部阴影 + 镜面倒影，让商品更有立体感和高级质感。</p>
+      </div>
+      <div class="bento-card reveal">
+        <div class="bento-icon icon-green">⚡</div>
+        <h3>极速渲染</h3>
+        <p>自建服务器本地推理，不排队不等候，隐私数据用完即删。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 工具导航 -->
+  <div class="section" id="tools">
+    <div class="section-header reveal">
+      <h2>🧰 AI <span class="accent">工具导航</span></h2>
+      <p id="toolCount">300+ 精选 AI 工具，覆盖电商全链路</p>
+    </div>
+    <div class="search-wrap reveal">
+      <input type="text" id="toolSearch" placeholder="搜索工具名称、厂商、关键词...">
+    </div>
+    <div class="section-tabs reveal" id="toolCats"></div>
+    <div class="tool-grid reveal" id="toolGrid"></div>
+  </div>
+
+  <!-- 作品展示 -->
+  <div class="section" id="showcase">
+    <div class="section-header reveal">
+      <h2>✨ 精选 AI <span class="accent">作品</span></h2>
+      <p id="showcaseCount">每日更新 AI 创作精选</p>
+    </div>
+    <!-- Hero slider -->
+    <div class="hero-slider reveal" id="heroSlider"></div>
+    <div class="section-tabs reveal" id="showcaseTabs">
+      <span class="section-tab active" data-sort="recommend">推荐</span>
+      <span class="section-tab" data-sort="newest">最新</span>
+      <span class="section-tab" data-sort="hottest">最热</span>
+    </div>
+    <div class="showcase-grid reveal" id="showcaseGrid"></div>
+    <div class="pagination" id="showcasePager"></div>
+  </div>
+
+  <!-- 资讯区 -->
+  <div class="section" id="news">
+    <div class="section-header reveal">
+      <h2>📡 <span class="accent">资讯速递</span></h2>
+      <p>AI 行业动态 + 电商运营干货</p>
+    </div>
+    <div class="news-grid reveal" id="newsContent">
+      <div class="news-column">
+        <h3><span class="dot dot-cyan"></span> AI 新闻</h3>
+        <div class="news-list" id="aiNews"></div>
+      </div>
+      <div class="news-column">
+        <h3><span class="dot dot-purple"></span> 电商资讯</h3>
+        <div class="news-list" id="ecNews"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <div class="cta-ring"></div>
+    <h2>准备好提升你的商品图了吗？</h2>
+    <p>零成本，零门槛，今天就开始。</p>
+    <a href="tool-v1.html" class="btn btn-primary">🚀 立即体验</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer reveal">
+    © 2026 九万AI · 为电商卖家而生 · jiuwanai.com
+  </footer>
 </div>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <img src="logo.png" alt="九万AI">
-    <span>九万AI</span>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-section">发现</div>
-    <a href="#" class="active" data-page="showcase"><span class="nav-icon">✨</span> 精选作品</a>
-    <a href="#" data-page="tools"><span class="nav-icon">🧰</span> 工具导航</a>
-    <a href="#" data-page="news"><span class="nav-icon">📰</span> AI新闻</a>
-    <a href="tools.html"><span class="nav-icon">🔧</span> 在线工具</a>
-    <div class="nav-section">分类</div>
-    <a href="#" data-cat="llm"><span class="nav-icon">💬</span> 大语言模型 <span class="nav-count">8</span></a>
-    <a href="#" data-cat="image"><span class="nav-icon">🎨</span> 图片生成 <span class="nav-count">12</span></a>
-    <a href="#" data-cat="video"><span class="nav-icon">🎬</span> 视频生成 <span class="nav-count">11</span></a>
-    <a href="#" data-cat="audio"><span class="nav-icon">🎵</span> 音频音乐 <span class="nav-count">6</span></a>
-    <a href="#" data-cat="code"><span class="nav-icon">💻</span> 编程开发 <span class="nav-count">8</span></a>
-    <a href="#" data-cat="design"><span class="nav-icon">✏️</span> 设计创作 <span class="nav-count">4</span></a>
-    <a href="#" data-cat="productivity"><span class="nav-icon">📋</span> 办公效率 <span class="nav-count">6</span></a>
-    <a href="#" data-cat="avatar"><span class="nav-icon">🎭</span> 数字人 <span class="nav-count">8</span></a>
-    <a href="#" data-cat="search"><span class="nav-icon">🔍</span> AI搜索 <span class="nav-count">4</span></a>
-    <a href="#" data-cat="edu"><span class="nav-icon">📚</span> 教育学习 <span class="nav-count">7</span></a>
-    <a href="#" data-cat="agent"><span class="nav-icon">🧩</span> Agent/自动化 <span class="nav-count">5</span></a>
-    <a href="#" data-cat="3d"><span class="nav-icon">🏗️</span> 3D生成 <span class="nav-count">4</span></a>
-  </nav>
-</aside>
-
-<!-- Main -->
-<div class="main-wrap">
-  <!-- Header with logo -->
-  <div class="site-header">
-    <div class="header-inner">
-      <div class="header-logo-row">
-        <img class="header-logo-badge" src="logo.png" alt="九万AI">
-        <img class="header-title-logo" src="calligraphy_transparent.png" alt="九万AI">
-      </div>
-      <div class="header-divider"></div>
-      <p class="header-sub">AI作品精选 · 300+工具库 · 每日更新</p>
-      <div class="header-stats">
-        <span class="hstat">✨ 24件作品</span>
-        <span class="hstat">🧰 83款工具</span>
-        <span class="hstat">📰 每日快讯</span>
-        <span class="hstat">🇨🇳 国内直连</span>
-      </div>
-    </div>
-  </div>
-  <!-- Search bar -->
-  <div class="search-bar-wrap">
-    <div class="search-row">
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="搜索AI作品、工具、提示词...">
-      </div>
-      <div class="search-sources">
-        <span class="search-source active">站内</span>
-        <span class="search-source">Bing</span>
-        <span class="search-source">百度</span>
-        <span class="search-source">Google</span>
-      </div>
-    </div>
-    <div class="feature-cards">
-      <a class="feature-card" href="news.html"><span class="fc-icon">📡</span><div class="fc-info"><div class="fc-title">每日快讯</div><div class="fc-sub">AI行业最新动态</div></div></a>
-      <div class="feature-card" onclick="switchPage('showcase')"><span class="fc-icon">🎨</span><div class="fc-info"><div class="fc-title">精选作品</div><div class="fc-sub">每日更新AI创作</div></div></div>
-      <div class="feature-card" onclick="switchPage('tools')"><span class="fc-icon">🔧</span><div class="fc-info"><div class="fc-title">最新工具</div><div class="fc-sub">300+AI工具库</div></div></div>
-      <div class="feature-card" onclick="switchPage('news')"><span class="fc-icon">📖</span><div class="fc-info"><div class="fc-title">热门教程</div><div class="fc-sub">AI使用技巧指南</div></div></div>
-    </div>
-  </div>
-  <main class="main-content" id="mainContent"></main>
-  <footer class="footer"><p>九万AI © 2026 · 精选AI作品 · 300+工具库 · 每日更新</p><p class="footer-update" id="footerUpdate"></p></footer>
-</div>
-
-<!-- Detail modal -->
+<!-- Detail Modal -->
 <div class="modal-overlay" id="detailModal" onclick="closeDetail()">
-  <div class="modal-box" onclick="event.stopPropagation()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="position:relative">
     <button class="modal-close" onclick="closeDetail()">✕</button>
-    <img class="modal-img" id="modalImg" src="" alt="" style="display:block;">
-    <div class="modal-video" id="modalVideo" style="display:none;"></div>
+    <img id="modalImg" src="" alt="">
     <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
 <script>
-// ==================== INTRO ====================
-document.getElementById('introBtn').addEventListener('click',()=>{
-  document.getElementById('introOverlay').classList.add('fadeout');
-  setTimeout(()=>{document.getElementById('introOverlay').style.display='none';},800);
-});
-
-// ==================== DATA ====================
-let showcaseData = [];
-
-// 从 showcase.json 动态加载作品数据
-async function loadShowcase(){
-  try{
-    const resp = await fetch('showcase.json?'+Date.now());
-    const data = await resp.json();
-    showcaseData = data;
-    console.log('[九万AI] 加载 '+data.length+' 件作品');
-  }catch(e){
-    console.warn('[九万AI] showcase.json 加载失败，使用缓存', e);
-  }
-}
-
-// 旧数据备份（showcase.json 加载失败时的回退）
-const _backupShowcase = [
-{id:1,title:"无支祁",author:"暗黑神话系列",tool:"Midjourney V8.1",type:"image",date:"2026-06-10",prompt:"Chinese mythological monkey king with golden crown embedded with emeralds, dark background, dramatic lighting, ultra detailed, 8K, cinematic, traditional Chinese mythology meets dark fantasy art",tags:["国风","暗黑","神话"],likes:2847,image:"showcase/01-wuzhiqi.jpg"},
-{id:2,title:"赤色章刃",author:"武侠概念",tool:"Stable Diffusion XL",type:"image",date:"2026-06-10",prompt:"Martial arts warrior in red and black armor, dramatic action pose, neon lights, cyberpunk ancient China fusion, cinematic lighting, ultra detailed character design, epic composition",tags:["武侠","赛博朋克","国风"],likes:1923,image:"showcase/02-chisezhangren.jpg"},
-{id:3,title:"子时临安",author:"古风场景",tool:"Midjourney V8.1",type:"image",date:"2026-06-11",prompt:"Ancient Chinese city at midnight, lantern lights reflecting on water canals, misty atmosphere, traditional Song dynasty architecture, golden warm lights, ultra wide cinematic shot",tags:["古风","场景","夜景"],likes:3156,image:"showcase/03-zishilinan.jpg"},
-{id:4,title:"楚云传",author:"仙侠概念",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-11",prompt:"Xianxia floating palace above clouds, golden dragons circling, ethereal atmosphere, jade and gold color scheme, cinematic wide composition, 8K, traditional Chinese fantasy art",tags:["仙侠","幻想","场景"],likes:2689,image:"showcase/04-chuyunzhuan.jpg"},
-{id:6,title:"雨夜东京",author:"赛博城市",tool:"Midjourney V8.1",type:"image",date:"2026-06-12",prompt:"Tokyo rainy night, vibrant neon reflections on wet asphalt streets, cyberpunk aesthetic, cinematic lighting, shallow depth of field, photorealistic, 8K, Blade Runner vibes",tags:["赛博朋克","城市","夜景"],likes:3847,image:"showcase/06-yuyedongjing.jpg"},
-{id:7,title:"极光森林",author:"自然幻想",tool:"Stable Diffusion XL",type:"image",date:"2026-06-13",prompt:"Enchanted forest with dancing aurora borealis, giant glowing mushrooms, magical fairy lights, fantasy art, volumetric god rays, ultra detailed digital illustration, ethereal atmosphere",tags:["幻想","自然","治愈"],likes:2156,image:"showcase/07-jiguangsenlin.jpg"},
-{id:8,title:"未来机甲",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-13",prompt:"Futuristic mecha warrior, polished chrome and carbon fiber armor panels, holographic HUD overlay, war-torn battlefield background, ultra realistic, 8K, AAA game concept art quality",tags:["科幻","机甲","概念设计"],likes:5230,image:"showcase/08-weilaijijia.jpg"},
-{id:9,title:"敦煌飞天",author:"国风复兴",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-14",prompt:"Dunhuang flying celestial apsara, traditional Chinese mural painting style, flowing silk ribbons in wind, gold and turquoise mineral pigment colors, ancient Buddhist art aesthetic, 8K",tags:["国风","敦煌","传统"],likes:6721,image:"showcase/09-dunhuangfeitian.jpg"},
-{id:10,title:"蒸汽朋克猫",author:"奇幻生物",tool:"Midjourney V8.1",type:"image",date:"2026-06-14",prompt:"Steampunk cat with polished brass goggles and intricate mechanical clockwork wings, Victorian era industrial background, warm golden hour lighting, detailed fur texture, fantasy illustration",tags:["蒸汽朋克","动物","奇幻"],likes:1987,image:"showcase/10-zhengqipengkemao.jpg"},
-{id:11,title:"深海龙宫",author:"东方幻想",tool:"Midjourney V8.1",type:"image",date:"2026-06-15",prompt:"Underwater Chinese dragon palace, crystal and jade architecture, bioluminescent deep sea corals, ancient Chinese mythology, ethereal volumetric lighting, 8K, fantasy concept art",tags:["东方","幻想","海底"],likes:3456,image:"showcase/11-shenhailonggong.jpg"},
-{id:12,title:"赛博观音",author:"文化融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-15",prompt:"Cyberpunk Guanyin bodhisattva, holographic lotus throne, neon halo ring, futuristic temple sanctuary, chrome and rose gold aesthetic, ultra detailed digital concept art, spiritual meets technological",tags:["赛博朋克","佛教","融合"],likes:8921,image:"showcase/12-saiboguanyin.jpg"},
-{id:13,title:"山海经·穷奇",author:"国风神话",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Ancient Chinese mythical beast Qiongqi from Shan Hai Jing, tiger body with wings, fierce expression, traditional ink wash painting style meets dark fantasy, dramatic composition",tags:["国风","神话","山海经"],likes:5120,image:"showcase/13-shanhaijing-qiongqi.jpg"},
-{id:14,title:"赛博长安",author:"古今融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Tang Dynasty Chang'an transformed into cyberpunk metropolis, neon signs on ancient architecture, flying cars between pagodas, rain-slicked stone streets reflecting holograms, 8K",tags:["赛博朋克","古风","城市"],likes:3980,image:"showcase/14-saibochangan.jpg"},
-{id:15,title:"银河战舰·启航",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-16",prompt:"Massive interstellar battleship emerging from nebula, thousands of lights, epic scale, cinematic wide shot, photorealistic space render, 8K concept art",tags:["科幻","太空","战舰"],likes:6340,image:"showcase/15-yinhezhanjian.jpg"},
-{id:16,title:"樱花武士",author:"日式美学",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Samurai warrior standing under falling cherry blossoms, traditional armor with modern cybernetic enhancements, misty bamboo forest, golden hour light, ultra detailed",tags:["日式","武士","赛博"],likes:2890,image:"showcase/16-yinghuawushi.jpg"},
-{id:17,title:"龙与地下城",author:"西幻概念",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Epic dragon battle above medieval castle, knight in shining armor, fire and magic, dramatic sky, fantasy book cover quality, ultra detailed illustration",tags:["奇幻","西幻","龙"],likes:4560,image:"showcase/17-longyudixiacheng.jpg"},
-{id:18,title:"机械天使",author:"赛博宗教",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-16",prompt:"Cybernetic angel with chrome wings and holographic halo, standing in ruined cathedral, beams of light through stained glass, divine meets machine aesthetic",tags:["赛博朋克","天使","宗教"],likes:7210,image:"showcase/18-jixietianshi.jpg"},
-{id:19,title:"水墨江山",author:"国风水墨",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-16",prompt:"Traditional Chinese ink wash landscape painting, misty mountains, solitary fisherman on lake, pine trees on cliffs, red seal stamp, minimalist zen aesthetic",tags:["国风","水墨","山水"],likes:3780,image:"showcase/19-shuimojiangshan.jpg"},
-{id:20,title:"废土求生",author:"末世科幻",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Post-apocalyptic wasteland survivor in gas mask and leather gear, rusted vehicles, orange toxic sky, Mad Max inspired, cinematic, photorealistic, 8K",tags:["废土","科幻","生存"],likes:5430,image:"showcase/20-feituqiusheng.jpg"},
-{id:21,title:"星空少女",author:"治愈系",tool:"Stable Diffusion XL",type:"image",date:"2026-06-17",prompt:"Anime-style girl floating in starry space, hair flowing like galaxy, surrounded by glowing constellation lines, dreamy ethereal atmosphere, soft pastel colors, 4K",tags:["治愈","星空","人物"],likes:4120,image:"showcase/21-xingkongshaonv.jpg"},
-{id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/22-jiulongchengzhai.jpg"},
-{id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/23-tanggongyeyan.jpg"},
-{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"}
-];
-
-// Tools database
-const tools=[{id:1,name:"ChatGPT",vendor:"OpenAI",cat:"llm",desc:"全球用户量最大AI助手，GPT-5.4综合推理顶尖，支持多模态与插件生态",icon:"🧠",tags:["多模态","插件","综合推理"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:!0},{id:2,name:"Claude",vendor:"Anthropic",cat:"llm",desc:"百万级超长上下文，长文本逻辑零断层，幻觉率全网最低",icon:"📜",tags:["长文本","学术","安全"],rating:9.4,price:"付费",pt:"paid",link:"https://claude.ai",vpn:!0},{id:3,name:"Gemini",vendor:"Google",cat:"llm",desc:"Google旗舰模型，深度集成Gmail/Docs/Sheets，实时搜索",icon:"💎",tags:["多模态","Google生态","实时搜索"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://gemini.google.com",vpn:!0},{id:4,name:"DeepSeek",vendor:"深度求索",cat:"llm",desc:"国产开源大模型黑马，逻辑推理突出，免费额度充足",icon:"🐋",tags:["开源","推理强","性价比"],rating:9.0,price:"免费",pt:"free",link:"https://chat.deepseek.com",vpn:!1},{id:5,name:"通义千问",vendor:"阿里巴巴",cat:"llm",desc:"中文理解天花板，电商/职场/公文优化到位",icon:"☁️",tags:["中文优化","电商","多模态"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com",vpn:!1},{id:6,name:"Kimi",vendor:"月之暗面",cat:"llm",desc:"200万字超长上下文，文档阅读分析利器",icon:"🌙",tags:["长文本","文档分析","联网"],rating:8.7,price:"免费",pt:"free",link:"https://kimi.moonshot.cn",vpn:!1},{id:7,name:"文心一言",vendor:"百度",cat:"llm",desc:"百度中文大模型，知识问答与行业定制强",icon:"💬",tags:["中文优化","知识问答","行业定制"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://yiyan.baidu.com",vpn:!1},{id:8,name:"腾讯混元",vendor:"腾讯",cat:"llm",desc:"腾讯自研多模态大模型，集成于腾讯云生态",icon:"🐧",tags:["多模态","腾讯生态","API"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://hunyuan.tencent.com",vpn:!1},{id:9,name:"讯飞星火",vendor:"科大讯飞",cat:"llm",desc:"语音交互突出，多语种和垂直行业定制强",icon:"🔥",tags:["语音","多语种","行业定制"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://xinghuo.xfyun.cn",vpn:!1},{id:10,name:"Grok",vendor:"xAI",cat:"llm",desc:"Elon Musk旗下，实时X平台数据，幽默直白",icon:"⚡",tags:["实时数据","X平台","幽默"],rating:8.6,price:"付费",pt:"paid",link:"https://grok.x.ai",vpn:!0},{id:14,name:"Midjourney V8.1",vendor:"Midjourney",cat:"image",desc:"艺术级AI图像生成标杆，画质与风格控制领先",icon:"🖼️",tags:["艺术","高质量","风格多样"],rating:9.5,price:"付费",pt:"paid",link:"https://midjourney.com",vpn:!0},{id:15,name:"DALL·E 4",vendor:"OpenAI",cat:"image",desc:"ChatGPT内置图像生成，文字渲染精准",icon:"🎨",tags:["OpenAI","文字渲染","集成"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:!0},{id:16,name:"Stable Diffusion 4",vendor:"Stability AI",cat:"image",desc:"最强开源图像模型，本地运行无审查",icon:"🌟",tags:["开源","本地运行","社区"],rating:9.1,price:"免费",pt:"free",link:"https://stability.ai",vpn:!0},{id:17,name:"Adobe Firefly",vendor:"Adobe",cat:"image",desc:"Adobe全家桶集成，商用安全版权保障",icon:"🔥",tags:["Adobe","商用安全","集成"],rating:8.8,price:"付费",pt:"paid",link:"https://firefly.adobe.com",vpn:!0},{id:18,name:"通义万相",vendor:"阿里巴巴",cat:"image",desc:"中文语义理解好，电商素材生成优秀",icon:"🌈",tags:["中文","电商","阿里云"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com/wanxiang",vpn:!1},{id:19,name:"文心一格",vendor:"百度",cat:"image",desc:"中文AI绘画，国风与创意风格出色",icon:"🎋",tags:["国风","中文","创意"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://yige.baidu.com",vpn:!1},{id:20,name:"即梦 AI",vendor:"字节跳动",cat:"image",desc:"文生图+视频一站式，操作简单",icon:"💭",tags:["一站式","文生图","新手友好"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://jimeng.jianying.com",vpn:!1},{id:21,name:"Leonardo AI",vendor:"Leonardo",cat:"image",desc:"游戏资产AI生成平台，角色场景设计",icon:"🎮",tags:["游戏","角色设计","场景"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://leonardo.ai",vpn:!0},{id:22,name:"Flux 1.0",vendor:"Black Forest Labs",cat:"image",desc:"开源图像生成新标杆，复杂构图精准",icon:"🌀",tags:["开源","精准构图","高质量"],rating:9.0,price:"免费",pt:"free",link:"https://blackforestlabs.ai",vpn:!0},{id:23,name:"HiDream-E1",vendor:"HiDream",cat:"image",desc:"Civitai热门榜首，人像写实度极高",icon:"💫",tags:["人像","写实","Civitai"],rating:8.9,price:"免费",pt:"free",link:"https://hidream.ai",vpn:!0},{id:24,name:"美图AI",vendor:"美图秀秀",cat:"image",desc:"AI修图美颜，国内用户基数最大",icon:"📸",tags:["修图","美颜","国内"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://ai.meitu.com",vpn:!1},{id:32,name:"Sora",vendor:"OpenAI",cat:"video",desc:"革命性文生视频，电影级画质与物理模拟",icon:"🎞️",tags:["电影级","文生视频","物理模拟"],rating:9.3,price:"付费",pt:"paid",link:"https://openai.com/sora",vpn:!0},{id:33,name:"可灵 AI",vendor:"快手",cat:"video",desc:"快手出品，中文视频生成王者，支持3分钟",icon:"⚡",tags:["长视频","中文","快手"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://kling.kuaishou.com",vpn:!1},{id:34,name:"Runway Gen-4",vendor:"Runway",cat:"video",desc:"好莱坞级AI视频，专业后期全流程",icon:"🎬",tags:["专业级","后期","好莱坞"],rating:9.1,price:"付费",pt:"paid",link:"https://runwayml.com",vpn:!0},{id:35,name:"海螺AI视频",vendor:"MiniMax",cat:"video",desc:"国产高画质AI视频，动漫效果出色",icon:"🐚",tags:["国产","动漫","高画质"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://hailuoai.video",vpn:!1},{id:36,name:"Pika 2.0",vendor:"Pika Labs",cat:"video",desc:"创意短视频AI，动画效果最佳",icon:"⚡",tags:["动画","创意","短视频"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://pika.art",vpn:!0},{id:37,name:"PixVerse",vendor:"PixVerse",cat:"video",desc:"电影级AI视频+同步音频生成",icon:"🎥",tags:["音画同步","电影级","新锐"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://pixverse.ai",vpn:!0},{id:38,name:"Luma AI",vendor:"Luma",cat:"video",desc:"AI生成3D场景和电影级视觉",icon:"📸",tags:["3D场景","电影级","创意"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lumalabs.ai",vpn:!0},{id:39,name:"Veo 3",vendor:"Google",cat:"video",desc:"原生音画同步，自动匹配BGM",icon:"🎞️",tags:["音画同步","产品演示","Google"],rating:8.8,price:"付费",pt:"paid",link:"https://deepmind.google/technologies/veo/",vpn:!0},{id:40,name:"OpusClip",vendor:"OpusClip",cat:"video",desc:"AI自动剪辑长视频为短视频",icon:"📱",tags:["自动剪辑","短视频","字幕"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://opusclip.com",vpn:!0},{id:41,name:"剪映 AI",vendor:"字节跳动",cat:"video",desc:"国内最流行视频剪辑，AI一站式完成",icon:"✂️",tags:["视频剪辑","自动字幕","AI配音"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://jianying.com",vpn:!1},{id:50,name:"ElevenLabs",vendor:"ElevenLabs",cat:"audio",desc:"最逼真AI语音合成，可克隆任意声音",icon:"🎙️",tags:["语音合成","声音克隆","29语言"],rating:9.3,price:"免费+付费",pt:"freemium",link:"https://elevenlabs.io",vpn:!0},{id:51,name:"Suno V4",vendor:"Suno",cat:"audio",desc:"文字描述即可创作原创歌曲",icon:"🎵",tags:["音乐生成","原创BGM","文字转音乐"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://suno.com",vpn:!0},{id:52,name:"Whisper",vendor:"OpenAI",cat:"audio",desc:"开源语音转文字，99种语言高准确率",icon:"👂",tags:["语音转文字","开源","99语言"],rating:9.1,price:"免费",pt:"free",link:"https://openai.com/whisper",vpn:!0},{id:53,name:"网易天音",vendor:"网易",cat:"audio",desc:"网易AI音乐创作平台",icon:"🎶",tags:["编曲","BGM","短视频"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://tianyin.music.163.com",vpn:!1},{id:54,name:"马克配音",vendor:"TTSMaker",cat:"audio",desc:"免费文字转语音，多音色语速调节",icon:"🗣️",tags:["文字转语音","多音色","免费"],rating:8.1,price:"免费",pt:"free",link:"https://ttsmaker.cn",vpn:!1},{id:55,name:"Udio",vendor:"Udio",cat:"audio",desc:"AI音乐创作新锐，自定义风格融合",icon:"🎼",tags:["音乐","风格融合","创意"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://udio.com",vpn:!0},{id:60,name:"GitHub Copilot",vendor:"GitHub(Microsoft)",cat:"code",desc:"最广泛使用的AI编程助手，支持40+语言",icon:"🤖",tags:["代码补全","40+语言","IDE集成"],rating:9.0,price:"付费",pt:"paid",link:"https://github.com/features/copilot",vpn:!0},{id:61,name:"Cursor",vendor:"Anysphere",cat:"code",desc:"VS Code重构版，AI可读取整个代码库",icon:"🖱️",tags:["AI编辑器","代码库理解","VS Code"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://cursor.sh",vpn:!1},{id:62,name:"Windsurf",vendor:"Codeium",cat:"code",desc:"Agentic IDE，Cascade引擎多文件修改",icon:"🌊",tags:["Agent IDE","多文件修改","智能"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://codeium.com/windsurf",vpn:!1},{id:63,name:"Trae",vendor:"字节跳动",cat:"code",desc:"中文开发者免费AI IDE，国内极其友好",icon:"🚀",tags:["免费IDE","中文友好","字节出品"],rating:8.5,price:"免费",pt:"free",link:"https://www.trae.ai",vpn:!1},{id:64,name:"Bolt.new",vendor:"StackBlitz",cat:"code",desc:"浏览器内全栈开发与部署",icon:"⚡",tags:["云端开发","全栈","浏览器"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://bolt.new",vpn:!0},{id:65,name:"Devin",vendor:"Cognition",cat:"code",desc:"自主AI软件工程师，自动规划和编码",icon:"🧠",tags:["自主编程","全自动","AI工程师"],rating:8.8,price:"付费",pt:"paid",link:"https://devin.ai",vpn:!0},{id:66,name:"Claude Code",vendor:"Anthropic",cat:"code",desc:"终端原生AI编程，代码库级理解",icon:"💻",tags:["终端","Claude","代码库"],rating:9.2,price:"付费",pt:"paid",link:"https://claude.ai",vpn:!0},{id:67,name:"Lovable",vendor:"Lovable",cat:"code",desc:"自然语言生成全栈Web应用",icon:"❤️",tags:["全栈","自然语言","Web应用"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lovable.dev",vpn:!0},{id:70,name:"Canva AI",vendor:"Canva",cat:"design",desc:"1.7亿用户设计平台，一句话生成完整设计",icon:"🎭",tags:["设计平台","模板丰富","社交素材"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://canva.com",vpn:!1},{id:71,name:"Gamma",vendor:"Gamma",cat:"design",desc:"AI驱动PPT和网页生成",icon:"📊",tags:["PPT生成","网页生成","一句话创建"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://gamma.app",vpn:!0},{id:72,name:"Framer AI",vendor:"Framer",cat:"design",desc:"AI驱动网站建设，专业级响应式网页",icon:"🏗️",tags:["网站建设","AI生成","响应式"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://framer.com",vpn:!0},{id:73,name:"稿定AI",vendor:"稿定设计",cat:"design",desc:"国产在线设计平台，中文场景优化",icon:"🎯",tags:["电商模板","AI抠图","海报"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.gaoding.com",vpn:!1},{id:80,name:"Notion AI",vendor:"Notion",cat:"productivity",desc:"AI增强知识管理和项目管理",icon:"📝",tags:["知识管理","项目管理","AI笔记"],rating:9.0,price:"付费",pt:"paid",link:"https://notion.so",vpn:!0},{id:81,name:"Jasper",vendor:"Jasper",cat:"productivity",desc:"AI营销内容平台，保持品牌声音一致",icon:"📢",tags:["营销文案","品牌声音","批量生成"],rating:8.5,price:"付费",pt:"paid",link:"https://jasper.ai",vpn:!0},{id:82,name:"Descript",vendor:"Descript",cat:"productivity",desc:"编辑文字即可编辑音视频",icon:"🎧",tags:["视频编辑","播客","文字编辑"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://descript.com",vpn:!0},{id:83,name:"Otter.ai",vendor:"Otter.ai",cat:"productivity",desc:"语音转文字与会议记录神器",icon:"🎤",tags:["语音转文字","会议记录","摘要"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://otter.ai",vpn:!0},{id:84,name:"Grammarly",vendor:"Grammarly",cat:"productivity",desc:"AI写作助手，语法+风格+查重",icon:"✍️",tags:["语法检查","风格优化","查重"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://grammarly.com",vpn:!0},{id:85,name:"Zapier",vendor:"Zapier",cat:"productivity",desc:"连接6000+应用，AI自动化工作流",icon:"⚡",tags:["自动化","应用连接","无代码"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://zapier.com",vpn:!0},{id:90,name:"HeyGen",vendor:"HeyGen",cat:"avatar",desc:"超写实数字人视频生成，唇同步精准",icon:"👤",tags:["超写实","唇同步","多语言"],rating:9.1,price:"付费",pt:"paid",link:"https://heygen.com",vpn:!0},{id:91,name:"Synthesia",vendor:"Synthesia",cat:"avatar",desc:"企业级数字人平台，140+形象库",icon:"🎬",tags:["企业级","多形象","120语言"],rating:8.9,price:"付费",pt:"paid",link:"https://synthesia.io",vpn:!0},{id:92,name:"腾讯智影",vendor:"腾讯",cat:"avatar",desc:"一站式智能视频创作，集成DeepSeek",icon:"🎞️",tags:["数字人","DeepSeek","微信生态"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://zenvideo.qq.com",vpn:!1},{id:93,name:"商汤如影",vendor:"商汤科技",cat:"avatar",desc:"3D数字人逼真度高，微表情还原",icon:"🎭",tags:["3D数字人","微表情","个性化"],rating:8.5,price:"付费",pt:"paid",link:"https://senseavatar.sensetime.com",vpn:!1},{id:94,name:"D-ID",vendor:"D-ID",cat:"avatar",desc:"实时交互式数字人，可接入LLM对话",icon:"🤖",tags:["实时交互","LLM集成","客服"],rating:8.7,price:"付费",pt:"paid",link:"https://d-id.com",vpn:!0},{id:95,name:"讯飞智作",vendor:"科大讯飞",cat:"avatar",desc:"声音克隆保真度高，支持方言外语",icon:"🎙️",tags:["声音克隆","方言","教育"],rating:8.4,price:"付费",pt:"paid",link:"https://peiyin.xunfei.cn",vpn:!1},{id:96,name:"硅基智能",vendor:"硅基智能",cat:"avatar",desc:"电商直播数字人专家，15秒生成分身",icon:"🛒",tags:["电商直播","真人克隆","低价"],rating:8.3,price:"付费",pt:"paid",link:"https://www.guiji.ai",vpn:!1},{id:97,name:"万兴播爆",vendor:"万兴科技",cat:"avatar",desc:"数字人营销视频，出海营销利器",icon:"📺",tags:["营销视频","出海","快速生成"],rating:8.1,price:"付费",pt:"paid",link:"https://virbo.wondershare.cn",vpn:!1},{id:100,name:"Perplexity AI",vendor:"Perplexity",cat:"search",desc:"AI搜索引擎，每个回答附来源链接",icon:"🔎",tags:["搜索","溯源","研究"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://perplexity.ai",vpn:!0},{id:101,name:"秘塔AI搜索",vendor:"秘塔科技",cat:"search",desc:"国产AI搜索，自动生成结构化报告",icon:"🔍",tags:["深度研究","结构化","国产"],rating:8.8,price:"免费",pt:"free",link:"https://metaso.cn",vpn:!1},{id:102,name:"天工AI搜索",vendor:"昆仑万维",cat:"search",desc:"国内AI搜索先行者，多轮追问",icon:"🌐",tags:["多轮追问","深度分析","溯源"],rating:8.5,price:"免费",pt:"free",link:"https://www.tiangong.cn",vpn:!1},{id:103,name:"纳米搜索",vendor:"360",cat:"search",desc:"360旗下AI搜索，多模态搜索",icon:"🔬",tags:["多模态搜索","智能摘要","360"],rating:8.2,price:"免费",pt:"free",link:"https://www.n.cn",vpn:!1},{id:110,name:"Duolingo Max",vendor:"Duolingo",cat:"edu",desc:"GPT-4驱动沉浸式外语学习",icon:"🦉",tags:["语言学习","GPT-4","沉浸式"],rating:8.9,price:"付费",pt:"paid",link:"https://duolingo.com",vpn:!0},{id:111,name:"Wolfram Alpha",vendor:"Wolfram",cat:"edu",desc:"计算知识引擎黄金标准",icon:"🧮",tags:["数学计算","STEM","精准"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://wolframalpha.com",vpn:!0},{id:112,name:"Elicit",vendor:"Elicit",cat:"edu",desc:"学术论文AI研究助手",icon:"📖",tags:["学术论文","文献综述","研究"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://elicit.com",vpn:!0},{id:113,name:"Consensus",vendor:"Consensus",cat:"edu",desc:"循证AI搜索引擎，展示科学结论",icon:"✅",tags:["循证","学术共识","科研"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://consensus.app",vpn:!0},{id:114,name:"Photomath",vendor:"Google",cat:"edu",desc:"拍照解数学题，分步解析理解",icon:"📸",tags:["数学","拍照解题","分步解析"],rating:8.7,price:"免费",pt:"free",link:"https://photomath.com",vpn:!0},{id:115,name:"作业帮AI",vendor:"作业帮",cat:"edu",desc:"国内K12学习神器，全学科覆盖",icon:"📚",tags:["K12","拍照搜题","全学科"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.zybang.com",vpn:!1},{id:116,name:"NotebookLM",vendor:"Google",cat:"edu",desc:"AI笔记研究工具，上传文档生成播客",icon:"🎧",tags:["笔记","播客","研究"],rating:9.0,price:"免费",pt:"free",link:"https://notebooklm.google.com",vpn:!0},{id:120,name:"扣子 Coze",vendor:"字节跳动",cat:"agent",desc:"零代码AI Bot搭建平台",icon:"🤖",tags:["零代码","Bot搭建","多渠道"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://www.coze.cn",vpn:!1},{id:121,name:"n8n",vendor:"n8n",cat:"agent",desc:"开源AI自动化工作流，可视化编排",icon:"🔄",tags:["开源","可视化","自托管"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://n8n.io",vpn:!0},{id:122,name:"Make",vendor:"Make",cat:"agent",desc:"可视化自动化平台，千应用连接",icon:"🔗",tags:["可视化","千应用连接","自动化"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://make.com",vpn:!0},{id:123,name:"火山方舟",vendor:"字节跳动",cat:"agent",desc:"模型训练推理一站式平台",icon:"🌋",tags:["模型平台","API","训练推理"],rating:8.5,price:"付费",pt:"paid",link:"https://www.volcengine.com",vpn:!1},{id:124,name:"魔搭社区",vendor:"阿里巴巴",cat:"agent",desc:"阿里达摩院开源模型平台",icon:"🧩",tags:["开源模型","一键部署","达摩院"],rating:8.6,price:"免费",pt:"free",link:"https://modelscope.cn",vpn:!1},{id:130,name:"Meshy",vendor:"Meshy",cat:"3d",desc:"AI 3D模型生成，文字/图片转3D",icon:"🧊",tags:["文字转3D","自动绑定","游戏"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://meshy.ai",vpn:!0},{id:131,name:"3D AI Studio",vendor:"3D AI Studio",cat:"3d",desc:"文字/图片生成3D角色",icon:"🎮",tags:["3D角色","VRChat","VTuber"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://3daistudio.com",vpn:!0},{id:132,name:"Tripo AI",vendor:"Tripo",cat:"3d",desc:"AI快速生成高质量3D模型",icon:"🔷",tags:["快速建模","PBR材质","AI生成"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.tripo3d.ai",vpn:!0},{id:133,name:"Rodin",vendor:"Hyper3D",cat:"3d",desc:"高保真3D网格+自然语言编辑",icon:"💎",tags:["高保真","自然语言编辑","AI"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://hyper3d.ai",vpn:!0}];
-
-// ==================== RENDER ====================
-let currentPage='showcase',currentCat='all',searchQuery='';
-
-function getPriceBadge(pt){
-  if(pt==='free')return'<span class="badge-free">免费</span>';
-  if(pt==='paid')return'<span class="badge-paid">付费</span>';
-  return'<span class="badge-freemium">免费+付费</span>';
-}
-
-function showDetail(item){
-  const isVideo = item.type==='video';
-  const hasVideoUrl = item.video_url && item.video_url.startsWith('http');
-  const score = item.ai_score;
-
-  // 处理图片/视频展示区
-  const imgEl = document.getElementById('modalImg');
-  const vidEl = document.getElementById('modalVideo');
-  if(isVideo && hasVideoUrl){
-    imgEl.style.display='none';
-    vidEl.style.display='flex';
-    vidEl.innerHTML = `<iframe src="${item.video_url}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:360px;border-radius:0;"></iframe>`;
-  }else if(isVideo){
-    imgEl.style.display='none';
-    vidEl.style.display='flex';
-    vidEl.innerHTML = `<div class="video-placeholder"><span class="vp-icon">🎬</span><p class="vp-text">视频作品预览</p><p class="vp-sub">${item.title}</p></div>`;
-  }else{
-    imgEl.src=item.image;
-    imgEl.style.display='block';
-    vidEl.style.display='none';
-    vidEl.innerHTML='';
-  }
-
-  // AI评分区域
-  let scoreHTML = '';
-  if(score){
-    scoreHTML = `<div class="md-section"><div class="md-label">🤖 AI综合评分</div>
-      <div class="ai-score-row">
-        <div class="ai-score-big">${score.overall}<span class="ai-score-unit">/10</span></div>
-        <div class="ai-score-detail">
-          <span>创意 ${score.creativity}</span><span>技术 ${score.technical}</span><span>美学 ${score.aesthetic}</span><span>新颖 ${score.novelty}</span>
-        </div>
-      </div>
-      ${score.review?`<div class="ai-score-review">💬 ${score.review}</div>`:''}
-    </div>`;
-  }
-
-  document.getElementById('modalBody').innerHTML=`
-    <div class="md-title">${isVideo?'🎬 ':''}${item.title}</div>
-    <div class="md-author">👤 ${item.author} · 🛠️ ${item.tool} · ❤️ ${(item.likes||0).toLocaleString()} · ${isVideo?'🎬 视频':'🖼️ 图片'}${item.source?' · 📡 '+item.source:''}</div>
-    ${scoreHTML}
-    <div class="md-section"><div class="md-label">提示词 / Prompt</div><div class="md-prompt">${item.prompt||'无'}</div></div>
-    <div class="md-section"><div class="md-label">标签</div><div class="md-tags">${(item.tags||[]).map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div></div>
-    <div class="md-actions">
-      ${item.prompt?`<button class="md-btn primary" onclick="copyPrompt('${(item.prompt||'').replace(/'/g,"\\'").replace(/\n/g,'\\n')}')">📋 复制提示词</button>`:''}
-      ${item.source_url?`<a href="${item.source_url}" target="_blank" class="md-btn secondary">🔗 查看来源</a>`:''}
-      <button class="md-btn secondary" onclick="closeDetail()">关闭</button>
-    </div>`;
-  document.getElementById('detailModal').classList.add('active');
-  document.body.style.overflow='hidden';
-}
-
-function closeDetail(){
-  document.getElementById('detailModal').classList.remove('active');
-  document.body.style.overflow='';
-  document.getElementById('modalImg').style.display='';
-}
-
-function copyPrompt(text){
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn=event.target;
-    btn.textContent='✅ 已复制';
-    setTimeout(()=>btn.textContent='📋 复制提示词',2000);
+// ===== 粒子背景 =====
+const pCanvas=document.getElementById('particleCanvas');
+const pCtx=pCanvas.getContext('2d');
+let pW,pH,time=0;
+const particles=[];
+function resizeP(){pW=pCanvas.width=window.innerWidth;pH=pCanvas.height=window.innerHeight}
+resizeP();window.addEventListener('resize',resizeP);
+for(let i=0;i<80;i++){
+  particles.push({
+    x:Math.random()*pW,y:Math.random()*pH,
+    vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6,
+    size:Math.random()*2+1,alpha:Math.random()*.25+.05,
+    hue:Math.random()>.5?'cyan':'purple'
   });
 }
-
-let heroTimer,heroIndex=0;
-function startHeroSlider(){
-  const slides=document.querySelectorAll('.hero-slide');
-  const dots=document.querySelectorAll('.hero-dot');
-  if(!slides.length)return;
-  function go(i){
-    slides.forEach(s=>s.classList.remove('active'));
-    dots.forEach(d=>d.classList.remove('active'));
-    slides[i].classList.add('active');
-    dots[i].classList.add('active');
-    heroIndex=i;
+function drawParticles(){
+  pCtx.clearRect(0,0,pW,pH);time+=.005;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        const alpha=(1-dist/120)*.06;
+        pCtx.strokeStyle=particles[i].hue==='cyan'?`rgba(0,229,255,${alpha})`:`rgba(124,58,237,${alpha})`;
+        pCtx.lineWidth=.5;pCtx.beginPath();pCtx.moveTo(particles[i].x,particles[i].y);
+        pCtx.lineTo(particles[j].x,particles[j].y);pCtx.stroke();
+      }
+    }
   }
-  document.querySelector('.hero-nav.prev').onclick=()=>go((heroIndex-1+slides.length)%slides.length);
-  document.querySelector('.hero-nav.next').onclick=()=>go((heroIndex+1)%slides.length);
-  dots.forEach((d,i)=>d.onclick=()=>go(i));
-  go(0);
-  clearInterval(heroTimer);
-  heroTimer=setInterval(()=>go((heroIndex+1)%slides.length),5000);
+  particles.forEach(p=>{
+    pCtx.fillStyle=p.hue==='cyan'?`rgba(0,229,255,${p.alpha})`:`rgba(124,58,237,${p.alpha})`;
+    pCtx.beginPath();pCtx.arc(p.x,p.y,p.size,0,Math.PI*2);pCtx.fill();
+    p.x+=p.vx+Math.sin(time+p.y*.01)*.15;
+    p.y+=p.vy+Math.cos(time+p.x*.01)*.15;
+    if(p.x<0)p.x=pW;if(p.x>pW)p.x=0;
+    if(p.y<0)p.y=pH;if(p.y>pH)p.y=0;
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ===== Scroll Reveal =====
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ===== 数据 =====
+const tools=[{id:1,name:"ChatGPT",vendor:"OpenAI",cat:"llm",desc:"全球用户量最大AI助手，GPT-5.4综合推理顶尖，支持多模态与插件生态",icon:"🧠",tags:["多模态","插件","综合推理"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:!0},{id:2,name:"Claude",vendor:"Anthropic",cat:"llm",desc:"百万级超长上下文，长文本逻辑零断层，幻觉率全网最低",icon:"📜",tags:["长文本","学术","安全"],rating:9.4,price:"付费",pt:"paid",link:"https://claude.ai",vpn:!0},{id:3,name:"Gemini",vendor:"Google",cat:"llm",desc:"Google旗舰模型，深度集成Gmail/Docs/Sheets，实时搜索",icon:"💎",tags:["多模态","Google生态","实时搜索"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://gemini.google.com",vpn:!0},{id:4,name:"DeepSeek",vendor:"深度求索",cat:"llm",desc:"国产开源大模型黑马，逻辑推理突出，免费额度充足",icon:"🐋",tags:["开源","推理强","性价比"],rating:9.0,price:"免费",pt:"free",link:"https://chat.deepseek.com",vpn:!1},{id:5,name:"通义千问",vendor:"阿里巴巴",cat:"llm",desc:"中文理解天花板，电商/职场/公文优化到位",icon:"☁️",tags:["中文优化","电商","多模态"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com",vpn:!1},{id:6,name:"Kimi",vendor:"月之暗面",cat:"llm",desc:"200万字超长上下文，文档阅读分析利器",icon:"🌙",tags:["长文本","文档分析","联网"],rating:8.7,price:"免费",pt:"free",link:"https://kimi.moonshot.cn",vpn:!1},{id:7,name:"文心一言",vendor:"百度",cat:"llm",desc:"百度中文大模型，知识问答与行业定制强",icon:"💬",tags:["中文优化","知识问答","行业定制"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://yiyan.baidu.com",vpn:!1},{id:8,name:"腾讯混元",vendor:"腾讯",cat:"llm",desc:"腾讯自研多模态大模型，集成于腾讯云生态",icon:"🐧",tags:["多模态","腾讯生态","API"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://hunyuan.tencent.com",vpn:!1},{id:9,name:"讯飞星火",vendor:"科大讯飞",cat:"llm",desc:"语音交互突出，多语种和垂直行业定制强",icon:"🔥",tags:["语音","多语种","行业定制"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://xinghuo.xfyun.cn",vpn:!1},{id:10,name:"Grok",vendor:"xAI",cat:"llm",desc:"Elon Musk旗下，实时X平台数据，幽默直白",icon:"⚡",tags:["实时数据","X平台","幽默"],rating:8.6,price:"付费",pt:"paid",link:"https://grok.x.ai",vpn:!0},{id:14,name:"Midjourney V8.1",vendor:"Midjourney",cat:"image",desc:"艺术级AI图像生成标杆，画质与风格控制领先",icon:"🖼️",tags:["艺术","高质量","风格多样"],rating:9.5,price:"付费",pt:"paid",link:"https://midjourney.com",vpn:!0},{id:15,name:"DALL·E 4",vendor:"OpenAI",cat:"image",desc:"ChatGPT内置图像生成，文字渲染精准",icon:"🎨",tags:["OpenAI","文字渲染","集成"],rating:9.2,price:"付费",pt:"paid",link:"https://chatgpt.com",vpn:!0},{id:16,name:"Stable Diffusion 4",vendor:"Stability AI",cat:"image",desc:"最强开源图像模型，本地运行无审查",icon:"🌟",tags:["开源","本地运行","社区"],rating:9.1,price:"免费",pt:"free",link:"https://stability.ai",vpn:!0},{id:17,name:"Adobe Firefly",vendor:"Adobe",cat:"image",desc:"Adobe全家桶集成，商用安全版权保障",icon:"🔥",tags:["Adobe","商用安全","集成"],rating:8.8,price:"付费",pt:"paid",link:"https://firefly.adobe.com",vpn:!0},{id:18,name:"通义万相",vendor:"阿里巴巴",cat:"image",desc:"中文语义理解好，电商素材生成优秀",icon:"🌈",tags:["中文","电商","阿里云"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://tongyi.aliyun.com/wanxiang",vpn:!1},{id:19,name:"文心一格",vendor:"百度",cat:"image",desc:"中文AI绘画，国风与创意风格出色",icon:"🎋",tags:["国风","中文","创意"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://yige.baidu.com",vpn:!1},{id:20,name:"即梦 AI",vendor:"字节跳动",cat:"image",desc:"文生图+视频一站式，操作简单",icon:"💭",tags:["一站式","文生图","新手友好"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://jimeng.jianying.com",vpn:!1},{id:21,name:"Leonardo AI",vendor:"Leonardo",cat:"image",desc:"游戏资产AI生成平台，角色场景设计",icon:"🎮",tags:["游戏","角色设计","场景"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://leonardo.ai",vpn:!0},{id:22,name:"Flux 1.0",vendor:"Black Forest Labs",cat:"image",desc:"开源图像生成新标杆，复杂构图精准",icon:"🌀",tags:["开源","精准构图","高质量"],rating:9.0,price:"免费",pt:"free",link:"https://blackforestlabs.ai",vpn:!0},{id:23,name:"HiDream-E1",vendor:"HiDream",cat:"image",desc:"Civitai热门榜首，人像写实度极高",icon:"💫",tags:["人像","写实","Civitai"],rating:8.9,price:"免费",pt:"free",link:"https://hidream.ai",vpn:!0},{id:24,name:"美图AI",vendor:"美图秀秀",cat:"image",desc:"AI修图美颜，国内用户基数最大",icon:"📸",tags:["修图","美颜","国内"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://ai.meitu.com",vpn:!1},{id:32,name:"Sora",vendor:"OpenAI",cat:"video",desc:"革命性文生视频，电影级画质与物理模拟",icon:"🎞️",tags:["电影级","文生视频","物理模拟"],rating:9.3,price:"付费",pt:"paid",link:"https://openai.com/sora",vpn:!0},{id:33,name:"可灵 AI",vendor:"快手",cat:"video",desc:"快手出品，中文视频生成王者，支持3分钟",icon:"⚡",tags:["长视频","中文","快手"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://kling.kuaishou.com",vpn:!1},{id:34,name:"Runway Gen-4",vendor:"Runway",cat:"video",desc:"好莱坞级AI视频，专业后期全流程",icon:"🎬",tags:["专业级","后期","好莱坞"],rating:9.1,price:"付费",pt:"paid",link:"https://runwayml.com",vpn:!0},{id:35,name:"海螺AI视频",vendor:"MiniMax",cat:"video",desc:"国产高画质AI视频，动漫效果出色",icon:"🐚",tags:["国产","动漫","高画质"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://hailuoai.video",vpn:!1},{id:36,name:"Pika 2.0",vendor:"Pika Labs",cat:"video",desc:"创意短视频AI，动画效果最佳",icon:"⚡",tags:["动画","创意","短视频"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://pika.art",vpn:!0},{id:37,name:"PixVerse",vendor:"PixVerse",cat:"video",desc:"电影级AI视频+同步音频生成",icon:"🎥",tags:["音画同步","电影级","新锐"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://pixverse.ai",vpn:!0},{id:38,name:"Luma AI",vendor:"Luma",cat:"video",desc:"AI生成3D场景和电影级视觉",icon:"📸",tags:["3D场景","电影级","创意"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lumalabs.ai",vpn:!0},{id:39,name:"Veo 3",vendor:"Google",cat:"video",desc:"原生音画同步，自动匹配BGM",icon:"🎞️",tags:["音画同步","产品演示","Google"],rating:8.8,price:"付费",pt:"paid",link:"https://deepmind.google/technologies/veo/",vpn:!0},{id:40,name:"OpusClip",vendor:"OpusClip",cat:"video",desc:"AI自动剪辑长视频为短视频",icon:"📱",tags:["自动剪辑","短视频","字幕"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://opusclip.com",vpn:!0},{id:41,name:"剪映 AI",vendor:"字节跳动",cat:"video",desc:"国内最流行视频剪辑，AI一站式完成",icon:"✂️",tags:["视频剪辑","自动字幕","AI配音"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://jianying.com",vpn:!1},{id:50,name:"ElevenLabs",vendor:"ElevenLabs",cat:"audio",desc:"最逼真AI语音合成，可克隆任意声音",icon:"🎙️",tags:["语音合成","声音克隆","29语言"],rating:9.3,price:"免费+付费",pt:"freemium",link:"https://elevenlabs.io",vpn:!0},{id:51,name:"Suno V4",vendor:"Suno",cat:"audio",desc:"文字描述即可创作原创歌曲",icon:"🎵",tags:["音乐生成","原创BGM","文字转音乐"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://suno.com",vpn:!0},{id:52,name:"Whisper",vendor:"OpenAI",cat:"audio",desc:"开源语音转文字，99种语言高准确率",icon:"👂",tags:["语音转文字","开源","99语言"],rating:9.1,price:"免费",pt:"free",link:"https://openai.com/whisper",vpn:!0},{id:53,name:"网易天音",vendor:"网易",cat:"audio",desc:"网易AI音乐创作平台",icon:"🎶",tags:["编曲","BGM","短视频"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://tianyin.music.163.com",vpn:!1},{id:54,name:"马克配音",vendor:"TTSMaker",cat:"audio",desc:"免费文字转语音，多音色语速调节",icon:"🗣️",tags:["文字转语音","多音色","免费"],rating:8.1,price:"免费",pt:"free",link:"https://ttsmaker.cn",vpn:!1},{id:55,name:"Udio",vendor:"Udio",cat:"audio",desc:"AI音乐创作新锐，自定义风格融合",icon:"🎼",tags:["音乐","风格融合","创意"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://udio.com",vpn:!0},{id:60,name:"GitHub Copilot",vendor:"GitHub(Microsoft)",cat:"code",desc:"最广泛使用的AI编程助手，支持40+语言",icon:"🤖",tags:["代码补全","40+语言","IDE集成"],rating:9.0,price:"付费",pt:"paid",link:"https://github.com/features/copilot",vpn:!0},{id:61,name:"Cursor",vendor:"Anysphere",cat:"code",desc:"VS Code重构版，AI可读取整个代码库",icon:"🖱️",tags:["AI编辑器","代码库理解","VS Code"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://cursor.sh",vpn:!1},{id:62,name:"Windsurf",vendor:"Codeium",cat:"code",desc:"Agentic IDE，Cascade引擎多文件修改",icon:"🌊",tags:["Agent IDE","多文件修改","智能"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://codeium.com/windsurf",vpn:!1},{id:63,name:"Trae",vendor:"字节跳动",cat:"code",desc:"中文开发者免费AI IDE，国内极其友好",icon:"🚀",tags:["免费IDE","中文友好","字节出品"],rating:8.5,price:"免费",pt:"free",link:"https://www.trae.ai",vpn:!1},{id:64,name:"Bolt.new",vendor:"StackBlitz",cat:"code",desc:"浏览器内全栈开发与部署",icon:"⚡",tags:["云端开发","全栈","浏览器"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://bolt.new",vpn:!0},{id:65,name:"Devin",vendor:"Cognition",cat:"code",desc:"自主AI软件工程师，自动规划和编码",icon:"🧠",tags:["自主编程","全自动","AI工程师"],rating:8.8,price:"付费",pt:"paid",link:"https://devin.ai",vpn:!0},{id:66,name:"Claude Code",vendor:"Anthropic",cat:"code",desc:"终端原生AI编程，代码库级理解",icon:"💻",tags:["终端","Claude","代码库"],rating:9.2,price:"付费",pt:"paid",link:"https://claude.ai",vpn:!0},{id:67,name:"Lovable",vendor:"Lovable",cat:"code",desc:"自然语言生成全栈Web应用",icon:"❤️",tags:["全栈","自然语言","Web应用"],rating:8.7,price:"免费+付费",pt:"freemium",link:"https://lovable.dev",vpn:!0},{id:70,name:"Canva AI",vendor:"Canva",cat:"design",desc:"1.7亿用户设计平台，一句话生成完整设计",icon:"🎭",tags:["设计平台","模板丰富","社交素材"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://canva.com",vpn:!1},{id:71,name:"Gamma",vendor:"Gamma",cat:"design",desc:"AI驱动PPT和网页生成",icon:"📊",tags:["PPT生成","网页生成","一句话创建"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://gamma.app",vpn:!0},{id:72,name:"Framer AI",vendor:"Framer",cat:"design",desc:"AI驱动网站建设，专业级响应式网页",icon:"🏗️",tags:["网站建设","AI生成","响应式"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://framer.com",vpn:!0},{id:73,name:"稿定AI",vendor:"稿定设计",cat:"design",desc:"国产在线设计平台，中文场景优化",icon:"🎯",tags:["电商模板","AI抠图","海报"],rating:8.2,price:"免费+付费",pt:"freemium",link:"https://www.gaoding.com",vpn:!1},{id:80,name:"Notion AI",vendor:"Notion",cat:"productivity",desc:"AI增强知识管理和项目管理",icon:"📝",tags:["知识管理","项目管理","AI笔记"],rating:9.0,price:"付费",pt:"paid",link:"https://notion.so",vpn:!0},{id:81,name:"Jasper",vendor:"Jasper",cat:"productivity",desc:"AI营销内容平台，保持品牌声音一致",icon:"📢",tags:["营销文案","品牌声音","批量生成"],rating:8.5,price:"付费",pt:"paid",link:"https://jasper.ai",vpn:!0},{id:82,name:"Descript",vendor:"Descript",cat:"productivity",desc:"编辑文字即可编辑音视频",icon:"🎧",tags:["视频编辑","播客","文字编辑"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://descript.com",vpn:!0},{id:83,name:"Otter.ai",vendor:"Otter.ai",cat:"productivity",desc:"语音转文字与会议记录神器",icon:"🎤",tags:["语音转文字","会议记录","摘要"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://otter.ai",vpn:!0},{id:84,name:"Grammarly",vendor:"Grammarly",cat:"productivity",desc:"AI写作助手，语法+风格+查重",icon:"✍️",tags:["语法检查","风格优化","查重"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://grammarly.com",vpn:!0},{id:85,name:"Zapier",vendor:"Zapier",cat:"productivity",desc:"连接6000+应用，AI自动化工作流",icon:"⚡",tags:["自动化","应用连接","无代码"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://zapier.com",vpn:!0},{id:90,name:"HeyGen",vendor:"HeyGen",cat:"avatar",desc:"超写实数字人视频生成，唇同步精准",icon:"👤",tags:["超写实","唇同步","多语言"],rating:9.1,price:"付费",pt:"paid",link:"https://heygen.com",vpn:!0},{id:91,name:"Synthesia",vendor:"Synthesia",cat:"avatar",desc:"企业级数字人平台，140+形象库",icon:"🎬",tags:["企业级","多形象","120语言"],rating:8.9,price:"付费",pt:"paid",link:"https://synthesia.io",vpn:!0},{id:92,name:"腾讯智影",vendor:"腾讯",cat:"avatar",desc:"一站式智能视频创作，集成DeepSeek",icon:"🎞️",tags:["数字人","DeepSeek","微信生态"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://zenvideo.qq.com",vpn:!1},{id:93,name:"商汤如影",vendor:"商汤科技",cat:"avatar",desc:"3D数字人逼真度高，微表情还原",icon:"🎭",tags:["3D数字人","微表情","个性化"],rating:8.5,price:"付费",pt:"paid",link:"https://senseavatar.sensetime.com",vpn:!1},{id:94,name:"D-ID",vendor:"D-ID",cat:"avatar",desc:"实时交互式数字人，可接入LLM对话",icon:"🤖",tags:["实时交互","LLM集成","客服"],rating:8.7,price:"付费",pt:"paid",link:"https://d-id.com",vpn:!0},{id:95,name:"讯飞智作",vendor:"科大讯飞",cat:"avatar",desc:"声音克隆保真度高，支持方言外语",icon:"🎙️",tags:["声音克隆","方言","教育"],rating:8.4,price:"付费",pt:"paid",link:"https://peiyin.xunfei.cn",vpn:!1},{id:96,name:"硅基智能",vendor:"硅基智能",cat:"avatar",desc:"电商直播数字人专家，15秒生成分身",icon:"🛒",tags:["电商直播","真人克隆","低价"],rating:8.3,price:"付费",pt:"paid",link:"https://www.guiji.ai",vpn:!1},{id:97,name:"万兴播爆",vendor:"万兴科技",cat:"avatar",desc:"数字人营销视频，出海营销利器",icon:"📺",tags:["营销视频","出海","快速生成"],rating:8.1,price:"付费",pt:"paid",link:"https://virbo.wondershare.cn",vpn:!1},{id:100,name:"Perplexity AI",vendor:"Perplexity",cat:"search",desc:"AI搜索引擎，每个回答附来源链接",icon:"🔎",tags:["搜索","溯源","研究"],rating:9.1,price:"免费+付费",pt:"freemium",link:"https://perplexity.ai",vpn:!0},{id:101,name:"秘塔AI搜索",vendor:"秘塔科技",cat:"search",desc:"国产AI搜索，自动生成结构化报告",icon:"🔍",tags:["深度研究","结构化","国产"],rating:8.8,price:"免费",pt:"free",link:"https://metaso.cn",vpn:!1},{id:102,name:"天工AI搜索",vendor:"昆仑万维",cat:"search",desc:"国内AI搜索先行者，多轮追问",icon:"🌐",tags:["多轮追问","深度分析","溯源"],rating:8.5,price:"免费",pt:"free",link:"https://www.tiangong.cn",vpn:!1},{id:103,name:"纳米搜索",vendor:"360",cat:"search",desc:"360旗下AI搜索，多模态搜索",icon:"🔬",tags:["多模态搜索","智能摘要","360"],rating:8.2,price:"免费",pt:"free",link:"https://www.n.cn",vpn:!1},{id:110,name:"Duolingo Max",vendor:"Duolingo",cat:"edu",desc:"GPT-4驱动沉浸式外语学习",icon:"🦉",tags:["语言学习","GPT-4","沉浸式"],rating:8.9,price:"付费",pt:"paid",link:"https://duolingo.com",vpn:!0},{id:111,name:"Wolfram Alpha",vendor:"Wolfram",cat:"edu",desc:"计算知识引擎黄金标准",icon:"🧮",tags:["数学计算","STEM","精准"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://wolframalpha.com",vpn:!0},{id:112,name:"Elicit",vendor:"Elicit",cat:"edu",desc:"学术论文AI研究助手",icon:"📖",tags:["学术论文","文献综述","研究"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://elicit.com",vpn:!0},{id:113,name:"Consensus",vendor:"Consensus",cat:"edu",desc:"循证AI搜索引擎，展示科学结论",icon:"✅",tags:["循证","学术共识","科研"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://consensus.app",vpn:!0},{id:114,name:"Photomath",vendor:"Google",cat:"edu",desc:"拍照解数学题，分步解析理解",icon:"📸",tags:["数学","拍照解题","分步解析"],rating:8.7,price:"免费",pt:"free",link:"https://photomath.com",vpn:!0},{id:115,name:"作业帮AI",vendor:"作业帮",cat:"edu",desc:"国内K12学习神器，全学科覆盖",icon:"📚",tags:["K12","拍照搜题","全学科"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.zybang.com",vpn:!1},{id:116,name:"NotebookLM",vendor:"Google",cat:"edu",desc:"AI笔记研究工具，上传文档生成播客",icon:"🎧",tags:["笔记","播客","研究"],rating:9.0,price:"免费",pt:"free",link:"https://notebooklm.google.com",vpn:!0},{id:120,name:"扣子 Coze",vendor:"字节跳动",cat:"agent",desc:"零代码AI Bot搭建平台",icon:"🤖",tags:["零代码","Bot搭建","多渠道"],rating:8.9,price:"免费+付费",pt:"freemium",link:"https://www.coze.cn",vpn:!1},{id:121,name:"n8n",vendor:"n8n",cat:"agent",desc:"开源AI自动化工作流，可视化编排",icon:"🔄",tags:["开源","可视化","自托管"],rating:9.0,price:"免费+付费",pt:"freemium",link:"https://n8n.io",vpn:!0},{id:122,name:"Make",vendor:"Make",cat:"agent",desc:"可视化自动化平台，千应用连接",icon:"🔗",tags:["可视化","千应用连接","自动化"],rating:8.8,price:"免费+付费",pt:"freemium",link:"https://make.com",vpn:!0},{id:123,name:"火山方舟",vendor:"字节跳动",cat:"agent",desc:"模型训练推理一站式平台",icon:"🌋",tags:["模型平台","API","训练推理"],rating:8.5,price:"付费",pt:"paid",link:"https://www.volcengine.com",vpn:!1},{id:124,name:"魔搭社区",vendor:"阿里巴巴",cat:"agent",desc:"阿里达摩院开源模型平台",icon:"🧩",tags:["开源模型","一键部署","达摩院"],rating:8.6,price:"免费",pt:"free",link:"https://modelscope.cn",vpn:!1},{id:130,name:"Meshy",vendor:"Meshy",cat:"3d",desc:"AI 3D模型生成，文字/图片转3D",icon:"🧊",tags:["文字转3D","自动绑定","游戏"],rating:8.6,price:"免费+付费",pt:"freemium",link:"https://meshy.ai",vpn:!0},{id:131,name:"3D AI Studio",vendor:"3D AI Studio",cat:"3d",desc:"文字/图片生成3D角色",icon:"🎮",tags:["3D角色","VRChat","VTuber"],rating:8.5,price:"免费+付费",pt:"freemium",link:"https://3daistudio.com",vpn:!0},{id:132,name:"Tripo AI",vendor:"Tripo",cat:"3d",desc:"AI快速生成高质量3D模型",icon:"🔷",tags:["快速建模","PBR材质","AI生成"],rating:8.3,price:"免费+付费",pt:"freemium",link:"https://www.tripo3d.ai",vpn:!0},{id:133,name:"Rodin",vendor:"Hyper3D",cat:"3d",desc:"高保真3D网格+自然语言编辑",icon:"💎",tags:["高保真","自然语言编辑","AI"],rating:8.4,price:"免费+付费",pt:"freemium",link:"https://hyper3d.ai",vpn:!0}];
+
+const catNames={llm:'大语言模型',image:'图片生成',video:'视频生成',audio:'音频音乐',code:'编程开发',design:'设计创作',productivity:'办公效率',avatar:'数字人',search:'AI搜索',edu:'教育学习',agent:'Agent/自动化','3d':'3D生成'};
+const catIcons={llm:'💬',image:'🎨',video:'🎬',audio:'🎵',code:'💻',design:'✏️',productivity:'📋',avatar:'🎭',search:'🔍',edu:'📚',agent:'🤖','3d':'🧊'};
+
+let showcaseData=[];
+let currentCat='all',toolQuery='',showcaseSort='recommend',showcasePage=1;
+
+// ===== 作品数据加载 =====
+async function loadShowcase(){
+  try{
+    const resp=await fetch('showcase.json?'+Date.now());
+    showcaseData=await resp.json();
+    console.log('[九万AI] 加载 '+showcaseData.length+' 件作品');
+  }catch(e){
+    console.warn('[九万AI] showcase.json 加载失败');
+  }
+  if(showcaseData.length===0) showcaseData=_backupShowcase;
+  document.getElementById('statWorks').textContent=showcaseData.length;
+  document.getElementById('showcaseCount').textContent='每日更新 AI 创作精选 · 共 '+showcaseData.length+' 件';
+  renderShowcase();
 }
 
-function renderShowcase(){
-  let sortMode=window._showcaseSort||'recommend';
-  let page=window._showcasePage||1;
-  const perPage=12;
-  let data=[...showcaseData];
-  if(sortMode==='newest')data.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  else if(sortMode==='hottest')data.sort((a,b)=>(b.likes||0)-(a.likes||0));
-  else data.sort((a,b)=>(b.ai_score?.overall||b.likes||0)-(a.ai_score?.overall||a.likes||0));
-  const totalPages=Math.ceil(data.length/perPage);
-  if(page>totalPages)page=totalPages;
-  if(page<1)page=1;
-  window._showcasePage=page;
-  const pageData=data.slice((page-1)*perPage,page*perPage);
-  const top=data.slice(0,5);
-  function card(s,i){
-    const isVideo=s.type==='video';
-    const score=s.ai_score?.overall;
-    const scoreBadge=score?`<span class="sc-score">⭐${score}</span>`:'';
-    return`<div class="showcase-card" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
-      <div class="sc-preview">${isVideo?'<span class="sc-play">▶</span>':''}<img src="${s.image}" alt="${s.title}" loading="lazy">${scoreBadge}<span class="sc-likes">❤️ ${(s.likes||0).toLocaleString()}</span></div>
-      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-meta"><span>${s.author}</span><span>·</span><span>${s.tool}</span>${s.source?`<span>·</span><span class="sc-source">${s.source}</span>`:''}</div><div class="sc-tags">${(s.tags||[]).map(t=>`<span class="sc-tag">${t}</span>`).join('')}${isVideo?'<span class="sc-tag sc-tag-video">🎬视频</span>':''}</div></div>
-    </div>`;
-  }
-  const paginationHTML=totalPages>1?`<div class="pagination"><button class="page-btn" onclick="window._showcasePage=${page-1};updateContent()" ${page<=1?'disabled':''}>◂ 上一页</button><span class="page-info">${page} / ${totalPages}</span><button class="page-btn" onclick="window._showcasePage=${page+1};updateContent()" ${page>=totalPages?'disabled':''}>下一页 ▸</button></div>`:'';
-  return`
-    <div class="hero-showcase">
-      <div class="hero-slider">
-        ${top.map((s,i)=>`
-        <div class="hero-slide${i===0?' active':''}" onclick="showDetail(showcaseData.find(x=>x.id===${s.id}))">
-          <img src="${s.image}" alt="${s.title}" loading="${i===0?'eager':'lazy'}">
-          ${s.type==='video'?'<span class="hero-play-icon">▶</span>':''}
-          <div class="hero-overlay"><div class="hero-title">${s.title}</div><div class="hero-meta"><span>👤 ${s.author}</span><span>🛠️ ${s.tool}</span><span>❤️ ${(s.likes||0).toLocaleString()}</span>${s.ai_score?.overall?`<span>⭐ ${s.ai_score.overall}/10</span>`:''}</div></div>
-        </div>`).join('')}
-        <button class="hero-nav prev">◂</button><button class="hero-nav next">▸</button>
-        <div class="hero-dots">${top.map((_,i)=>`<span class="hero-dot${i===0?' active':''}"></span>`).join('')}</div>
-      </div>
-    </div>
-    <div class="section-header"><h2 class="section-title">✨ 精选AI作品 <span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;">(${data.length}件)</span></h2><div class="section-tabs"><span class="section-tab${sortMode==='recommend'?' active':''}" data-sort="recommend">推荐</span><span class="section-tab${sortMode==='newest'?' active':''}" data-sort="newest">最新</span><span class="section-tab${sortMode==='hottest'?' active':''}" data-sort="hottest">最热</span></div></div>
-    <div class="showcase-grid">${pageData.map(card).join('')}</div>
-    ${paginationHTML}`;
-}
-
-function renderTools(){
-  let filtered=tools;
-  if(currentCat!=='all')filtered=filtered.filter(t=>t.cat===currentCat);
-  if(searchQuery){
-    const q=searchQuery.toLowerCase();
-    filtered=filtered.filter(t=>t.name.toLowerCase().includes(q)||t.vendor.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q)||t.tags.some(tg=>tg.toLowerCase().includes(q)));
-  }
-  const catName={llm:'大语言模型',image:'图片生成',video:'视频生成',audio:'音频音乐',code:'编程开发',design:'设计创作',productivity:'办公效率',avatar:'数字人',search:'AI搜索',edu:'教育学习',agent:'Agent/自动化','3d':'3D生成'};
-  if(currentCat==='all'){
-    let groups={};
-    filtered.forEach(t=>{if(!groups[t.cat])groups[t.cat]=[];groups[t.cat].push(t);});
-    return Object.entries(groups).map(([cat,items])=>`
-      <section style="margin-bottom:32px;">
-        <div class="section-header"><h2 class="section-title">${catName[cat]||cat} <span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;margin-left:4px;">(${items.length})</span></h2></div>
-        <div class="tools-grid">${items.map(renderToolCard).join('')}</div>
-      </section>`).join('');
-  }
-  return`<div class="section-header"><h2 class="section-title">${catName[currentCat]} <span style="font-size:.7rem;color:var(--text-secondary);font-weight:400;margin-left:4px;">(${filtered.length})</span></h2></div><div class="tools-grid">${filtered.map(renderToolCard).join('')}</div>`;
+// ===== 工具渲染 =====
+function getBadge(pt){
+  if(pt==='free')return'<span class="tool-badge badge-free">免费</span>';
+  if(pt==='paid')return'<span class="tool-badge badge-paid">付费</span>';
+  return'<span class="tool-badge badge-freemium">免费+付费</span>';
 }
 
 function renderToolCard(t){
-  const vpnBadge=t.vpn?'<span class="badge-vpn">🔒 科学上网</span>':'<span class="badge-cn">🇨🇳 国内直连</span>';
-  const stars='⭐'.repeat(Math.floor(t.rating/2));
   return`<div class="tool-card" onclick="window.open('${t.link}','_blank')">
-    <div class="tc-badges">${vpnBadge}${getPriceBadge(t.pt)}</div>
-    <div class="tc-header"><div class="tc-icon">${t.icon}</div><div><div class="tc-name">${t.name}</div><div class="tc-vendor">${t.vendor}</div></div></div>
-    <div class="tc-desc">${t.desc}</div>
-    <div class="tc-tags">${t.tags.map(tg=>`<span class="tc-tag">${tg}</span>`).join('')}</div>
-    <div class="tc-footer"><span class="tc-rating">${stars} ${t.rating}/10</span><a href="${t.link}" target="_blank" class="tc-link" onclick="event.stopPropagation()">访问 →</a></div>
+    <div class="tool-card-header">
+      <div class="tool-card-icon">${t.icon}</div>
+      <div><div class="tool-card-name">${t.name}</div><div class="tool-card-vendor">${t.vendor}</div></div>
+    </div>
+    <div class="tool-card-desc">${t.desc}</div>
+    <div class="tool-card-tags">${t.tags.map(tg=>`<span class="tool-tag">${tg}</span>`).join('')}</div>
+    <div class="tool-card-footer">
+      <span class="tool-rating">⭐ ${t.rating}/10</span>
+      <div class="tool-badges">
+        ${t.vpn?'<span class="tool-badge badge-vpn">🔒 科学上网</span>':'<span class="tool-badge badge-cn">🇨🇳 国内直连</span>'}
+        ${getBadge(t.pt)}
+      </div>
+    </div>
   </div>`;
 }
 
-function renderNews(){
-  setTimeout(loadNews,50);
-  return`<div class="section-header"><h2 class="section-title">📰 AI新闻</h2></div>
-  <div id="newsContent" style="text-align:center;padding:40px;color:var(--text-secondary);">加载中...</div>`;
+function renderTools(){
+  let filtered=[...tools];
+  if(currentCat!=='all') filtered=filtered.filter(t=>t.cat===currentCat);
+  if(toolQuery){
+    const q=toolQuery.toLowerCase();
+    filtered=filtered.filter(t=>t.name.toLowerCase().includes(q)||t.vendor.toLowerCase().includes(q)||t.desc.toLowerCase().includes(q)||t.tags.some(tg=>tg.toLowerCase().includes(q)));
+  }
+  document.getElementById('toolCount').textContent='共 '+filtered.length+' 款工具';
+
+  // 分类 tabs
+  const cats=['all',...new Set(tools.map(t=>t.cat))];
+  document.getElementById('toolCats').innerHTML=cats.map(c=>{
+    const label=c==='all'?'全部':(catNames[c]||c);
+    return`<span class="section-tab${currentCat===c?' active':''}" data-cat="${c}">${label}</span>`;
+  }).join('');
+
+  if(currentCat==='all'){
+    let groups={};
+    filtered.forEach(t=>{if(!groups[t.cat])groups[t.cat]=[];groups[t.cat].push(t);});
+    document.getElementById('toolGrid').innerHTML=Object.entries(groups).map(([cat,items])=>`
+      <div style="grid-column:1/-1;margin-top:${Object.keys(groups).indexOf(cat)>0?'24px':'0'}">
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:14px">${catIcons[cat]||'📌'} ${catNames[cat]||cat} <span style="font-size:12px;color:var(--dim);font-weight:400">(${items.length})</span></h3>
+        <div class="tool-grid">${items.map(renderToolCard).join('')}</div>
+      </div>`).join('');
+  }else{
+    document.getElementById('toolGrid').innerHTML=filtered.map(renderToolCard).join('');
+  }
 }
 
-function loadNews(){
-  fetch('news.json').then(r=>r.json()).then(news=>{
-    const html='<div class="showcase-grid">'+news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20).map((n,i)=>'<div class="showcase-card" data-news-idx="'+i+'"><div class="sc-preview" style="height:120px;display:flex;align-items:center;justify-content:center;font-size:2rem;">📰</div><div class="sc-body"><div class="sc-title" style="font-size:.85rem;">'+n.title+'</div><div class="sc-meta">'+n.date+'</div></div></div>').join('')+'</div>';
-    document.getElementById('newsContent').innerHTML=html;
-    window._newsData=news;
-    document.querySelectorAll('#newsContent .showcase-card').forEach(el=>{
-      el.addEventListener('click',function(){
-        const d=window._newsData[parseInt(this.dataset.newsIdx)];
-        showNewsDetail(d.title,d.source_url||'',(d.summary||d.content||'').substring(0,200));
-      });
-    });
-  }).catch(()=>{document.getElementById('newsContent').innerHTML='<p>暂无新闻数据</p>';});
+// ===== 作品渲染 =====
+function renderShowcase(){
+  let data=[...showcaseData];
+  if(showcaseSort==='newest')data.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  else if(showcaseSort==='hottest')data.sort((a,b)=>(b.likes||0)-(a.likes||0));
+  else data.sort((a,b)=>(b.ai_score?.overall||b.likes||0)-(a.ai_score?.overall||a.likes||0));
+  const perPage=12,totalPages=Math.ceil(data.length/perPage);
+  if(showcasePage>totalPages)showcasePage=totalPages;
+  if(showcasePage<1)showcasePage=1;
+  const pageData=data.slice((showcasePage-1)*perPage,showcasePage*perPage);
+  const top=data.slice(0,5);
+
+  // Hero slider
+  document.getElementById('heroSlider').innerHTML=`
+    ${top.map((s,i)=>`<div class="hero-slide${i===0?' active':''}" onclick="showDetail(${s.id})">
+      <img src="${s.image}" alt="${s.title}" loading="${i===0?'eager':'lazy'}">
+      <div class="hero-overlay"><div class="hero-title">${s.title}</div><div class="hero-meta">👤 ${s.author} · 🛠️ ${s.tool} · ❤️ ${(s.likes||0).toLocaleString()}</div></div>
+    </div>`).join('')}
+    <button class="hero-nav prev">◂</button><button class="hero-nav next">▸</button>
+    <div class="hero-dots">${top.map((_,i)=>`<span class="hero-dot${i===0?' active':''}"></span>`).join('')}</div>`;
+
+  // Grid
+  document.getElementById('showcaseGrid').innerHTML=pageData.map(s=>{
+    const isVideo=s.type==='video';
+    const score=s.ai_score?.overall;
+    return`<div class="showcase-card" onclick="showDetail(${s.id})">
+      <div class="showcase-img">
+        ${isVideo?'<span class="sc-play">▶</span>':''}
+        <img src="${s.image}" alt="${s.title}" loading="lazy">
+        <span class="sc-likes">❤️ ${(s.likes||0).toLocaleString()}</span>
+        ${score?`<span class="sc-score">⭐${score}</span>`:''}
+      </div>
+      <div class="showcase-info">
+        <h4>${s.title}</h4>
+        <div class="showcase-meta"><span>${s.author}</span><span>${s.tool}</span></div>
+        <div class="showcase-tags">${(s.tags||[]).map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Pager
+  document.getElementById('showcasePager').innerHTML=totalPages>1?`
+    <button class="page-btn" onclick="showcasePage--;renderShowcase()" ${showcasePage<=1?'disabled':''}>◂ 上一页</button>
+    <span class="page-info">${showcasePage} / ${totalPages}</span>
+    <button class="page-btn" onclick="showcasePage++;renderShowcase()" ${showcasePage>=totalPages?'disabled':''}>下一页 ▸</button>`:'';
+
+  // Slider
+  setTimeout(()=>{
+    let heroIdx=0;
+    const slides=document.querySelectorAll('.hero-slide'),dots=document.querySelectorAll('.hero-dot');
+    if(!slides.length)return;
+    function go(i){
+      slides.forEach(s=>s.classList.remove('active'));dots.forEach(d=>d.classList.remove('active'));
+      slides[i].classList.add('active');dots[i].classList.add('active');heroIdx=i;
+    }
+    document.querySelector('.hero-nav.prev').onclick=()=>go((heroIdx-1+slides.length)%slides.length);
+    document.querySelector('.hero-nav.next').onclick=()=>go((heroIdx+1)%slides.length);
+    dots.forEach((d,i)=>d.onclick=()=>go(i));
+    setInterval(()=>go((heroIdx+1)%slides.length),5000);
+  },200);
 }
 
-function showNewsDetail(title,url,summary){
-  document.getElementById('modalImg').style.display='none';
+// ===== 详情弹窗 =====
+function showDetail(id){
+  const s=showcaseData.find(x=>x.id===id);if(!s)return;
+  document.getElementById('modalImg').src=s.image;
   document.getElementById('modalBody').innerHTML=`
-    <div class="md-title">${title}</div>
-    <div class="md-section"><div class="md-prompt">${summary||'暂无摘要'}</div></div>
-    <div class="md-actions">
-      ${url?`<a href="${url}" target="_blank" class="md-btn primary">🔗 阅读原文</a>`:''}
-      <button class="md-btn secondary" onclick="closeDetail()">关闭</button>
+    <h3>${s.title}</h3>
+    <div class="md-author">👤 ${s.author} · 🛠️ ${s.tool} · ❤️ ${(s.likes||0).toLocaleString()}</div>
+    <div class="md-prompt">${s.prompt||'暂无提示词'}</div>
+    <div class="md-tags">${(s.tags||[]).map(t=>`<span class="md-tag">#${t}</span>`).join('')}</div>
+    <div class="modal-actions">
+      ${s.prompt?`<button class="btn btn-primary" onclick="navigator.clipboard.writeText('${s.prompt.replace(/'/g,"\\'")}');this.textContent='✅ 已复制';setTimeout(()=>this.textContent='📋 复制提示词',2000)">📋 复制提示词</button>`:''}
+      <button class="btn btn-glass" onclick="closeDetail()">关闭</button>
     </div>`;
   document.getElementById('detailModal').classList.add('active');
 }
-
-function switchPage(page){
-  currentPage=page;
-  if(page==='tools')currentCat='all';
-  document.querySelectorAll('.sidebar-nav a[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===page));
-  document.querySelectorAll('.sidebar-nav a[data-cat]').forEach(a=>a.classList.remove('active'));
-  updateContent();
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('active');
 }
 
-function updateContent(){
-  const mc=document.getElementById('mainContent');
-  if(currentPage==='showcase'){mc.innerHTML=renderShowcase();setTimeout(startHeroSlider,100);}
-  else if(currentPage==='tools')mc.innerHTML=renderTools();
-  else if(currentPage==='news')mc.innerHTML=renderNews();
-  // 更新页脚时间
-  const ft = document.getElementById('footerUpdate');
-  if(ft && showcaseData.length>0){
-    const dates = showcaseData.map(s=>s.date).filter(Boolean).sort().reverse();
-    if(dates.length) ft.textContent = '🔄 最近更新: '+dates[0]+' · 共 '+showcaseData.length+' 件作品';
+// ===== 资讯加载 =====
+function loadNews(){
+  fetch('news.json').then(r=>r.json()).then(news=>{
+    const sorted=news.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+    document.getElementById('aiNews').innerHTML=sorted.slice(0,5).map(n=>`
+      <a class="news-item" href="${n.source_url||'#'}" target="_blank">
+        <div class="news-title">${n.title}</div>
+        <div class="news-meta"><span>${n.date}</span><span class="news-tag">AI</span></div>
+      </a>`).join('');
+    document.getElementById('ecNews').innerHTML=sorted.slice(5,10).map(n=>`
+      <a class="news-item" href="${n.source_url||'#'}" target="_blank">
+        <div class="news-title">${n.title}</div>
+        <div class="news-meta"><span>${n.date}</span><span class="news-tag">电商</span></div>
+      </a>`).join('');
+  }).catch(()=>{
+    document.getElementById('aiNews').innerHTML='<p style="color:var(--dim);padding:20px">加载中...</p>';
+    document.getElementById('ecNews').innerHTML='<p style="color:var(--dim);padding:20px">加载中...</p>';
+  });
+}
+
+// ===== 事件 =====
+document.getElementById('toolSearch').addEventListener('input',e=>{toolQuery=e.target.value.trim();renderTools();});
+document.getElementById('toolCats').addEventListener('click',e=>{
+  if(e.target.classList.contains('section-tab')){
+    currentCat=e.target.dataset.cat;
+    renderTools();
   }
-}
-
-// Event listeners
-document.getElementById('searchInput').addEventListener('input',e=>{searchQuery=e.target.value.trim();updateContent();});
-document.querySelectorAll('.sidebar-nav a[data-cat]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();currentPage='tools';currentCat=a.dataset.cat;document.querySelectorAll('.sidebar-nav a').forEach(x=>x.classList.remove('active'));a.classList.add('active');updateContent();});});
-document.querySelectorAll('.sidebar-nav a[data-page]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();switchPage(a.dataset.page);});});
-document.querySelectorAll('.section-tab').forEach(t=>{t.addEventListener('click',function(){this.parentElement.querySelectorAll('.section-tab').forEach(x=>x.classList.remove('active'));this.classList.add('active');});});
-
+});
+document.getElementById('showcaseTabs').addEventListener('click',e=>{
+  if(e.target.classList.contains('section-tab')){
+    showcaseSort=e.target.dataset.sort;showcasePage=1;
+    document.querySelectorAll('#showcaseTabs .section-tab').forEach(t=>t.classList.remove('active'));
+    e.target.classList.add('active');
+    renderShowcase();
+  }
+});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();});
 
-// Init
+// Nav scroll active
+const navLinks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  document.querySelectorAll('.section').forEach(s=>{
+    if(window.scrollY>=s.offsetTop-200)current=s.id;
+  });
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+});
+
+// ===== 备份数据 =====
+const _backupShowcase=[{id:1,title:"无支祁",author:"暗黑神话系列",tool:"Midjourney V8.1",type:"image",date:"2026-06-10",prompt:"Chinese mythological monkey king with golden crown embedded with emeralds, dark background, dramatic lighting, ultra detailed, 8K, cinematic, traditional Chinese mythology meets dark fantasy art",tags:["国风","暗黑","神话"],likes:2847,image:"showcase/01-wuzhiqi.jpg"},{id:2,title:"赤色章刃",author:"武侠概念",tool:"Stable Diffusion XL",type:"image",date:"2026-06-10",prompt:"Martial arts warrior in red and black armor, dramatic action pose, neon lights, cyberpunk ancient China fusion, cinematic lighting, ultra detailed character design, epic composition",tags:["武侠","赛博朋克","国风"],likes:1923,image:"showcase/02-chisezhangren.jpg"},{id:3,title:"子时临安",author:"古风场景",tool:"Midjourney V8.1",type:"image",date:"2026-06-11",prompt:"Ancient Chinese city at midnight, lantern lights reflecting on water canals, misty atmosphere, traditional Song dynasty architecture, golden warm lights, ultra wide cinematic shot",tags:["古风","场景","夜景"],likes:3156,image:"showcase/03-zishilinan.jpg"},{id:4,title:"楚云传",author:"仙侠概念",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-11",prompt:"Xianxia floating palace above clouds, golden dragons circling, ethereal atmosphere, jade and gold color scheme, cinematic wide composition, 8K, traditional Chinese fantasy art",tags:["仙侠","幻想","场景"],likes:2689,image:"showcase/04-chuyunzhuan.jpg"},{id:6,title:"雨夜东京",author:"赛博城市",tool:"Midjourney V8.1",type:"image",date:"2026-06-12",prompt:"Tokyo rainy night, vibrant neon reflections on wet asphalt streets, cyberpunk aesthetic, cinematic lighting, shallow depth of field, photorealistic, 8K, Blade Runner vibes",tags:["赛博朋克","城市","夜景"],likes:3847,image:"showcase/06-yuyedongjing.jpg"},{id:7,title:"极光森林",author:"自然幻想",tool:"Stable Diffusion XL",type:"image",date:"2026-06-13",prompt:"Enchanted forest with dancing aurora borealis, giant glowing mushrooms, magical fairy lights, fantasy art, volumetric god rays, ultra detailed digital illustration, ethereal atmosphere",tags:["幻想","自然","治愈"],likes:2156,image:"showcase/07-jiguangsenlin.jpg"},{id:8,title:"未来机甲",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-13",prompt:"Futuristic mecha warrior, polished chrome and carbon fiber armor panels, holographic HUD overlay, war-torn battlefield background, ultra realistic, 8K, AAA game concept art quality",tags:["科幻","机甲","概念设计"],likes:5230,image:"showcase/08-weilaijijia.jpg"},{id:9,title:"敦煌飞天",author:"国风复兴",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-14",prompt:"Dunhuang flying celestial apsara, traditional Chinese mural painting style, flowing silk ribbons in wind, gold and turquoise mineral pigment colors, ancient Buddhist art aesthetic, 8K",tags:["国风","敦煌","传统"],likes:6721,image:"showcase/09-dunhuangfeitian.jpg"},{id:10,title:"蒸汽朋克猫",author:"奇幻生物",tool:"Midjourney V8.1",type:"image",date:"2026-06-14",prompt:"Steampunk cat with polished brass goggles and intricate mechanical clockwork wings, Victorian era industrial background, warm golden hour lighting, detailed fur texture, fantasy illustration",tags:["蒸汽朋克","动物","奇幻"],likes:1987,image:"showcase/10-zhengqipengkemao.jpg"},{id:11,title:"深海龙宫",author:"东方幻想",tool:"Midjourney V8.1",type:"image",date:"2026-06-15",prompt:"Underwater Chinese dragon palace, crystal and jade architecture, bioluminescent deep sea corals, ancient Chinese mythology, ethereal volumetric lighting, 8K, fantasy concept art",tags:["东方","幻想","海底"],likes:3456,image:"showcase/11-shenhailonggong.jpg"},{id:12,title:"赛博观音",author:"文化融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-15",prompt:"Cyberpunk Guanyin bodhisattva, holographic lotus throne, neon halo ring, futuristic temple sanctuary, chrome and rose gold aesthetic, ultra detailed digital concept art, spiritual meets technological",tags:["赛博朋克","佛教","融合"],likes:8921,image:"showcase/12-saiboguanyin.jpg"},{id:13,title:"山海经·穷奇",author:"国风神话",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Ancient Chinese mythical beast Qiongqi from Shan Hai Jing, tiger body with wings, fierce expression, traditional ink wash painting style meets dark fantasy, dramatic composition",tags:["国风","神话","山海经"],likes:5120,image:"showcase/13-shanhaijing-qiongqi.jpg"},{id:14,title:"赛博长安",author:"古今融合",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Tang Dynasty Chang'an transformed into cyberpunk metropolis, neon signs on ancient architecture, flying cars between pagodas, rain-slicked stone streets reflecting holograms, 8K",tags:["赛博朋克","古风","城市"],likes:3980,image:"showcase/14-saibochangan.jpg"},{id:15,title:"银河战舰·启航",author:"硬核科幻",tool:"Midjourney V8.1 + PS",type:"image",date:"2026-06-16",prompt:"Massive interstellar battleship emerging from nebula, thousands of lights, epic scale, cinematic wide shot, photorealistic space render, 8K concept art",tags:["科幻","太空","战舰"],likes:6340,image:"showcase/15-yinhezhanjian.jpg"},{id:16,title:"樱花武士",author:"日式美学",tool:"Stable Diffusion XL",type:"image",date:"2026-06-16",prompt:"Samurai warrior standing under falling cherry blossoms, traditional armor with modern cybernetic enhancements, misty bamboo forest, golden hour light, ultra detailed",tags:["日式","武士","赛博"],likes:2890,image:"showcase/16-yinghuawushi.jpg"},{id:17,title:"龙与地下城",author:"西幻概念",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Epic dragon battle above medieval castle, knight in shining armor, fire and magic, dramatic sky, fantasy book cover quality, ultra detailed illustration",tags:["奇幻","西幻","龙"],likes:4560,image:"showcase/17-longyudixiacheng.jpg"},{id:18,title:"机械天使",author:"赛博宗教",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-16",prompt:"Cybernetic angel with chrome wings and holographic halo, standing in ruined cathedral, beams of light through stained glass, divine meets machine aesthetic",tags:["赛博朋克","天使","宗教"],likes:7210,image:"showcase/18-jixietianshi.jpg"},{id:19,title:"水墨江山",author:"国风水墨",tool:"Stable Diffusion + LoRA",type:"image",date:"2026-06-16",prompt:"Traditional Chinese ink wash landscape painting, misty mountains, solitary fisherman on lake, pine trees on cliffs, red seal stamp, minimalist zen aesthetic",tags:["国风","水墨","山水"],likes:3780,image:"showcase/19-shuimojiangshan.jpg"},{id:20,title:"废土求生",author:"末世科幻",tool:"Midjourney V8.1",type:"image",date:"2026-06-16",prompt:"Post-apocalyptic wasteland survivor in gas mask and leather gear, rusted vehicles, orange toxic sky, Mad Max inspired, cinematic, photorealistic, 8K",tags:["废土","科幻","生存"],likes:5430,image:"showcase/20-feituqiusheng.jpg"},{id:21,title:"星空少女",author:"治愈系",tool:"Stable Diffusion XL",type:"image",date:"2026-06-17",prompt:"Anime-style girl floating in starry space, hair flowing like galaxy, surrounded by glowing constellation lines, dreamy ethereal atmosphere, soft pastel colors, 4K",tags:["治愈","星空","人物"],likes:4120,image:"showcase/21-xingkongshaonv.jpg"},{id:22,title:"九龙城寨2049",author:"赛博香港",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Kowloon Walled City reimagined in 2049, dense vertical architecture, neon signs in Cantonese, flying drones, rain, Blade Runner meets Hong Kong aesthetic, ultra wide shot",tags:["赛博朋克","香港","城市"],likes:6780,image:"showcase/22-jiulongchengzhai.jpg"},{id:23,title:"唐宫夜宴",author:"大唐风华",tool:"Stable Diffusion + ControlNet",type:"image",date:"2026-06-17",prompt:"Tang Dynasty palace banquet at night, court ladies in flowing silk dresses, lanterns and candles, gold and crimson color palette, traditional Chinese figure painting style",tags:["古风","大唐","人物"],likes:5340,image:"showcase/23-tanggongyeyan.jpg"},{id:24,title:"虫洞穿越",author:"太空探索",tool:"Midjourney V8.1",type:"image",date:"2026-06-17",prompt:"Spaceship entering a massive wormhole, gravitational lensing effects, swirling blue and purple energy, Einstein-Rosen bridge visualization, cinematic sci-fi, 8K",tags:["科幻","太空","虫洞"],likes:4890,image:"showcase/24-chongdongchuanyue.jpg"}];
+
+// ===== 初始化 =====
 (async function init(){
   await loadShowcase();
-  // 如果 showcase.json 加载失败，用备份数据
-  if(showcaseData.length===0){
-    showcaseData = _backupShowcase;
-    console.log('[九万AI] 使用本地备份数据 ('+showcaseData.length+'件)');
-  }
-  updateContent();
+  renderTools();
+  loadNews();
+  // 重新 observe 动态内容
+  setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>observer.observe(el)),500);
 })();
 </script>
 </body>
