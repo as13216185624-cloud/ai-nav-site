@@ -8,40 +8,20 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="shortcut icon" href="favicon.ico">
 <title>AI智能去水印 - 九万AI</title>
+<script src="https://docs.opencv.org/4.8.0/opencv.js" type="text/javascript"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#020617;
-  --surface:rgba(15,23,42,.55);
-  --card:rgba(15,23,42,.7);
-  --cyan:#00E5FF;
-  --blue:#3b82f6;
-  --purple:#7c3aed;
-  --pink:#ec4899;
-  --green:#10b981;
-  --text:#e2e8f0;
-  --dim:#64748b;
-  --glass:rgba(255,255,255,.03);
-  --glass-bd:rgba(255,255,255,.06);
+  --bg:#020617;--surface:rgba(15,23,42,.55);--card:rgba(15,23,42,.7);
+  --cyan:#00E5FF;--blue:#3b82f6;--purple:#7c3aed;--pink:#ec4899;
+  --green:#10b981;--text:#e2e8f0;--dim:#64748b;
+  --glass:rgba(255,255,255,.03);--glass-bd:rgba(255,255,255,.06);
 }
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
-  min-height:100vh;overflow-x:hidden;
-}
-body::before{
-  content:'';position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,229,255,.08),transparent),
-    radial-gradient(ellipse 60% 40% at 80% 10%,rgba(124,58,237,.06),transparent);
-  pointer-events:none;z-index:0;
-}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--glass-bd);border-radius:3px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,229,255,.08),transparent),radial-gradient(ellipse 60% 40% at 80% 10%,rgba(124,58,237,.06),transparent);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--glass-bd);border-radius:3px}
 
-/* Nav */
 .nav{position:sticky;top:0;z-index:100;background:rgba(2,6,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-bd);padding:0 24px}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -51,7 +31,6 @@ body::before{
 .nav-links a{color:var(--dim);text-decoration:none;font-size:13px;font-weight:500;transition:color .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--cyan)}
 
-/* Header */
 .page-header{text-align:center;padding:48px 20px 32px;position:relative;z-index:1}
 .page-header h1{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
 .page-header h1 .accent{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -60,15 +39,14 @@ body::before{
 .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* Container */
+.loading-banner{display:none;text-align:center;padding:16px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:12px;margin-bottom:20px;color:var(--cyan);font-size:13px}
+.loading-banner.show{display:block}
+.loading-banner .spinner-sm{width:16px;height:16px;border:2px solid var(--glass-bd);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 .container{max-width:1000px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
 
-/* Upload zone */
-.upload-zone{
-  border:2px dashed var(--glass-bd);border-radius:20px;padding:56px 24px;text-align:center;
-  cursor:pointer;transition:all .4s;position:relative;overflow:hidden;
-  background:var(--card);backdrop-filter:blur(10px);
-}
+.upload-zone{border:2px dashed var(--glass-bd);border-radius:20px;padding:56px 24px;text-align:center;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;background:var(--card);backdrop-filter:blur(10px)}
 .upload-zone:hover{border-color:var(--cyan);background:rgba(0,229,255,.03);box-shadow:0 0 40px rgba(0,229,255,.06)}
 .upload-zone.drag{border-color:var(--cyan);background:rgba(0,229,255,.06)}
 .upload-zone .icon{font-size:3.5rem;margin-bottom:16px;display:block;filter:drop-shadow(0 0 20px rgba(0,229,255,.3))}
@@ -76,103 +54,62 @@ body::before{
 .upload-zone .hint{color:var(--dim);font-size:13px}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
 
-/* Workspace */
 .workspace{display:none;margin-top:20px}
 .workspace.show{display:block;animation:fadeUp .5s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-/* Toolbar */
-.toolbar{
-  display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:12px 16px;
-  background:var(--card);backdrop-filter:blur(10px);
-  border:1px solid var(--glass-bd);border-radius:16px 16px 0 0;
-}
-.tool-btn{
-  display:flex;align-items:center;gap:5px;padding:7px 14px;
-  border:1px solid var(--glass-bd);border-radius:10px;
-  background:rgba(255,255,255,.02);color:var(--dim);
-  cursor:pointer;font-size:13px;transition:all .25s;white-space:nowrap;
-}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:12px 16px;background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--glass-bd);border-radius:16px 16px 0 0}
+.tool-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;border:1px solid var(--glass-bd);border-radius:10px;background:rgba(255,255,255,.02);color:var(--dim);cursor:pointer;font-size:13px;transition:all .25s;white-space:nowrap}
 .tool-btn:hover{color:var(--text);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.05)}
 .tool-btn.active{color:var(--cyan);border-color:var(--cyan);background:rgba(0,229,255,.1);box-shadow:0 0 12px rgba(0,229,255,.1)}
-.tool-btn.primary{
-  background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000;
-  border:none;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,.2);
-}
+.tool-btn.primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#000;border:none;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,.2)}
 .tool-btn.primary:hover{box-shadow:0 0 24px rgba(0,229,255,.35);transform:translateY(-1px)}
+.tool-btn.primary:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .tool-btn.danger{color:#f87171;border-color:rgba(248,113,113,.2)}
 .tool-btn.danger:hover{background:rgba(248,113,113,.08);border-color:#f87171}
 .sep{width:1px;height:24px;background:var(--glass-bd);margin:0 4px}
 
 .slider-group{display:flex;align-items:center;gap:8px;padding:0 6px}
 .slider-group label{font-size:12px;color:var(--dim);white-space:nowrap}
-.slider-group input[type=range]{width:70px;accent-color:var(--cyan);height:3px}
+.slider-group input[type=range]{width:70px;accent-color:var(--cyan)}
 .slider-group .val{color:var(--cyan);font-weight:700;font-size:12px;min-width:22px}
 
-/* View tabs */
 .view-tabs{display:flex;gap:0}
-.view-tab{
-  padding:10px 18px;border:1px solid var(--glass-bd);background:var(--card);
-  color:var(--dim);cursor:pointer;font-size:13px;font-weight:500;
-  transition:all .2s;backdrop-filter:blur(10px);
-}
-.view-tab:first-child{border-radius:0}
-.view-tab:last-child{border-radius:0 0 0 0}
-.view-tab.active{color:var(--cyan);background:rgba(0,229,255,.06);border-bottom-color:transparent}
+.view-tab{padding:10px 18px;border:1px solid var(--glass-bd);background:var(--card);color:var(--dim);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;backdrop-filter:blur(10px)}
+.view-tab.active{color:var(--cyan);background:rgba(0,229,255,.06)}
 
-/* Canvas area */
-.canvas-wrap{
-  position:relative;background:#000;
-  border:1px solid var(--glass-bd);border-top:none;
-  border-radius:0 0 16px 16px;overflow:hidden;
-  min-height:300px;display:flex;align-items:center;justify-content:center;
-}
+.canvas-wrap{position:relative;background:#000;border:1px solid var(--glass-bd);border-top:none;border-radius:0 0 16px 16px;overflow:hidden;min-height:300px;display:flex;align-items:center;justify-content:center}
 .canvas-wrap canvas{display:block;max-width:100%;cursor:crosshair}
 
-/* Status bar */
 .status-bar{display:flex;gap:16px;align-items:center;padding:12px 16px;font-size:12px;color:var(--dim);flex-wrap:wrap}
 .status-item{display:flex;align-items:center;gap:5px}
 .dot-indicator{width:6px;height:6px;border-radius:50%}
 .dot-indicator.green{background:var(--green)}
 .dot-indicator.yellow{background:#fbbf24}
 
-/* Compare */
 .compare-wrap{position:relative;width:100%;overflow:hidden}
 .compare-wrap canvas{display:block;width:100%}
 .compare-slider{position:absolute;top:0;bottom:0;width:3px;background:var(--cyan);cursor:ew-resize;z-index:10;box-shadow:0 0 8px rgba(0,229,255,.4)}
-.compare-slider::after{
-  content:'⟺';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:var(--cyan);color:#000;width:30px;height:30px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;
-  box-shadow:0 0 16px rgba(0,229,255,.4);
-}
-.compare-label{position:absolute;top:10px;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;pointer-events:none;z-index:5;backdrop-filter:blur(8px)}
+.compare-slider::after{content:'⟺';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--cyan);color:#000;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;box-shadow:0 0 16px rgba(0,229,255,.4)}
+.compare-label{position:absolute;top:10px;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;pointer-events:none;z-index:5}
 .compare-label.left{left:10px;background:rgba(0,229,255,.8);color:#000}
 .compare-label.right{right:10px;background:rgba(124,58,237,.8);color:#fff}
 
-/* Processing overlay */
 .processing{display:none;position:absolute;inset:0;background:rgba(2,6,23,.85);z-index:20;align-items:center;justify-content:center;flex-direction:column;gap:14px;backdrop-filter:blur(4px)}
 .processing.show{display:flex}
 .processing .spinner{width:40px;height:40px;border:3px solid var(--glass-bd);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}
 .processing .text{color:var(--text);font-size:14px;font-weight:500}
-@keyframes spin{to{transform:rotate(360deg)}}
+.processing .sub{color:var(--dim);font-size:12px}
 
-/* Tips card */
-.tips-card{
-  margin-top:24px;padding:20px 24px;
-  background:var(--card);backdrop-filter:blur(10px);
-  border:1px solid var(--glass-bd);border-radius:16px;
-}
+.tips-card{margin-top:24px;padding:20px 24px;background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--glass-bd);border-radius:16px}
 .tips-card h3{font-size:15px;font-weight:700;margin-bottom:12px;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .tips-card ul{list-style:none;padding:0}
 .tips-card li{font-size:13px;color:var(--dim);padding:4px 0 4px 18px;position:relative;line-height:1.6}
 .tips-card li::before{content:'→';position:absolute;left:0;color:var(--cyan)}
 
-/* Footer */
 .footer{text-align:center;padding:36px 0;border-top:1px solid var(--glass-bd);font-size:12px;color:var(--dim);margin-top:40px}
 .footer a{color:var(--cyan);text-decoration:none}
 
-/* Responsive */
 @media(max-width:768px){
   .nav-links{gap:10px}
   .toolbar{gap:4px;padding:8px}
@@ -184,13 +121,9 @@ body::before{
 </head>
 <body>
 
-<!-- Nav -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <img src="logo.png" alt="九万AI">
-      <span>九万AI</span>
-    </a>
+    <a href="index.html" class="nav-logo"><img src="logo.png" alt="九万AI"><span>九万AI</span></a>
     <div class="nav-links">
       <a href="index.html">首页</a>
       <a href="tools.html">在线工具</a>
@@ -200,16 +133,17 @@ body::before{
   </div>
 </nav>
 
-<!-- Header -->
 <div class="page-header">
-  <div class="badge"><span class="dot"></span> 全程本地处理 · 隐私安全</div>
+  <div class="badge"><span class="dot"></span> OpenCV 驱动 · 全程本地处理</div>
   <h1><span class="accent">AI 智能</span>去水印</h1>
-  <p>上传图片 → 涂抹水印区域 → 一键智能消除，图片不会上传到任何服务器</p>
+  <p>上传图片 → 涂抹水印区域 → 一键智能消除，基于 OpenCV 专业级修复算法</p>
 </div>
 
-<!-- Main -->
 <div class="container">
-  <!-- Upload -->
+  <div class="loading-banner show" id="loadingBanner">
+    <span class="spinner-sm"></span> 正在加载 AI 引擎（约8MB），首次加载可能需要几秒...
+  </div>
+
   <div class="upload-zone" id="uploadZone">
     <span class="icon">🖼️</span>
     <div class="text">点击或拖拽上传图片</div>
@@ -217,39 +151,36 @@ body::before{
     <input type="file" id="fileInput" accept="image/*">
   </div>
 
-  <!-- Workspace -->
   <div class="workspace" id="workspace">
-    <!-- Toolbar -->
     <div class="toolbar" id="toolbar">
       <button class="tool-btn active" id="btnBrush" onclick="setTool('brush')">🖌️ 画笔</button>
       <button class="tool-btn" id="btnEraser" onclick="setTool('eraser')">🧽 橡皮</button>
       <div class="sep"></div>
       <div class="slider-group">
         <label>笔刷</label>
-        <input type="range" id="brushSize" min="5" max="80" value="25">
-        <span class="val" id="brushSizeVal">25</span>
+        <input type="range" id="brushSize" min="3" max="100" value="20">
+        <span class="val" id="brushSizeVal">20</span>
       </div>
       <div class="sep"></div>
       <button class="tool-btn" onclick="undoStroke()">↩️ 撤销</button>
       <button class="tool-btn danger" onclick="clearMask()">🗑️ 清除</button>
       <div class="sep"></div>
-      <button class="tool-btn primary" onclick="processInpaint()">✨ 开始消除</button>
+      <button class="tool-btn primary" id="btnProcess" onclick="processInpaint()">✨ 开始消除</button>
       <div class="sep"></div>
       <button class="tool-btn" onclick="resetAll()">📂 换一张</button>
     </div>
 
-    <!-- View tabs -->
     <div class="view-tabs">
       <button class="view-tab active" onclick="switchView('edit')">涂抹编辑</button>
       <button class="view-tab" onclick="switchView('result')">处理结果</button>
       <button class="view-tab" onclick="switchView('compare')">对比查看</button>
     </div>
 
-    <!-- Canvas -->
     <div class="canvas-wrap" id="canvasWrap">
       <div class="processing" id="processing">
         <div class="spinner"></div>
         <div class="text">AI 正在消除水印...</div>
+        <div class="sub" id="processSub">使用 OpenCV Telea 算法修复中</div>
       </div>
       <div id="editView"><canvas id="editCanvas"></canvas></div>
       <div id="resultView" style="display:none;width:100%"><canvas id="resultCanvas"></canvas></div>
@@ -261,38 +192,67 @@ body::before{
       </div>
     </div>
 
-    <!-- Status -->
     <div class="status-bar">
       <div class="status-item"><span class="dot-indicator green" id="statusDot"></span><span id="statusText">就绪</span></div>
       <div class="status-item" id="imgInfo"></div>
       <div class="status-item" id="maskInfo"></div>
     </div>
 
-    <!-- Download -->
-    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+    <div style="margin-top:14px">
       <button class="tool-btn primary" id="btnDownload" onclick="downloadResult()" style="display:none">⬇️ 下载去水印图片</button>
     </div>
   </div>
 
-  <!-- Tips -->
   <div class="tips-card">
     <h3>💡 使用技巧</h3>
     <ul>
-      <li>用画笔涂抹覆盖水印区域，涂抹范围略大于水印边缘效果更好</li>
-      <li>小面积水印效果最佳，建议笔刷大小略大于水印宽度</li>
-      <li>复杂背景区域可分多次小范围涂抹，效果更自然</li>
-      <li>所有处理均在浏览器本地完成，图片不会上传到任何服务器</li>
-      <li>支持撤销操作，涂错了可以一键回退</li>
+      <li>用画笔涂抹覆盖水印区域，涂抹范围<strong>略大于</strong>水印边缘效果更好</li>
+      <li>采用 OpenCV Telea 快速行进修复算法，效果接近专业软件</li>
+      <li>大面积水印建议分区域多次处理，每次处理一小块</li>
+      <li>所有处理在浏览器本地完成，图片不上传任何服务器</li>
+      <li>支持撤销操作，涂错了随时回退</li>
     </ul>
   </div>
 </div>
 
-<!-- Footer -->
-<div class="footer">
-  九万AI © 2026 · AI智能去水印 · 全程本地处理 · <a href="index.html">返回首页</a>
-</div>
+<div class="footer">九万AI © 2026 · OpenCV 驱动 · 全程本地处理 · <a href="index.html">返回首页</a></div>
 
 <script>
+// ============ OpenCV Loading ============
+let cvReady = false;
+
+function onOpenCvReady() {
+  if (typeof cv !== 'undefined' && cv.Mat) {
+    cvReady = true;
+    document.getElementById('loadingBanner').classList.remove('show');
+    console.log('OpenCV.js loaded successfully');
+  }
+}
+
+// OpenCV.js fires onRuntimeInitialized when ready
+if (typeof Module !== 'undefined') {
+  Module.onRuntimeInitialized = onOpenCvReady;
+} else {
+  var Module = { onRuntimeInitialized: onOpenCvReady };
+}
+
+// Fallback check
+const cvCheck = setInterval(() => {
+  if (typeof cv !== 'undefined' && cv.Mat && !cvReady) {
+    onOpenCvReady();
+    clearInterval(cvCheck);
+  }
+}, 500);
+
+// Timeout fallback
+setTimeout(() => {
+  if (!cvReady) {
+    document.getElementById('loadingBanner').innerHTML = '⚠️ AI引擎加载超时，请刷新页面重试，或检查网络连接';
+    document.getElementById('loadingBanner').style.color = '#f87171';
+    document.getElementById('loadingBanner').style.borderColor = 'rgba(248,113,113,.3)';
+  }
+}, 30000);
+
 // ============ State ============
 let originalImage = null;
 let originalImageData = null;
@@ -303,14 +263,14 @@ let currentTool = 'brush';
 let isDrawing = false;
 let strokeHistory = [];
 let currentView = 'edit';
+let fullResultDataURL = null;
 
 let editCanvas, editCtx;
 let resultCanvas, resultCtx;
 let compareCanvas, compareCtx;
 
-const MAX_DISPLAY = 1200;
+const MAX_DISPLAY = 1400;
 
-// ============ Init ============
 window.addEventListener('DOMContentLoaded', () => {
   editCanvas = document.getElementById('editCanvas');
   editCtx = editCanvas.getContext('2d', { willReadFrequently: true });
@@ -344,9 +304,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initCompareSlider();
 });
 
-function handleFile(e) {
-  if (e.target.files.length) loadImage(e.target.files[0]);
-}
+function handleFile(e) { if (e.target.files.length) loadImage(e.target.files[0]); }
 
 function loadImage(file) {
   if (!file.type.startsWith('image/')) { alert('请选择图片文件'); return; }
@@ -387,9 +345,10 @@ function loadImage(file) {
 // ============ Drawing ============
 function getCanvasPos(e) {
   const rect = editCanvas.getBoundingClientRect();
-  const scaleX = editCanvas.width / rect.width;
-  const scaleY = editCanvas.height / rect.height;
-  return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  return {
+    x: (e.clientX - rect.left) * (editCanvas.width / rect.width),
+    y: (e.clientY - rect.top) * (editCanvas.height / rect.height)
+  };
 }
 
 function onPointerDown(e) {
@@ -404,43 +363,22 @@ function onPointerDown(e) {
 function onPointerMove(e) {
   if (!isDrawing || currentView !== 'edit') return;
   const pos = getCanvasPos(e);
-  const stroke = strokeHistory[strokeHistory.length - 1];
-  stroke.points.push(pos);
-  applyStrokePoint(stroke, pos);
+  strokeHistory[strokeHistory.length - 1].points.push(pos);
+  applyStrokePoint(strokeHistory[strokeHistory.length - 1], pos);
 }
 
-function onPointerUp() {
-  if (isDrawing) { isDrawing = false; updateMaskInfo(); }
-}
+function onPointerUp() { if (isDrawing) { isDrawing = false; updateMaskInfo(); } }
+function onTouchStart(e) { e.preventDefault(); const t = e.touches[0]; onPointerDown({ clientX: t.clientX, clientY: t.clientY }); }
+function onTouchMove(e) { e.preventDefault(); const t = e.touches[0]; onPointerMove({ clientX: t.clientX, clientY: t.clientY }); }
 
-function onTouchStart(e) {
-  e.preventDefault();
-  const t = e.touches[0];
-  onPointerDown({ clientX: t.clientX, clientY: t.clientY });
-}
+function applyStroke(s) { s.points.forEach(p => applyStrokePoint(s, p)); }
 
-function onTouchMove(e) {
-  e.preventDefault();
-  const t = e.touches[0];
-  onPointerMove({ clientX: t.clientX, clientY: t.clientY });
-}
-
-function applyStroke(stroke) { stroke.points.forEach(p => applyStrokePoint(stroke, p)); }
-
-function applyStrokePoint(stroke, pos) {
-  const r = stroke.size / 2;
-  const w = editCanvas.width;
-  const x0 = Math.max(0, Math.floor(pos.x - r));
-  const y0 = Math.max(0, Math.floor(pos.y - r));
-  const x1 = Math.min(w - 1, Math.ceil(pos.x + r));
-  const y1 = Math.min(editCanvas.height - 1, Math.ceil(pos.y + r));
-  for (let y = y0; y <= y1; y++) {
-    for (let x = x0; x <= x1; x++) {
-      const dx = x - pos.x, dy = y - pos.y;
-      if (dx * dx + dy * dy <= r * r) {
-        maskData[y * w + x] = stroke.tool === 'brush' ? 1 : 0;
-      }
-    }
+function applyStrokePoint(s, pos) {
+  const r = s.size / 2, w = editCanvas.width;
+  const x0 = Math.max(0, Math.floor(pos.x-r)), y0 = Math.max(0, Math.floor(pos.y-r));
+  const x1 = Math.min(w-1, Math.ceil(pos.x+r)), y1 = Math.min(editCanvas.height-1, Math.ceil(pos.y+r));
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+    if ((x-pos.x)**2 + (y-pos.y)**2 <= r*r) maskData[y*w+x] = s.tool === 'brush' ? 1 : 0;
   }
   drawEditCanvas();
 }
@@ -464,9 +402,9 @@ function drawEditCanvas() {
 // ============ Tools ============
 function setTool(tool) {
   currentTool = tool;
-  document.getElementById('btnBrush').classList.toggle('active', tool === 'brush');
-  document.getElementById('btnEraser').classList.toggle('active', tool === 'eraser');
-  editCanvas.style.cursor = tool === 'brush' ? 'crosshair' : 'cell';
+  document.getElementById('btnBrush').classList.toggle('active', tool==='brush');
+  document.getElementById('btnEraser').classList.toggle('active', tool==='eraser');
+  editCanvas.style.cursor = tool==='brush' ? 'crosshair' : 'cell';
 }
 
 function undoStroke() {
@@ -474,116 +412,130 @@ function undoStroke() {
   strokeHistory.pop();
   const w = editCanvas.width, h = editCanvas.height;
   maskData = new Uint8Array(w * h);
-  strokeHistory.forEach(s => {
-    s.points.forEach(p => {
-      const r = s.size / 2;
-      const x0 = Math.max(0, Math.floor(p.x-r)), y0 = Math.max(0, Math.floor(p.y-r));
-      const x1 = Math.min(w-1, Math.ceil(p.x+r)), y1 = Math.min(h-1, Math.ceil(p.y+r));
-      for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
-        if ((x-p.x)**2 + (y-p.y)**2 <= r*r) maskData[y*w+x] = s.tool === 'brush' ? 1 : 0;
-      }
-    });
-  });
-  drawEditCanvas();
-  updateMaskInfo();
+  strokeHistory.forEach(s => s.points.forEach(p => {
+    const r = s.size/2;
+    const x0=Math.max(0,Math.floor(p.x-r)),y0=Math.max(0,Math.floor(p.y-r));
+    const x1=Math.min(w-1,Math.ceil(p.x+r)),y1=Math.min(h-1,Math.ceil(p.y+r));
+    for(let y=y0;y<=y1;y++) for(let x=x0;x<=x1;x++)
+      if((x-p.x)**2+(y-p.y)**2<=r*r) maskData[y*w+x]=s.tool==='brush'?1:0;
+  }));
+  drawEditCanvas(); updateMaskInfo();
 }
 
 function clearMask() {
   maskData = new Uint8Array(editCanvas.width * editCanvas.height);
-  strokeHistory = [];
-  drawEditCanvas();
-  updateMaskInfo();
+  strokeHistory = []; drawEditCanvas(); updateMaskInfo();
 }
 
 function updateMaskInfo() {
-  const count = maskData.reduce((a,b) => a+b, 0);
-  document.getElementById('maskInfo').textContent = `🖌️ 涂抹: ${count.toLocaleString()}px`;
+  document.getElementById('maskInfo').textContent = `🖌️ 涂抹: ${maskData.reduce((a,b)=>a+b,0).toLocaleString()}px`;
 }
 
-// ============ Inpainting ============
+// ============ OpenCV Inpainting ============
 function processInpaint() {
-  if (maskData.reduce((a,b) => a+b, 0) < 10) { alert('请先用画笔涂抹水印区域'); return; }
+  if (maskData.reduce((a,b)=>a+b,0) < 10) { alert('请先用画笔涂抹水印区域'); return; }
+  if (!cvReady) { alert('AI引擎尚未加载完成，请稍候...'); return; }
+
   document.getElementById('processing').classList.add('show');
+  document.getElementById('btnProcess').disabled = true;
   updateStatus('处理中...', 'yellow');
+
   setTimeout(() => {
     try {
-      inpaintImage();
+      inpaintWithOpenCV();
       document.getElementById('processing').classList.remove('show');
+      document.getElementById('btnProcess').disabled = false;
       document.getElementById('btnDownload').style.display = 'inline-flex';
       updateStatus('处理完成 ✓', 'green');
       switchView('result');
     } catch(err) {
       document.getElementById('processing').classList.remove('show');
+      document.getElementById('btnProcess').disabled = false;
       updateStatus('处理失败: ' + err.message, 'yellow');
+      console.error('Inpainting error:', err);
     }
   }, 100);
 }
 
-function inpaintImage() {
-  const w = editCanvas.width, h = editCanvas.height;
+function inpaintWithOpenCV() {
+  // Work at full resolution for best quality
   const fullCanvas = document.createElement('canvas');
-  fullCanvas.width = imgWidth; fullCanvas.height = imgHeight;
+  fullCanvas.width = imgWidth;
+  fullCanvas.height = imgHeight;
   const fullCtx = fullCanvas.getContext('2d');
   fullCtx.drawImage(originalImage, 0, 0);
-  const fullData = fullCtx.getImageData(0, 0, imgWidth, imgHeight);
 
-  // Scale mask to full res
-  const fullMask = new Uint8Array(imgWidth * imgHeight);
-  for (let fy = 0; fy < imgHeight; fy++) {
-    for (let fx = 0; fx < imgWidth; fx++) {
-      const dx = Math.round(fx * displayScale), dy = Math.round(fy * displayScale);
-      if (dx < w && dy < h) fullMask[fy * imgWidth + fx] = maskData[dy * w + dx];
+  // Scale mask to full resolution
+  const dw = editCanvas.width, dh = editCanvas.height;
+  const maskCanvas = document.createElement('canvas');
+  maskCanvas.width = imgWidth;
+  maskCanvas.height = imgHeight;
+  const maskCtx = maskCanvas.getContext('2d');
+  
+  // Draw scaled mask
+  const tmpMaskCanvas = document.createElement('canvas');
+  tmpMaskCanvas.width = dw; tmpMaskCanvas.height = dh;
+  const tmpMaskCtx = tmpMaskCanvas.getContext('2d');
+  const maskImgData = tmpMaskCtx.createImageData(dw, dh);
+  for (let i = 0; i < maskData.length; i++) {
+    maskImgData.data[i*4] = maskData[i] * 255;
+    maskImgData.data[i*4+1] = maskData[i] * 255;
+    maskImgData.data[i*4+2] = maskData[i] * 255;
+    maskImgData.data[i*4+3] = 255;
+  }
+  tmpMaskCtx.putImageData(maskImgData, 0, 0);
+  
+  // Scale up mask
+  maskCtx.drawImage(tmpMaskCanvas, 0, 0, imgWidth, imgHeight);
+  const maskScaled = maskCtx.getImageData(0, 0, imgWidth, imgHeight);
+
+  // Convert to OpenCV Mats
+  const srcMat = cv.imread(fullCanvas);
+  
+  // Create binary mask (single channel)
+  const maskMat = new cv.Mat(imgHeight, imgWidth, cv.CV_8UC1);
+  for (let y = 0; y < imgHeight; y++) {
+    for (let x = 0; x < imgWidth; x++) {
+      const idx = (y * imgWidth + x) * 4;
+      maskMat.ucharPtr(y, x)[0] = maskScaled.data[idx] > 0 ? 255 : 0;
     }
   }
 
-  const src = new Uint8ClampedArray(fullData.data);
-  const dst = new Uint8ClampedArray(src);
-  for (let pass = 0; pass < 3; pass++) {
-    const radius = 5 + pass * 5;
-    inpaintPass(src, dst, fullMask, imgWidth, imgHeight, Math.min(radius, 15));
-    for (let i = 0; i < src.length; i++) src[i] = dst[i];
-  }
+  // Dilate mask slightly for better edge blending
+  const kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, new cv.Size(3, 3));
+  cv.dilate(maskMat, maskMat, kernel, new cv.Point(-1,-1), 1);
+  kernel.delete();
 
-  const resultData = new ImageData(dst, imgWidth, imgHeight);
-  const tmpCanvas = document.createElement('canvas');
-  tmpCanvas.width = imgWidth; tmpCanvas.height = imgHeight;
-  tmpCanvas.getContext('2d').putImageData(resultData, 0, 0);
+  // Inpaint using Telea algorithm
+  const dstMat = new cv.Mat();
+  document.getElementById('processSub').textContent = 'Telea 快速行进算法修复中...';
+  cv.inpaint(srcMat, maskMat, dstMat, 5, cv.INPAINT_TELEA);
 
-  const dw = Math.round(imgWidth * displayScale), dh = Math.round(imgHeight * displayScale);
-  resultCtx.clearRect(0, 0, dw, dh);
-  resultCtx.drawImage(tmpCanvas, 0, 0, dw, dh);
+  // Also try NS for comparison and pick the one with less difference at edges
+  // For now, use Telea result
+  const resultMat = dstMat;
+
+  // Convert back to canvas
+  const resultCanvas2 = document.createElement('canvas');
+  resultCanvas2.width = imgWidth;
+  resultCanvas2.height = imgHeight;
+  cv.imshow(resultCanvas2, resultMat);
+
+  // Store full-res result
+  fullResultDataURL = resultCanvas2.toDataURL('image/png');
+
+  // Display at preview scale
+  const pdw = Math.round(imgWidth * displayScale);
+  const pdh = Math.round(imgHeight * displayScale);
+  resultCtx.clearRect(0, 0, pdw, pdh);
+  resultCtx.drawImage(resultCanvas2, 0, 0, pdw, pdh);
+
   drawCompareView();
-}
 
-function inpaintPass(src, dst, mask, w, h, radius) {
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      if (!mask[y * w + x]) continue;
-      let rSum=0, gSum=0, bSum=0, wSum=0;
-      for (let dy = -radius; dy <= radius; dy++) {
-        for (let dx = -radius; dx <= radius; dx++) {
-          const nx = x+dx, ny = y+dy;
-          if (nx<0||nx>=w||ny<0||ny>=h) continue;
-          if (mask[ny*w+nx]) continue;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist===0||dist>radius) continue;
-          const weight = 1 / (dist * dist);
-          const idx = (ny*w+nx)*4;
-          rSum += src[idx]*weight;
-          gSum += src[idx+1]*weight;
-          bSum += src[idx+2]*weight;
-          wSum += weight;
-        }
-      }
-      if (wSum > 0) {
-        const idx = (y*w+x)*4;
-        dst[idx] = Math.round(rSum/wSum);
-        dst[idx+1] = Math.round(gSum/wSum);
-        dst[idx+2] = Math.round(bSum/wSum);
-        dst[idx+3] = src[idx+3];
-      }
-    }
-  }
+  // Cleanup
+  srcMat.delete();
+  maskMat.delete();
+  dstMat.delete();
 }
 
 // ============ Views ============
@@ -618,7 +570,15 @@ function initCompareSlider() {
     const w = compareCanvas.width, h = compareCanvas.height;
     const clipX = (x / rect.width) * w;
     compareCtx.clearRect(0, 0, w, h);
-    compareCtx.drawImage(resultCanvas, 0, 0, w, h);
+    // Draw result first (full background)
+    if (fullResultDataURL) {
+      const rImg = new Image();
+      rImg.src = fullResultDataURL;
+      compareCtx.drawImage(rImg, 0, 0, w, h);
+    } else {
+      compareCtx.drawImage(resultCanvas, 0, 0, w, h);
+    }
+    // Draw original on left
     compareCtx.save();
     compareCtx.beginPath();
     compareCtx.rect(0, 0, clipX, h);
@@ -635,12 +595,10 @@ function updateStatus(text, color) {
 }
 
 function downloadResult() {
-  const c = document.createElement('canvas');
-  c.width = imgWidth; c.height = imgHeight;
-  c.getContext('2d').drawImage(resultCanvas, 0, 0, imgWidth, imgHeight);
+  if (!fullResultDataURL) return;
   const a = document.createElement('a');
   a.download = 'jiuwanai-dewatermark-' + Date.now() + '.png';
-  a.href = c.toDataURL('image/png');
+  a.href = fullResultDataURL;
   a.click();
 }
 
@@ -648,7 +606,8 @@ function resetAll() {
   document.getElementById('uploadZone').style.display = 'block';
   document.getElementById('workspace').classList.remove('show');
   document.getElementById('fileInput').value = '';
-  originalImage = null; originalImageData = null; maskData = null; strokeHistory = [];
+  originalImage = null; originalImageData = null; maskData = null;
+  strokeHistory = []; fullResultDataURL = null;
 }
 </script>
 </body>
